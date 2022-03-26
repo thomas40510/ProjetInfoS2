@@ -10,7 +10,7 @@ def maxi(L):
     return pos
 
 
-def nonnull(L):
+def nonNull(L):
     for k in range(len(L)):
         if L[k] <= 0:
             return False
@@ -27,7 +27,7 @@ class Joueur:
             volonté += [-1, 1][random.randint(0, 1)]
         return volonté
 
-    def choixcartes(self, dejapresent, paris, pointsterrains):
+    def choixCartes(self, dejapresent, paris, pointsterrains):
         n = len(self.cartes)
         cartechoisie = self.cartes[random.randint(0, n - 1)]
         self.cartes.remove(cartechoisie)
@@ -94,7 +94,7 @@ class Tarot:
                 perte = a.jeu()
                 for p in range(4):
                     self.points[p] -= perte[p]
-                if not nonnull(self.points):
+                if not nonNull(self.points):
                     return ()
                 print(self.points)
             joueurdebut += 1
