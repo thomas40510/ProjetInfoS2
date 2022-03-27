@@ -37,17 +37,18 @@ class Joueur:
 class Manche:
     def __init__(self, Listejoueur, nombredecartes, joueurdebut):
         L = [k for k in range(2, 23)]
-        Lrandomisé = []
-        for k in range(len(L)):
-            a = random.randint(0, len(L) - 1)
-            Lrandomisé.append(L[a])
-            L.remove(L[a])
+        # Lrandomisé = []
+        # for k in range(len(L)):
+        #     a = random.randint(0, len(L) - 1)
+        #     Lrandomisé.append(L[a])
+        #     L.remove(L[a])
+        random.shuffle(L)  # Lrandomisé est juste un shuffle de L, inutile de travailler sur 2 listes
         self.joueurs = []
         self.listejoueur = Listejoueur
         self.nombredecartes = nombredecartes
         self.joueurdebut = joueurdebut
         for k in range(4):
-            Listejoueur[k] = Joueur(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)])
+            Listejoueur[k] = Joueur(L[nombredecartes * k:nombredecartes * (k + 1)])
             self.joueurs.append(Listejoueur[k])
 
     def paris(self):
@@ -72,7 +73,7 @@ class Manche:
             Perte[k] += abs(Points[k] - paris[k])
         return Perte
 
-    def __str__(self, cartesposées, debut):
+    def __str__(self, cartesposées, debut):  # à revoir
         return f"{debut} \n 1: {cartesposées[0]}  2: {cartesposées[1]}  3: {cartesposées[2]}  4: {cartesposées[3]}"
 
     # def afftour(self, cartesposées, debut):
@@ -84,7 +85,7 @@ class Manche:
 class Tarot:
     def __init__(self, nomJoueurs, nbPoints=20):
         self.nomJoueurs = nomJoueurs
-        self.points = [nbPoints for k in range(4)]
+        self.points = [nbPoints for _ in range(4)]
 
     def exe(self):
         joueurdebut = 0
