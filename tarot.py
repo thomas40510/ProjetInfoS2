@@ -34,8 +34,48 @@ class Joueur:
         return cartechoisie
 
 
+class Humain(Joueur):
+    def __init__(self, cartes):
+        Joueur.__init__(self, cartes)
+        self.name = self.prompt()
+
+    def prompt(self):
+        name = ""
+        return name
+
+    def __type__(self):
+        return "H"
+
+    def pari(self, parisprécédents, nombrecartes):
+        volonté = input(f"volonté de {self.name} ? ")
+        if len(parisprécédents) == 3 and sum(parisprécédents) + volonté == nombrecartes:
+            volonté += [-1, 1][random.randint(0, 1)]
+        return volonté
+
+
+class Bot(Joueur):
+    def __init__(self, cartes):
+        Joueur.__init__(self, cartes)
+        self.name = self.genName()
+
+    def genName(self):
+        name = ""
+        return name
+
+    def __type__(self):
+        return "B"
+
+
+
+
 class Manche:
     def __init__(self, Listejoueur, nombredecartes, joueurdebut):
+        """
+        Cette fonction permet de créer une manche.
+        :param Listejoueur: liste des joueurs
+        :param nombredecartes: nombre de cartes
+        :param joueurdebut: joueur qui commence la manche
+        """
         L = [k for k in range(2, 23)]
         # Lrandomisé = []
         # for k in range(len(L)):
@@ -58,6 +98,14 @@ class Manche:
         return L
 
     def jeu(self):
+        """
+        Cette fonction permet de jouer une manche.
+        Elle renvoie la liste des cartes posées, le joueur qui a gagné la manche,
+        et le nombre de points de terrain.
+
+        :return: liste des cartes posées, joueur qui a gagné la manche, nombre de points de terrain
+        :rtype: list, int, int
+        """
         Points = [0 for k in range(4)]
         debut = self.joueurdebut
         paris = self.paris()
@@ -88,6 +136,10 @@ class Tarot:
         self.points = [nbPoints for _ in range(4)]
 
     def exe(self):
+        """
+        Cette fonction permet de lancer une partie de tarot.
+        :return:
+        """
         joueurdebut = 0
         while True:
             for k in range(5, 0, -1):
