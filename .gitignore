@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.DS_Store
+.idea/misc.xml
+.idea/ProjetInfoS2.iml
+.idea/misc.xml
+.idea/ProjetInfoS2.iml
