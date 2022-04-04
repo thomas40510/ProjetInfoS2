@@ -1,0 +1,79 @@
+% chercher des documents LaTeX dans styles, corps et bib
+\makeatletter\def\input@path{{styles/}{corps/}{bib/}}\makeatother
+
+% Utiliser le style rapport.cls
+\documentclass[12pt, a4paper]{report}
+
+\usepackage[a4paper,vdivide={*,23cm,4cm}]{geometry}
+\usepackage[french]{babel} % style francais
+\usepackage{styles/pageGardeEnsta}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} % pour taper les accents directement
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{titlesec}
+%\titleformat*{\section}{\fontfamily{lmss}\selectfont\Large\bfseries}
+\renewcommand{\thesection}{\Roman{section}.}
+\titlespacing*{\section}{0pt}{\baselineskip}{.5\baselineskip}
+
+\titleformat*{\subsection}{\fontfamily{lmss}\selectfont\large\bfseries}
+\titlespacing*{\subsection}{1em}{.7\baselineskip}{.5\baselineskip}
+\renewcommand{\thesubsection}{\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\thesubsection\arabic{subsubsection}}
+
+
+
+%\usepackage{fourier}
+
+\usepackage[hidelinks]{hyperref}
+
+% chemistry
+\usepackage[version=3]{mhchem}
+
+\graphicspath{{imgs/}}
+% liens hypertexte dans le document
+\usepackage{xcolor}
+\usepackage{textcomp}
+
+\title{Jeu du tarot Africain}
+\author{Nicolas \textsc{Dias}\\
+  Thomas \textsc{Prévost}}
+\date{\today}
+\doctype{Projet d'informatique}
+\promo{FISE 2024}
+\etablissement{\textsc{Ensta} Bretagne\\ 2, rue François Verny\\
+   29806 \textsc{Brest} cedex\\ \textsc{France}}
+\logoEcole{\includegraphics[height=4.2cm]{logo_ENSTA_Bretagne_Vertical_CMJN}}
+
+
+\newcommand{\ie}{\textit{i.e.}}
+
+\begin{document}
+
+\maketitle
+
+   \include{corps/front}
+
+   \tableofcontents
+
+   \include{corps/main}
+
+   \include{corps/back}
+
+%\bibliographystyle{plain}
+% \bibliographystyle{ieeetr}
+% \bibliography{bib/biblio}
+% \addcontentsline{toc}{section}{Bibliographie}
+
+% \listoffigures
+% \addcontentsline{toc}{section}{Liste des figures}
+
+
+
+\end{document}
