@@ -132,3 +132,10 @@ dmypy.json
 .idea/ProjetInfoS2.iml
 .idea/misc.xml
 .idea/ProjetInfoS2.iml
+
+# latex files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
