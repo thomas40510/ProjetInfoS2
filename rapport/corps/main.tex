@@ -1,7 +1,7 @@
-\section{Présentation du projet}
+\section{Présentation du projet}\label{sec:présentation-du-projet}
    Nous avons choisi, pour ce projet d'informatique, d'implémenter en Python le jeu du Tarot Africain, qui est un jeu de cartes opposant de deux à quatre joueurs, et demandant stratégie, réflexion mais aussi une part de chance.
 
-   \subsection{Règles du jeu et objectifs du projet}
+   \subsection{Règles du jeu et objectifs du projet}\label{subsec:règles-du-jeu-et-objectifs-du-projet}
       Une partie de Tarot Africain se déroule assez simplement.
       Pour commencer, il faut se munir d'un jeu de tarot, que l'on trie.
       On place alors d'un côté les atouts (du 1 au 21 ainsi que l'excuse) et d'un autre le reste des cartes séparé et trié par couleur\footnote{pique, carreau\dots}.
@@ -19,18 +19,27 @@
          En fin de manche, les joueurs perdent autant de vies qu'il leur manque de tours gagnés pour remplir leur pari (par exemple, un joueur ayant placé un pari de 3 et n'ayant gagné qu'un tour perd $3-1 = 2$ vies).
 
          Commence alors la manche suivante, au cours de laquelle seront distribuées 4 cartes (puis 3 à la suivante, puis 2, puis une seule).
+      \subsubsection{Tour à une seule carte}
+         Le tour à une seule carte est particulier : chaque joueur ne regarde pas sa carte, mais celle des autres joueurs.
+         Il dit alors s'il pense avoir une carte plus ou moins forte que celles des autres.
       \subsubsection{Fin de partie}
          Une partie se finit à l'issue de la manche d'une seule carte.
          À ce moment là, le jeu peut continuer, chaque joueur gardant le nombre de vies qu'il avait à l'issue de la partie précédente.
          Le joueur ayant distribué transmettant ce rôle à celui à sa gauche.
 
-   \subsection{Pistes envisagées pour l'implémentation}
+         Le jeu continue alors de partie en partie jusqu'à ce que tous les joueurs sauf un soient éliminés.
 
-   \subsection{Choix techniques}
+   \subsection{Pistes envisagées pour l'implémentation}\label{subsec:pistes-envisagées-pour-l'implémentation}
+      Il a alors été initialement choisi, pour implémenter le jeu de Tarot Africain, le découpage en plusieurs classes : une classe \texttt{Joueur}, une classe \texttt{Carte}, une classe \texttt{Manche} et une classe \texttt{Partie}.
+      Structure permettant de manipuler ces différents objets afin de dérouler une partie complète.
+
+      Une première structure du programme a alors été schématisée à partir de ces pistes techniques, soulevant alors plusieurs questions au sein du binôme, impliquant finalement de reconsidérer le découpage qui avait été réalisé initialement.
+
+   \subsection{Choix techniques}\label{subsec:choix-techniques}
 
 
 \section{Le programme sur papier}
-   Lorem ipsum dolor sit \tt{amet} et consecretur viat adspecit elunt
+   Lorem ipsum dolor sit \texttt{amet} et consecretur viat adspecit elunt
 
    \subsection{Présentation générale}
 
