@@ -1,6 +1,7 @@
 import random
 import copy
 import matplotlib.pyplot as plt
+from joueurs import *
 
 
 def maxi(L):
@@ -13,7 +14,7 @@ def maxi(L):
 
 def nonnull(nomJ, joueurmorts):
     for k in range((len(nomJ))):
-        if nomJ[k][1] == 'vivant' and nomJ[k][2] <= 0 and joueurmorts[k] == False:
+        if nomJ[k][1] == 'vivant' and nomJ[k][2] <= 0 and not joueurmorts[k]:
             return False
     return True
 
@@ -47,42 +48,42 @@ def verifremontee(perte):
         return False, -1
 
 
-class Joueur:
-    def __init__(self, cartes, nbjoueurs, nom):
-        self.statut = nom[1]
-        self.cartes = cartes
-        self.nbjoueurs = nbjoueurs
-        self.nom = nom[0]
-        self.nbcartes = len(self.cartes)
-
-    def pari(self, parisprécédents):
-        nbparis = 0
-        for k in parisprécédents:
-            if k != -1:
-                nbparis += 1
-        volonté = 0
-        for k in range(self.nbcartes):
-            if self.cartes[k] == 'atout':
-                volonté += 14
-            else:
-                volonté += self.cartes[k]
-        volonté = int(volonté / (10 * self.nbcartes))
-        volonté = min(max(0, volonté), self.nbcartes)
-        if nbparis == self.nbjoueurs - 1 and sum(parisprécédents) + volonté + 1 == self.nbcartes:
-            volonté += [-1, 1][random.randint(0, 1)]
-            if volonté == -1:
-                volonté += 2
-            if volonté > self.nbcartes:
-                volonté -= 2
-        return (volonté)
-
-    def choixcartes(self, dejapresent, paris, pointsterrains):
-        n = len(self.cartes)
-        cartechoisi = self.cartes[random.randint(0, n - 1)]
-        self.cartes.remove(cartechoisi)
-        if cartechoisi == 'atout':
-            cartechoisi = ['atout', 'maxi']
-        return (cartechoisi)
+# class Joueur:
+#     def __init__(self, cartes, nbjoueurs, nom):
+#         self.statut = nom[1]
+#         self.cartes = cartes
+#         self.nbjoueurs = nbjoueurs
+#         self.nom = nom[0]
+#         self.nbcartes = len(self.cartes)
+#
+#     def pari(self, parisprécédents):
+#         nbparis = 0
+#         for k in parisprécédents:
+#             if k != -1:
+#                 nbparis += 1
+#         volonté = 0
+#         for k in range(self.nbcartes):
+#             if self.cartes[k] == 'atout':
+#                 volonté += 14
+#             else:
+#                 volonté += self.cartes[k]
+#         volonté = int(volonté / (10 * self.nbcartes))
+#         volonté = min(max(0, volonté), self.nbcartes)
+#         if nbparis == self.nbjoueurs - 1 and sum(parisprécédents) + volonté + 1 == self.nbcartes:
+#             volonté += [-1, 1][random.randint(0, 1)]
+#             if volonté == -1:
+#                 volonté += 2
+#             if volonté > self.nbcartes:
+#                 volonté -= 2
+#         return (volonté)
+#
+#     def choixcartes(self, dejapresent, paris, pointsterrains):
+#         n = len(self.cartes)
+#         cartechoisi = self.cartes[random.randint(0, n - 1)]
+#         self.cartes.remove(cartechoisi)
+#         if cartechoisi == 'atout':
+#             cartechoisi = ['atout', 'maxi']
+#         return (cartechoisi)
 
 
 class Manche:
