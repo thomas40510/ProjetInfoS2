@@ -45,4 +45,7 @@ class Test_Tarot_Africain(unittest.TestCase):
                     self.assertNotEqual(P, [0 for k in range((nombredejoueurs))])
 
 
-unittest.main()
+# unittest.main()
+
+if __name__ == '__main__':
+    unittest.main()
