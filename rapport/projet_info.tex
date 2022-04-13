@@ -43,6 +43,19 @@
 \usepackage{xcolor}
 \usepackage{textcomp}
 
+\usepackage{lastpage}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{}
+\fancyhead[C]{}
+\fancyhead[R]{Projet d'informatique}
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Page \thepage{} sur~\pageref{LastPage}}
+
+
 \title{Jeu du tarot Africain}
 \author{Nicolas \textsc{Dias}\\
   Thomas \textsc{Prévost}}
@@ -60,13 +73,13 @@
 
 \maketitle
 
-   \include{corps/front}
+   % \include{corps/front}
 
    \tableofcontents
 
    \include{corps/main}
 
-   \include{corps/back}
+   % \include{corps/back}
 
 %\bibliographystyle{plain}
 % \bibliographystyle{ieeetr}
