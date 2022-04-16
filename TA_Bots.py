@@ -319,6 +319,7 @@ class Proba:
         self.resteglobal = resteglobal
         self.indice = indice
         self.debut = debut
+        self.resteperso = None
 
     def pointsmax(self):
         if len(self.carte) == 1:
