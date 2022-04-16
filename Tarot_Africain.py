@@ -210,6 +210,7 @@ class Tarot:
         self.nomJoueurs[0][3] = True
         self.memoire = []
         self.joueurmort = [False for k in range(len(nomJoueurs))]
+        self.nbjoueurs = len(nomJoueurs)
         self.aff = aff
 
     def exe(self):
