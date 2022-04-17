@@ -1,7 +1,8 @@
 import random
 import copy
-import matplotlib.pyplot as plt
-import TA_Bots as bot
+# import matplotlib.pyplot as plt
+# import TA_Bots as bot
+from joueurs import Joueur
 
 
 def maxi(L):
@@ -48,67 +49,77 @@ def verifremontée(perte):
         return False, -1
 
 
-class Joueur:
-    def __init__(self, cartes, nbjoueurs, nom):
-        self.statut = nom[1]
-        self.cartes = cartes
-        self.nbjoueurs = nbjoueurs
-        self.nom = nom[0]
-        self.nbcartes = len(self.cartes)
-
-    def pari(self, parisprécédents, cartesautresjoueurs, indice):
-        nbparis = 0
-        for k in parisprécédents:
-            if k != -1:
-                nbparis += 1
-        volonté = 0
-        for k in range(self.nbcartes):
-            if self.cartes[k] == 'atout':
-                volonté += 14
-            else:
-                volonté += self.cartes[k]
-        volonté = int(volonté / (10 * self.nbcartes))
-        volonté = min(max(0, volonté), self.nbcartes)
-        if nbparis == self.nbjoueurs - 1 and sum(parisprécédents) + volonté + 1 == self.nbcartes:
-            volonté += [-1, 1][random.randint(0, 1)]
-            if volonté == -1:
-                volonté += 2
-            if volonté > self.nbcartes:
-                volonté -= 2
-        return volonté
-
-    def pari2(self, parisprécédents, cartesautrejoueurs, indice):
-        if len(self.cartes) == 1:
-            c = copy.deepcopy(cartesautrejoueurs)
-            c.remove(c[indice])
-            P = bot.Pari1Carte(parisprécédents, c)
-            return P.pari()
-        else:
-            P = bot.PariMCartes(parisprécédents, self.cartes)
-            return P.pari()
-
-    def choixcartes(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari, debut):
-        n = len(self.cartes)
-        cartechoisi = self.cartes[random.randint(0, n - 1)]
-        self.cartes.remove(cartechoisi)
-        if cartechoisi == 'atout':
-            cartechoisi = ['atout', 'maxi']
-        return cartechoisi
-
-    def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
-                     debut):
-        if nombredecartes == 1:
-            C = bot.Choix1Carte(self.cartes[0], pari)
-            choix = C.choix()
-        else:
-            C = bot.ChoixMCartes(self.cartes, paris, dejapresent, pointsterrains, indice, debut)
-            choix = C.choix()
-        print(self.cartes, choix)
-        if choix == ['atout', 'maxi'] or choix == ['atout', 'mini']:
-            self.cartes.remove('atout')
-        else:
-            self.cartes.remove(choix)
-        return choix
+# class Joueur:
+#     def __init__(self, cartes, nbjoueurs, nom):
+#         self.statut = nom[1]
+#         self.cartes = cartes
+#         self.nbjoueurs = nbjoueurs
+#         self.nom = nom[0]
+#         self.nbcartes = len(self.cartes)
+#
+#     def pari(self, parisprécédents, cartesautresjoueurs, indice):
+#         nbparis = 0
+#         for k in parisprécédents:
+#             if k != -1:
+#                 nbparis += 1
+#         volonté = 0
+#         for k in range(self.nbcartes):
+#             if self.cartes[k] == 'atout':
+#                 volonté += 14
+#             else:
+#                 volonté += self.cartes[k]
+#         volonté = int(volonté / (10 * self.nbcartes))
+#         volonté = min(max(0, volonté), self.nbcartes)
+#         if nbparis == self.nbjoueurs - 1 and sum(parisprécédents) + volonté + 1 == self.nbcartes:
+#             volonté += [-1, 1][random.randint(0, 1)]
+#             if volonté == -1:
+#                 volonté += 2
+#             if volonté > self.nbcartes:
+#                 volonté -= 2
+#         return volonté
+#
+#     def pari2(self, parisprécédents, cartesautrejoueurs, indice):
+#         if self.statut == 'bot':
+#             if len(self.cartes) == 1:
+#                 c = copy.deepcopy(cartesautrejoueurs)
+#                 c.remove(c[indice])
+#                 P = bot.Pari1Carte(parisprécédents, c)
+#                 return P.pari()
+#             else:
+#                 P = bot.PariMCartes(parisprécédents, self.cartes)
+#                 return P.pari()
+#         else:
+#             if len(self.cartes) == 1:
+#                 c = copy.deepcopy(cartesautrejoueurs)
+#                 c.remove(c[indice])
+#                 J = joueurs.JoueurHumain(self.cartes, self.nbjoueurs, self.nom)
+#                 return J.pari(parisprécédents, c)
+#             else:
+#                 J = joueurs.JoueurHumain(self.cartes, self.nbjoueurs, self.nom)
+#                 return J.pari(parisprécédents, cartesautrejoueurs)
+#
+#     def choixcartes(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari, debut):
+#         n = len(self.cartes)
+#         cartechoisi = self.cartes[random.randint(0, n - 1)]
+#         self.cartes.remove(cartechoisi)
+#         if cartechoisi == 'atout':
+#             cartechoisi = ['atout', 'maxi']
+#         return cartechoisi
+#
+#     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
+#                      debut):
+#         if nombredecartes == 1:
+#             C = bot.Choix1Carte(self.cartes[0], pari)
+#             choix = C.choix()
+#         else:
+#             C = bot.ChoixMCartes(self.cartes, paris, dejapresent, pointsterrains, indice, debut)
+#             choix = C.choix()
+#         print(self.cartes, choix)
+#         if choix == ['atout', 'maxi'] or choix == ['atout', 'mini']:
+#             self.cartes.remove('atout')
+#         else:
+#             self.cartes.remove(choix)
+#         return choix
 
 
 class Manche:
