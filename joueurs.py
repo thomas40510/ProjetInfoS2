@@ -54,21 +54,6 @@ class JoueurHumain(Joueur):
     def __init__(self, cartes, nbjoueurs, nom):
         super().__init__(cartes, nbjoueurs, nom)
 
-    def choixcartes2(self, dejapresent, paris, pointsterrains):
-        n = len(self.cartes)
-        print(f"État du jeu : {self.nbjoueurs} joueurs, {len(dejapresent)} cartes déjà présentes, {paris} paris, "
-              f"pour un total de {pointsterrains} points.")
-        selection = input(f"Votre main : {self.cartes}. Que voulez-vous jouer ?")
-        if self.nbcartes != 1:
-            print(f"Cartes posées : {dejapresent}")
-            if max(self.cartes) >= max(dejapresent + [selection]) and 'atout' not in self.cartes:
-                while selection != max(dejapresent + [selection]) or selection != 'atout':
-                    print("Vous ne pouvez pas jouer cette carte. Vous devez jouer une carte plus forte "
-                          "que celles posées, ou l'excuse.")
-                    selection = input(f"Votre main : {self.cartes}. Que voulez-vous jouer ?")
-                self.cartes.remove(selection)
-        return selection
-
     def pari2(self, parisprécédents, nbcartes, paris):
         msg = f"Votre pari (0 à {nbcartes}) ? >> "
         bet = input(msg)
@@ -77,10 +62,41 @@ class JoueurHumain(Joueur):
                 print("Vous ne pouvez pas placer ce pari.")
                 bet = input(msg)
 
+    def choixcartes2(self, dejapresent, paris, pointsterrains):
+        n = len(self.cartes)
+        print(f"État du jeu : {self.nbjoueurs} joueurs, {len(dejapresent)} cartes déjà présentes, {paris} paris, "
+              f"pour un total de {pointsterrains} points.")
+        if self.nbcartes != 1:
+            print(f"Cartes posées : {dejapresent}")
+            selection = input(f"Votre main : {self.cartes}. Que voulez-vous jouer ?")
+            if selection == 'atout':
+                choix = ''
+                while choix not in ['mini', 'maxi']:
+                    choix = input("Vous posez l'excuse. Quelle est sa valeur ? (mini ou maxi) >> ")
+                return ['atout', choix]
+            else:
+                if max(self.cartes) >= max(dejapresent + [selection]) and 'atout' not in self.cartes:
+                    if selection != max(dejapresent + [selection]):
+                        print("Vous ne pouvez pas jouer cette carte. Vous devez jouer une carte plus forte "
+                              "que celles posées, ou l'excuse.")
+                        selection = self.choixcartes2(dejapresent, paris, pointsterrains)
+                    self.cartes.remove(selection)
+        return selection
+
 
 class JoueurBot(Joueur):
     def __init__(self, cartes, nbjoueurs, nom):
         super().__init__(cartes, nbjoueurs, nom)
+
+    def pari2(self, parisprécédents, cartesautrejoueurs, indice):
+        if len(self.cartes) == 1:
+            c = copy.deepcopy(cartesautrejoueurs)
+            c.remove(c[indice])
+            P = bot.Pari1Carte(parisprécédents, c)
+            return P.pari()
+        else:
+            P = bot.PariMCartes(parisprécédents, self.cartes)
+            return P.pari()
 
     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
                      debut):
@@ -97,15 +113,6 @@ class JoueurBot(Joueur):
             self.cartes.remove(choix)
         return choix
 
-    def pari2(self, parisprécédents, cartesautrejoueurs, indice):
-        if len(self.cartes) == 1:
-            c = copy.deepcopy(cartesautrejoueurs)
-            c.remove(c[indice])
-            P = bot.Pari1Carte(parisprécédents, c)
-            return P.pari()
-        else:
-            P = bot.PariMCartes(parisprécédents, self.cartes)
-            return P.pari()
         # else:
         #     if len(self.cartes) == 1:
         #         c = copy.deepcopy(cartesautrejoueurs)
