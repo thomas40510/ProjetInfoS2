@@ -46,7 +46,7 @@
       \end{itemize}
 
 
-\section{Le programme sur papier}
+\section{Le programme sur papier}\label{sec:le-programme-sur-papier}
    Le programme construit autour d'un fichier principal contenant le jeu en lui-même, auquel viennent se greffer deux modules, respectivement pour les joueurs et le jeu de la machine.
 
    \subsection{Présentation générale}
@@ -57,7 +57,16 @@
 
 \section{Le programme en fonctionnement}
 
-   \subsection{Figures imposées}
+   \subsection{Figures imposées}\label{subsec:figures-imposées}
+      Les figures imposées suivantes sont vérifiées par le programme :
+      \begin{enumerate}
+         \item \textbf{Factorisation du code} : le programme est composé de trois modules différents responsables de diverses fonctionnalités bien spécifiques, et est donc factorisé ;
+         \item \textbf{Documentation et commentaire du code} : tout naturellement, le programme est intégralement documenté et commenté ;
+         \item \textbf{Tests unitaires} : des tests unitaires ont été écrits pour chaque partie du programme ;
+         \item \textbf{Création d'un type d'objet (classe)} : huit objets ont été créés dans le cadre de ce programme, à savoir \texttt{Joueur, Manche, Tarot, Proba, Pari1Carte, PariMCartes, Choix1Carte} et \texttt{ChoixMCartes}.
+         \item \textbf{Récursivité} : la récursivité est exploitée dans le jeu de la machine, permettant de pousser plus ou moins la recherche de solution de jeu optimale en fonction de la difficulté choisie par l'utilisateur ;
+         \item \textbf{Héritage entre deux types créés} : les classes \texttt{JoueurHumain} et \texttt{JoueurBot} héritent toutes deux de la classe \texttt{Joueur}.
+      \end{enumerate}
 
    \subsection{Tests effectués}
    
