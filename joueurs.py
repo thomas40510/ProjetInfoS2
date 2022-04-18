@@ -34,7 +34,7 @@ class Joueur:
         self.nom = nom[0]
         self.nbcartes = len(self.cartes)
 
-    def pari2(self, parisprécédents, nbcartes):
+    def pari2(self, parisprécédents, nbcartes, indice):
         nbparis = 0
         for k in parisprécédents:
             if k != -1:
@@ -83,7 +83,7 @@ class JoueurHumain(Joueur):
         """
         super().__init__(cartes, nbjoueurs, nom)
 
-    def pari2(self, parisprécédents, nbcartes):
+    def pari2(self, parisprécédents, nbcartes, indice):
         """ Pari du joueur humain
 
         :param parisprécédents: paris déjà placés par les joueurs
@@ -111,24 +111,24 @@ class JoueurHumain(Joueur):
         :return: la carte choisie par le joueur
         """
         n = len(self.cartes)
-        print(f"État du jeu : {self.nbjoueurs} joueurs, {len(dejapresent)} cartes déjà présentes, {paris} paris, "
+        print(f"État du jeu : {self.nbjoueurs} joueurs, {len(dejapresent)} cartes déjà présentes, paris {paris}, "
               f"pour un total de {pointsterrains} points.")
         if self.nbcartes != 1:
             print(f"Cartes posées : {dejapresent}")
             selection = input(f"Votre main : {self.cartes}. Que voulez-vous jouer ?")
-            if selection == 'atout':
-                choix = ''
-                while choix not in ['mini', 'maxi']:
-                    choix = input("Vous posez l'excuse. Quelle est sa valeur ? (mini ou maxi) >> ")
-                return ['atout', choix]
-            else:
-                if max(self.cartes) >= max(dejapresent + [selection]) and 'atout' not in self.cartes:
-                    if selection != max(dejapresent + [selection]):
-                        print("Vous ne pouvez pas jouer cette carte. Vous devez jouer une carte plus forte "
-                              "que celles posées, ou l'excuse.")
-                        selection = self.choixcartes2(dejapresent, paris, pointsterrains)
+            if selection in self.cartes:
+                if selection == 'atout':
+                    choix = ''
+                    while choix not in ['mini', 'maxi']:
+                        choix = input("Vous posez l'excuse. Quelle est sa valeur ? (mini ou maxi) >> ")
                     self.cartes.remove(selection)
-        return selection
+                    return ['atout', choix]
+                else:
+                    self.cartes.remove(selection)
+                    return selection
+            else:
+                print("Vous ne pouvez pas jouer cette carte.")
+                return self.choixcartes2(dejapresent, paris, pointsterrains)
 
 
 class JoueurBot(Joueur):
