@@ -1,8 +1,6 @@
 import random
 import copy
-# import matplotlib.pyplot as plt
-# import TA_Bots as bot
-from joueurs import *
+from Joueurs import *
 
 
 def maxi(L):
@@ -49,81 +47,9 @@ def verifremontée(perte):
         return False, -1
 
 
-# class Joueur:
-#     def __init__(self, cartes, nbjoueurs, nom):
-#         self.statut = nom[1]
-#         self.cartes = cartes
-#         self.nbjoueurs = nbjoueurs
-#         self.nom = nom[0]
-#         self.nbcartes = len(self.cartes)
-#
-#     def pari(self, parisprécédents, cartesautresjoueurs, indice):
-#         nbparis = 0
-#         for k in parisprécédents:
-#             if k != -1:
-#                 nbparis += 1
-#         volonté = 0
-#         for k in range(self.nbcartes):
-#             if self.cartes[k] == 'atout':
-#                 volonté += 14
-#             else:
-#                 volonté += self.cartes[k]
-#         volonté = int(volonté / (10 * self.nbcartes))
-#         volonté = min(max(0, volonté), self.nbcartes)
-#         if nbparis == self.nbjoueurs - 1 and sum(parisprécédents) + volonté + 1 == self.nbcartes:
-#             volonté += [-1, 1][random.randint(0, 1)]
-#             if volonté == -1:
-#                 volonté += 2
-#             if volonté > self.nbcartes:
-#                 volonté -= 2
-#         return volonté
-#
-#     def pari2(self, parisprécédents, cartesautrejoueurs, indice):
-#         if self.statut == 'bot':
-#             if len(self.cartes) == 1:
-#                 c = copy.deepcopy(cartesautrejoueurs)
-#                 c.remove(c[indice])
-#                 P = bot.Pari1Carte(parisprécédents, c)
-#                 return P.pari()
-#             else:
-#                 P = bot.PariMCartes(parisprécédents, self.cartes)
-#                 return P.pari()
-#         else:
-#             if len(self.cartes) == 1:
-#                 c = copy.deepcopy(cartesautrejoueurs)
-#                 c.remove(c[indice])
-#                 J = joueurs.JoueurHumain(self.cartes, self.nbjoueurs, self.nom)
-#                 return J.pari(parisprécédents, c)
-#             else:
-#                 J = joueurs.JoueurHumain(self.cartes, self.nbjoueurs, self.nom)
-#                 return J.pari(parisprécédents, cartesautrejoueurs)
-#
-#     def choixcartes(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari, debut):
-#         n = len(self.cartes)
-#         cartechoisi = self.cartes[random.randint(0, n - 1)]
-#         self.cartes.remove(cartechoisi)
-#         if cartechoisi == 'atout':
-#             cartechoisi = ['atout', 'maxi']
-#         return cartechoisi
-#
-#     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
-#                      debut):
-#         if nombredecartes == 1:
-#             C = bot.Choix1Carte(self.cartes[0], pari)
-#             choix = C.choix()
-#         else:
-#             C = bot.ChoixMCartes(self.cartes, paris, dejapresent, pointsterrains, indice, debut)
-#             choix = C.choix()
-#         print(self.cartes, choix)
-#         if choix == ['atout', 'maxi'] or choix == ['atout', 'mini']:
-#             self.cartes.remove('atout')
-#         else:
-#             self.cartes.remove(choix)
-#         return choix
-
 
 class Manche:
-    def __init__(self, Listejoueur, nombredecartes, joueurdebut, aff):
+    def __init__(self, Listejoueur, nombredecartes, joueurdebut, log,aff):
         L = [k for k in range(2, 22)] + ['atout']
         Lrandomisé = []
         for k in range(len(L)):
@@ -138,34 +64,36 @@ class Manche:
         self.cartestour = []
         self.aff = aff
         for k in range(self.nbjoueurs):
-            # Listejoueur[k] = Joueur(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
-            #                         Listejoueur[k])
             if 'bot' in self.listejoueur[k]:
                 Listejoueur[k] = JoueurBot(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
                                            Listejoueur[k])
             else:
                 Listejoueur[k] = JoueurHumain(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
                                               Listejoueur[k])
-
             self.joueurs.append(Listejoueur[k])
         self.cartesjoueurs = []
         for joueur in self.joueurs:
             self.cartesjoueurs.append(joueur.cartes)
+        self.log=log
+
 
     def paris(self):
         paris = [-1 for k in range(self.nbjoueurs)]
         for k in range(self.nbjoueurs):
             paris[(k + self.joueurdebut) % self.nbjoueurs] = self.joueurs[
                 (k + self.joueurdebut) % self.nbjoueurs].pari2(paris, self.cartesjoueurs,
-                                                               (k + self.joueurdebut) % self.nbjoueurs)  # pari2!!!!
+                                                               (k + self.joueurdebut) % self.nbjoueurs)
         if self.aff:
             print(self.joueurdebut, [self.joueurs[k].cartes for k in range(self.nbjoueurs)], paris)
+        self.log[-1].append(paris)
         return paris
 
     def jeu(self):
         Points = [0 for k in range(4)]
         debut = self.joueurdebut
         paris = self.paris()
+        print('Les paris sont:', paris)
+        self.log[-1].append([])
         for tour in range(self.nombredecartes):
             cartesposées = [0 for k in range(self.nbjoueurs)]
             for joueur in range(self.nbjoueurs):
@@ -174,13 +102,16 @@ class Manche:
                                                                                  self.cartesjoueurs,
                                                                                  (joueur + debut) % self.nbjoueurs,
                                                                                  self.nombredecartes, paris[joueur],
-                                                                                 debut))  # raisonprécédentbug!!!!
+                                                                                 debut))
             self.cartestour.append([debut, cartesposées])
             if self.aff:
                 self.__str__()
+            self.log[-1][-1].append(cartesposées)
             # print("\n")
             vainqueur = compacartesposées(cartesposées)
             Points[vainqueur] += 1
+            print('Le nombre de pli gagné est', Points)
+            print('\n'*3)
             debut = vainqueur
         Perte = [0 for k in range(self.nbjoueurs)]
         for k in range(self.nbjoueurs):
@@ -193,17 +124,9 @@ class Manche:
     def afftour(self, cartesposées, debut):
         s = f"{debut} \n"
         for i in range(self.nbjoueurs):
-            s += f"{i + 1}: {cartesposées[i]} "
+            s += f"{i+1}: {cartesposées[i]} "
         return s
 
-        # if self.nbjoueurs == 4:
-        #     return str(debut) + "\n" + "1:" + str(cartesposées[0]) + "  2:" + str(cartesposées[1]) + "  3:" + str(
-        #         cartesposées[2]) + "  4:" + str(cartesposées[3])
-        # elif self.nbjoueurs == 3:
-        #     return str(debut) + "\n" + "1:" + str(cartesposées[0]) + "  2:" + str(cartesposées[1]) + "  3:" + str(
-        #         cartesposées[2])
-        # elif self.nbjoueurs == 2:
-        #     return str(debut) + "\n" + "1:" + str(cartesposées[0]) + "  2:" + str(cartesposées[1])
 
     def __str__(self):
         debut = self.cartestour[-1][0]
@@ -230,10 +153,14 @@ class Tarot:
         self.joueurmort = [False for k in range(len(nomJoueurs))]
         self.nbjoueurs = len(nomJoueurs)
         self.aff = aff
+        self.log=Log()
+        self.numManche=0
 
     def exe(self):
+        print("Vous êtes le joueur en première position")
         while True:
             for nbcartes in range(5, 0, -1):
+                print("Les points sont:",[self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))])
                 compt = 0
                 joueurvivant = []
                 for a in range(len(self.nomJoueurs)):
@@ -244,13 +171,18 @@ class Tarot:
                 if self.aff:
                     print(joueurdebut, self.nomJoueurs)
                 self.nbjoueurs = compt
-                a = Manche(joueurvivant, nbcartes, joueurdebut, aff=self.aff)
+                self.log.append([])
+                self.numManche+=1
+                self.log[-1].append(copy.deepcopy(self.numManche))
+                self.log[-1].append(copy.deepcopy(self.nomJoueurs))
+                a = Manche(joueurvivant, nbcartes, joueurdebut, self.log,aff=self.aff)
                 perte = a.jeu()
 
                 remontée, indice = verifremontée(perte)
                 if remontée:
                     perte[indice] = -1
-
+                print('Les pertes sont:',perte)
+                print('\n'*2)
                 ind = 0
                 for k in self.nomJoueurs:
                     if k[1] == 'vivant':
@@ -265,12 +197,13 @@ class Tarot:
                         if k[1] == 'vivant':
                             nbJoueurs += 1
                     if nbJoueurs <= 1:
-                        a = self.affvainqueur(self.aff)
+                        a = self.affvainqueur()
+                        print("Le vainqueur est ", a[0])
                         return a, self.memoire
                     else:
                         break
                 if self.aff:
-                    self.__str__()
+                    self.log.affder()
 
             for k in range(len(self.nomJoueurs)):
                 if self.nomJoueurs[k][3]:
@@ -284,50 +217,44 @@ class Tarot:
                 c = (c + 1) % len(self.nomJoueurs)
 
     def enleve(self):
-        V = []
         for k in range(len(self.nomJoueurs)):
             if self.nomJoueurs[k][2] <= 0 and self.nomJoueurs[k][1] == 'vivant':
                 self.nomJoueurs[k][1] = 'mort'
                 self.joueurmort[k] = True
 
-    def affvainqueur(self, aff):
-        if aff:
-            print(self.nomJoueurs)
+    def affvainqueur(self):
         nbJoueurs = 0
         for k in self.nomJoueurs:
             if k[1] == 'vivant':
                 nbJoueurs += 1
         if nbJoueurs != 1:
-            # print('égalité!')
             return 'égalité'
         else:
             for k in self.nomJoueurs:
                 if k[1] == 'vivant':
-                    a = k[0]
-                    # print('Vainqueur:'+a)
                     return k[0]
 
     def __str__(self):
         pts = [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))]
         print(pts)
 
+class Log(list):
 
-R = [0, 0, 0, 0]
-for k in range(1):
-    t = Tarot([['humain', 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=100, aff=True)
-    v, L = t.exe()
-    if v[0] == 'humain':
-        R[0] += 1
-    if v[0] == 'b1':
-        R[1] += 1
-    if v[0] == 'b2':
-        R[2] += 1
-    if v[0] == 'b3':
-        R[3] += 1
-    print(k)
-print(R)
-# test unitaires:
-# attribution cartes
-# morts-vivants (vérification nombre joueur)
-# paris déconnants
-# pas de pertes de points
+    def affder(self):
+        return(self[-1])
+
+    def nbtour(self):
+        return(self[-1][0])
+
+    def paris(self,nbcartes):
+        L=[]
+        for k in self:
+            if len(k[3])==nbcartes:
+                L.append(k[2])
+        return(L)
+
+
+
+
+#t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=2, aff=False)
+#v, L = t.exe()
