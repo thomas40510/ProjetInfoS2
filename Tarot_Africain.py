@@ -2,7 +2,7 @@ import random
 import copy
 # import matplotlib.pyplot as plt
 # import TA_Bots as bot
-from joueurs import Joueur
+from joueurs import *
 
 
 def maxi(L):
@@ -138,8 +138,15 @@ class Manche:
         self.cartestour = []
         self.aff = aff
         for k in range(self.nbjoueurs):
-            Listejoueur[k] = Joueur(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
-                                    Listejoueur[k])
+            # Listejoueur[k] = Joueur(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
+            #                         Listejoueur[k])
+            if 'bot' in self.listejoueur[k]:
+                Listejoueur[k] = JoueurBot(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
+                                           Listejoueur[k])
+            else:
+                Listejoueur[k] = JoueurHumain(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
+                                              Listejoueur[k])
+
             self.joueurs.append(Listejoueur[k])
         self.cartesjoueurs = []
         for joueur in self.joueurs:
@@ -186,7 +193,7 @@ class Manche:
     def afftour(self, cartesposées, debut):
         s = f"{debut} \n"
         for i in range(self.nbjoueurs):
-            s += f"{i+1}: {cartesposées[i]} "
+            s += f"{i + 1}: {cartesposées[i]} "
         return s
 
         # if self.nbjoueurs == 4:
