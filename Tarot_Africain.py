@@ -47,9 +47,8 @@ def verifremontée(perte):
         return False, -1
 
 
-
 class Manche:
-    def __init__(self, Listejoueur, nombredecartes, joueurdebut, log,aff):
+    def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, aff):
         L = [k for k in range(2, 22)] + ['atout']
         Lrandomisé = []
         for k in range(len(L)):
@@ -74,8 +73,7 @@ class Manche:
         self.cartesjoueurs = []
         for joueur in self.joueurs:
             self.cartesjoueurs.append(joueur.cartes)
-        self.log=log
-
+        self.log = log
 
     def paris(self):
         paris = [-1 for k in range(self.nbjoueurs)]
@@ -111,7 +109,7 @@ class Manche:
             vainqueur = compacartesposées(cartesposées)
             Points[vainqueur] += 1
             print('Le nombre de pli gagné est', Points)
-            print('\n'*3)
+            print('\n' * 3)
             debut = vainqueur
         Perte = [0 for k in range(self.nbjoueurs)]
         for k in range(self.nbjoueurs):
@@ -124,9 +122,8 @@ class Manche:
     def afftour(self, cartesposées, debut):
         s = f"{debut} \n"
         for i in range(self.nbjoueurs):
-            s += f"{i+1}: {cartesposées[i]} "
+            s += f"{i + 1}: {cartesposées[i]} "
         return s
-
 
     def __str__(self):
         debut = self.cartestour[-1][0]
@@ -153,14 +150,14 @@ class Tarot:
         self.joueurmort = [False for k in range(len(nomJoueurs))]
         self.nbjoueurs = len(nomJoueurs)
         self.aff = aff
-        self.log=Log()
-        self.numManche=0
+        self.log = Log()
+        self.numManche = 0
 
     def exe(self):
         print("Vous êtes le joueur en première position")
         while True:
             for nbcartes in range(5, 0, -1):
-                print("Les points sont:",[self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))])
+                print("Les points sont:", [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))])
                 compt = 0
                 joueurvivant = []
                 for a in range(len(self.nomJoueurs)):
@@ -172,17 +169,17 @@ class Tarot:
                     print(joueurdebut, self.nomJoueurs)
                 self.nbjoueurs = compt
                 self.log.append([])
-                self.numManche+=1
+                self.numManche += 1
                 self.log[-1].append(copy.deepcopy(self.numManche))
                 self.log[-1].append(copy.deepcopy(self.nomJoueurs))
-                a = Manche(joueurvivant, nbcartes, joueurdebut, self.log,aff=self.aff)
+                a = Manche(joueurvivant, nbcartes, joueurdebut, self.log, aff=self.aff)
                 perte = a.jeu()
 
                 remontée, indice = verifremontée(perte)
                 if remontée:
                     perte[indice] = -1
-                print('Les pertes sont:',perte)
-                print('\n'*2)
+                print('Les pertes sont:', perte)
+                print('\n' * 2)
                 ind = 0
                 for k in self.nomJoueurs:
                     if k[1] == 'vivant':
@@ -238,23 +235,21 @@ class Tarot:
         pts = [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))]
         print(pts)
 
+
 class Log(list):
 
     def affder(self):
-        return(self[-1])
+        return self[-1]
 
     def nbtour(self):
-        return(self[-1][0])
+        return self[-1][0]
 
-    def paris(self,nbcartes):
-        L=[]
+    def paris(self, nbcartes):
+        L = []
         for k in self:
-            if len(k[3])==nbcartes:
+            if len(k[3]) == nbcartes:
                 L.append(k[2])
-        return(L)
+        return L
 
-
-
-
-#t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=2, aff=False)
-#v, L = t.exe()
+# t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=2, aff=False)
+# v, L = t.exe()
