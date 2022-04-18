@@ -314,7 +314,7 @@ class Tarot:
 
 R = [0, 0, 0, 0]
 for k in range(1):
-    t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=100, aff=True)
+    t = Tarot([['humain', 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=100, aff=True)
     v, L = t.exe()
     if v[0] == 'humain':
         R[0] += 1
