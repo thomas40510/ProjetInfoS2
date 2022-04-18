@@ -47,9 +47,22 @@
 
 
 \section{Le programme sur papier}\label{sec:le-programme-sur-papier}
-   Le programme construit autour d'un fichier principal contenant le jeu en lui-même, auquel viennent se greffer deux modules, respectivement pour les joueurs et le jeu de la machine.
+   Le programme construit autour d'un fichier principal contenant le jeu en lui-même, auquel viennent se greffer deux modules, respectivement pour les joueurs et le calcul des coups de la machine.
 
    \subsection{Présentation générale}
+   Le fonctionnement du programme, dans son ensemble, est plutôt simple.
+      On pourra se référer entre autres au diagramme de classes et au diagramme d'actions présentés en annexe.
+      \begin{itemize}
+         \item L'utilisateur lance une partie par l'exécution de la classe \texttt{Tarot}.
+         Il spécifie son nom et le nombre de bots qu'il veut.
+         \item Est alors initialisée la partie, avec le nom des joueurs ;
+         une manche est créée ainsi que les joueurs (humain ou machine) qui sont en lice.
+         \item À chaque tour, un leader est désigné par le programme, et chaque joueur place ses paris et joue.
+         Si le joueur est la machine, son coup est calculé en fonction des coups des autres joueurs, leurs paris, et adapté en fonction du niveau de difficulté choisi pour la machine ;
+         si le joueur est humain, le programme lui demande son pari et la carte qu'il choisit de poser, connaissant les paris déjà placés et les cartes posées.
+         \item À l'issue de chaque tour est identifié le vainqueur du pli, et à l'issue de chaque manche un vainqueur parmi les joueurs.
+         Les perdants perdent une vie et une nouvelle manche commence.
+      \end{itemize}
 
 
    \subsection{Fonctionnement en détails -- jeu contre la machine}
@@ -66,6 +79,7 @@
          \item \textbf{Création d'un type d'objet (classe)} : huit objets ont été créés dans le cadre de ce programme, à savoir \texttt{Joueur, Manche, Tarot, Proba, Pari1Carte, PariMCartes, Choix1Carte} et \texttt{ChoixMCartes}.
          \item \textbf{Récursivité} : la récursivité est exploitée dans le jeu de la machine, permettant de pousser plus ou moins la recherche de solution de jeu optimale en fonction de la difficulté choisie par l'utilisateur ;
          \item \textbf{Héritage entre deux types créés} : les classes \texttt{JoueurHumain} et \texttt{JoueurBot} héritent toutes deux de la classe \texttt{Joueur}.
+         \item \textbf{Héritage depuis un type intégré} : nous avons implémenté une \og mémoire \fg{}, héritée du type \texttt{list} de Python, prenant en charge les logs de toutes des différentes manches jouées au cours d'une partie.
       \end{enumerate}
 
    \subsection{Tests effectués}
@@ -73,3 +87,12 @@
    \subsection{Limitations observées}
    
    \subsection{Perspectives et améliorations}
+
+
+\newpage
+
+\section*{Annexe I. Diagramme de classes}
+
+\newpage
+
+\section*{Annexe II. Fonctionnement schématique d'une partie}
