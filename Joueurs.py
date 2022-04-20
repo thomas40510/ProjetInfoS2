@@ -9,7 +9,6 @@ class Joueur:
     Classe générique définissant un joueur
     """
 
-
     def __init__(self, cartes, nbjoueurs, nom):
         """ Joueur générique de tarot africain. Il joue aléatoirement.
                 :param cartes: cartes du joueur
@@ -60,6 +59,7 @@ class JoueurHumain(Joueur):
             - nbjoueurs: nombre de joueurs
             - nom: nom du joueur
         """
+
     def __init__(self, cartes, nbjoueurs, nom):
         """ Joueur humain
 
@@ -76,25 +76,26 @@ class JoueurHumain(Joueur):
         :param cartesjoueurs:
         :return: pari du joueur
         """
-        nbcartes=len(cartesjoueurs[0])
-        if nbcartes!=1:
+        nbcartes = len(cartesjoueurs[0])
+        if nbcartes != 1:
             print("Vos cartes sont:", self.cartes)
             print("Les autres joueurs ont parié (-1= pas encore parié):", parisprécédents)
-            bet=-1
-            while bet<0 or bet>len(cartesjoueurs[0]):
+            bet = -1
+            while bet < 0 or bet > len(cartesjoueurs[0]):
                 msg = f"Votre pari (0 à {len(cartesjoueurs[0])}) ? >> "
                 bet = int(input(msg))
-            if parisprécédents.count(-1)==1:  # conditions seulement si dernier joueur
-                while bet + sum(parisprécédents)+1 == nbcartes or bet<0 or bet>len(cartesjoueurs[0]):
+            if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
+                while bet + sum(parisprécédents) + 1 == nbcartes or bet < 0 or bet > len(cartesjoueurs[0]):
                     print("Vous ne pouvez pas placer ce pari.")
                     bet = int(input(msg))
             return int(bet)
         else:
-            print('Les cartes que vous voyez sur le front des autres joueurs sont:',[cartesjoueurs[k] for k in range(1,len(cartesjoueurs))])
+            print('Les cartes que vous voyez sur le front des autres joueurs sont:',
+                  [cartesjoueurs[k] for k in range(1, len(cartesjoueurs))])
             msg = f"Votre pari (0 à {len(cartesjoueurs[0])}) ? >> "
             bet = int(input(msg))
-            if parisprécédents.count(-1)==1:  # conditions seulement si dernier joueur
-                while bet + sum(parisprécédents)+1 == nbcartes:
+            if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
+                while bet + sum(parisprécédents) + 1 == nbcartes:
                     print("Vous ne pouvez pas placer ce pari.")
                     bet = input(msg)
             return int(bet)
@@ -113,7 +114,7 @@ class JoueurHumain(Joueur):
               """
         n = len(self.cartes)
         if self.nbcartes != 1:
-            #print(f"Cartes posées : {dejapresent}")
+            # print(f"Cartes posées : {dejapresent}")
             selection = input(f"Votre main : {self.cartes}. Que voulez-vous jouer ? >> ")
             if selection == 'atout':
                 choix = ''
@@ -128,18 +129,18 @@ class JoueurHumain(Joueur):
                 return int(selection)
             else:
                 print("Vous ne pouvez pas jouer cette carte.")
-                return self.choixcartes2(dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
-                     debut)
-
+                return self.choixcartes2(dejapresent, paris, pointsterrains, cartesautresjoueurs, indice,
+                                         nombredecartes, pari,
+                                         debut)
         else:
-            if self.cartes[0]=='atout':
+            if self.cartes[0] == 'atout':
                 choix = ''
                 while choix not in ['mini', 'maxi']:
                     choix = input("Vous posez l'excuse. Quelle est sa valeur ? (mini ou maxi) >> ")
                 self.cartes.remove('atout')
                 return ['atout', choix]
             print(self.cartes[0])
-            return(self.cartes[0])
+            return self.cartes[0]
 
 
 class JoueurBot(Joueur):
@@ -149,6 +150,7 @@ class JoueurBot(Joueur):
            - nbjoueurs : nombre de joueurs
            - nom : nom du bot
        """
+
     def __init__(self, cartes, nbjoueurs, nom):
         super().__init__(cartes, nbjoueurs, nom)
 
