@@ -6,19 +6,12 @@ import copy
 
 class Joueur:
     """
-    Classe Joueur
-    =====================
-    Attributs:
-        nom: string
-        cartes: list
-        points: int
+    Classe générique définissant un joueur
     """
 
-
     def __init__(self, cartes, nbjoueurs, nom):
-        """
-        Constructeur de la classe Joueur
-        =====================
+        """ Joueur générique de tarot africain. Il joue aléatoirement.
+
         :param cartes: cartes du joueur
         :param nbjoueurs: nombre de joueurs
         :param nom: nom du joueur et son type (humain / bot)
@@ -61,16 +54,17 @@ class Joueur:
 
 
 class JoueurHumain(Joueur):
-    """
-    Joueur Humain
-    =====================
+    """ Joueur Humain de tarot africain. Il demande chaque pari et chaque coup à l'utilisateur.
+
     Attributs:
         - cartes: main courante du joueur
         - nbjoueurs: nombre de joueurs
         - nom: nom du joueur
     """
+
     def __init__(self, cartes, nbjoueurs, nom):
         """ Joueur humain
+
         :param cartes: Cartes du joueur
         :param nbjoueurs: nombre de joueurs
         :param nom: nom du joueur
@@ -79,38 +73,39 @@ class JoueurHumain(Joueur):
 
     def pari2(self, parisprécédents, cartesjoueurs, indice=None):
         """ Pari du joueur humain
+
         :param parisprécédents: paris déjà placés par les joueurs
-        :param cartesjoueurs:
+        :param cartesjoueurs: cartes des joueurs
         :return: pari du joueur
         """
-        nbcartes=len(cartesjoueurs[0])
-        if nbcartes!=1:
+        nbcartes = len(cartesjoueurs[0])
+        if nbcartes != 1:
             print("Vos cartes sont:", self.cartes)
             print("Les autres joueurs ont parié (-1= pas encore parié):", parisprécédents)
-            bet=-1
-            while bet<0 or bet>len(cartesjoueurs[0]):
+            bet = -1
+            while bet < 0 or bet > len(cartesjoueurs[0]):
                 msg = f"Votre pari (0 à {len(cartesjoueurs[0])}) ? >> "
                 bet = int(input(msg))
-            if parisprécédents.count(-1)==1:  # conditions seulement si dernier joueur
-                while bet + sum(parisprécédents)+1 == nbcartes or bet<0 or bet>len(cartesjoueurs[0]):
+            if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
+                while bet + sum(parisprécédents) + 1 == nbcartes or bet < 0 or bet > len(cartesjoueurs[0]):
                     print("Vous ne pouvez pas placer ce pari.")
                     bet = int(input(msg))
             return int(bet)
         else:
-            print('Les cartes que vous voyez sur le front des autres joueurs sont:',[cartesjoueurs[k] for k in range(1,len(cartesjoueurs))])
+            print('Les cartes que vous voyez sur le front des autres joueurs sont:',
+                  [cartesjoueurs[k] for k in range(1, len(cartesjoueurs))])
             msg = f"Votre pari (0 à {len(cartesjoueurs[0])}) ? >> "
             bet = input(msg)
-            if parisprécédents.count(-1)==1:  # conditions seulement si dernier joueur
-                while bet + sum(parisprécédents)+1 == nbcartes:
+            if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
+                while bet + sum(parisprécédents) + 1 == nbcartes:
                     print("Vous ne pouvez pas placer ce pari.")
                     bet = input(msg)
             return int(bet)
 
     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
                      debut):
-        """
-        Choix des cartes du joueur humain
-        =====================
+        """ Choix des cartes du joueur humain
+
         :param dejapresent: cartes déjà posées
         :type dejapresent: list
         :param paris: paris placés par les joueurs
@@ -119,9 +114,7 @@ class JoueurHumain(Joueur):
         :type pointsterrains: int
         :return: la carte choisie par le joueur
         """
-        n = len(self.cartes)
         if self.nbcartes != 1:
-            #print(f"Cartes posées : {dejapresent}")
             selection = input(f"Votre main : {self.cartes}. Que voulez-vous jouer ? >> ")
             if selection == 'atout':
                 choix = ''
@@ -136,41 +129,41 @@ class JoueurHumain(Joueur):
                 return int(selection)
             else:
                 print("Vous ne pouvez pas jouer cette carte.")
-                return self.choixcartes2(dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
-                     debut)
-
+                return self.choixcartes2(dejapresent, paris, pointsterrains, cartesautresjoueurs, indice,
+                                         nombredecartes, pari,
+                                         debut)
         else:
-            if self.cartes[0]=='atout':
+            if self.cartes[0] == 'atout':
                 choix = ''
                 while choix not in ['mini', 'maxi']:
                     choix = input("Vous posez l'excuse. Quelle est sa valeur ? (mini ou maxi) >> ")
                 self.cartes.remove(choix)
                 return ['atout', choix]
             print(self.cartes[0])
-            return(self.cartes[0])
+            return (self.cartes[0])
 
 
 class JoueurBot(Joueur):
-    """
-    Joueur machine
-    =====================
+    """ Joueur machine
+
     Attributs :
         - cartes : liste des cartes du bot
         - nbjoueurs : nombre de joueurs
         - nom : nom du bot
     """
+
     def __init__(self, cartes, nbjoueurs, nom):
         super().__init__(cartes, nbjoueurs, nom)
 
     def pari2(self, parisprécédents, cartesautrejoueurs, indice):
-        """
-        Pari du joueur bot
-        =====================
+        """ Pari du joueur bot
+
         :param parisprécédents: Paris déjà placés par les joueurs
-        :type parisprécédents: list
         :param cartesautrejoueurs: Cartes des autres joueurs
+        :param indice: position du bot dans la manche
+        :type parisprécédents: list
         :type cartesautrejoueurs: list
-        :param indice:
+        :type indice: int
         :return: Pari du bot
         """
         if len(self.cartes) == 1:
@@ -184,23 +177,24 @@ class JoueurBot(Joueur):
 
     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
                      debut):
-        """
-        Choix des cartes du joueur bot
+        """ Choix des cartes du joueur bot
+
         :param dejapresent: Cartes déjà posées
-        :type dejapresent: list
         :param paris: Paris placés par les joueurs
-        :type paris: list[int]
         :param pointsterrains: Points sur le terrain
-        :type pointsterrains: int
         :param cartesautresjoueurs: Cartes des autres joueurs
-        :type cartesautresjoueurs: list
-        :param indice: ??
-        :type indice: ?
+        :param indice: Position du bot dans la manche
         :param nombredecartes: Nombre de cartes en main
-        :type nombredecartes: int
         :param pari: Pari du bot
-        :type pari: int
         :param debut: ??
+        :type dejapresent: list
+        :type paris: list
+        :type pointsterrains: list
+        :type cartesautresjoueurs: list
+        :type indice: int
+        :type nombredecartes: int
+        :type pari: int
+        :type debut: bool
         :return: Carte jouée par le bot
         """
         if nombredecartes == 1:
