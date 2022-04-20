@@ -3,7 +3,12 @@ import copy
 from Joueurs import *
 
 
-def maxi(L):
+def maxi(L: list):
+    """ Identifie l'indice de l'élément maximum d'une liste
+
+    :param L: Liste de nombres
+    :return: l'indice de l'élément maximal
+    """
     pos = 0
     for k in range(1, len(L)):
         if L[k] > L[pos]:
@@ -12,13 +17,24 @@ def maxi(L):
 
 
 def nonnull(nomJ, joueurmorts):
+    """ Vérifie si le joueur n'est pas mort
+
+    :param nomJ: Nom du joueur
+    :param joueurmorts: liste des joueurs morts
+    :return: True si le joueur n'est pas mort, False sinon
+    """
     for k in range((len(nomJ))):
-        if nomJ[k][1] == 'vivant' and nomJ[k][2] <= 0 and joueurmorts[k] == False:
+        if nomJ[k][1] == 'vivant' and nomJ[k][2] <= 0 and joueurmorts[k] is False:
             return False
     return True
 
 
 def compacartesposées(cartesposées):
+    """ Compare les cartes posées pour savoir si le joueur a gagné
+
+    :param cartesposées: liste des cartes posées
+    :return: l'indice de la carte gagnante
+    """
     L = []
     for k in cartesposées:
         if k == ['atout', 'maxi']:
@@ -27,11 +43,12 @@ def compacartesposées(cartesposées):
             L.append(1)
         else:
             L.append(k)
-    pos = 0
-    for k in range(len(L)):
-        if L[k] > L[pos]:
-            pos = k
-    return pos
+    # pos = 0
+    # for k in range(len(L)):
+    #     if L[k] > L[pos]:
+    #         pos = k
+    # return pos
+    return maxi(L)
 
 
 def verifremontée(perte):
@@ -48,7 +65,23 @@ def verifremontée(perte):
 
 
 class Manche:
+    """
+    Classe représentant une manche de Tarot Africain
+    """
     def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, aff):
+        """ Initialisation de la manche
+
+        :param Listejoueur: liste des joueurs
+        :param nombredecartes: nombre de cartes par joueur
+        :param joueurdebut: joueur qui commence
+        :param log: log de la partie
+        :param aff: affichage de messages
+        :type Listejoueur: list
+        :type nombredecartes: int
+        :type joueurdebut: int
+        :type log: Log
+        :type aff: bool
+        """
         L = [k for k in range(2, 22)] + ['atout']
         Lrandomisé = []
         for k in range(len(L)):
@@ -76,6 +109,10 @@ class Manche:
         self.log = log
 
     def paris(self):
+        """ Récolte les paris des joueurs
+
+        :return: la liste des paris des joueurs
+        """
         paris = [-1 for k in range(self.nbjoueurs)]
         for k in range(self.nbjoueurs):
             paris[(k + self.joueurdebut) % self.nbjoueurs] = self.joueurs[
@@ -87,6 +124,10 @@ class Manche:
         return paris
 
     def jeu(self):
+        """ Joue une manche
+
+        :return: Le joueur ayant perdu la manche
+        """
         Points = [0 for k in range(4)]
         debut = self.joueurdebut
         paris = self.paris()
@@ -120,12 +161,21 @@ class Manche:
         return Perte
 
     def afftour(self, cartesposées, debut):
+        """ Formate les cartes posées pour l'affichage
+
+        :param cartesposées: liste des cartes posées
+        :param debut: joueur ayant débuté le tour
+        :type cartesposées: list
+        :type debut: int
+        :return: la liste des cartes posées
+        """
         s = f"{debut} \n"
         for i in range(self.nbjoueurs):
             s += f"{i + 1}: {cartesposées[i]} "
         return s
 
     def __str__(self):
+        """ Affichage de la manche"""
         debut = self.cartestour[-1][0]
         cartesposées = self.cartestour[-1][1]
         aff = ""
@@ -141,7 +191,19 @@ class Manche:
 
 
 class Tarot:
+    """
+    Classe qui gère une partie de tarot africain
+    """
     def __init__(self, nomJoueurs, nbPoints=20, aff=True):
+        """ Initialise la partie
+
+        :param nomJoueurs: Noms des joueurs et leur type
+        :param nbPoints: Nombre de vies des joueurs
+        :param aff: Affichage des messages au cours de la partie
+        :type nomJoueurs: list
+        :type nbPoints: int
+        :type aff: bool
+        """
         self.nomJoueurs = [[nomJoueurs[k], 'vivant', nbPoints, False] for k in range(len(nomJoueurs))]
         if aff:
             print(self.nomJoueurs)
@@ -154,6 +216,10 @@ class Tarot:
         self.numManche = 0
 
     def exe(self):
+        """ Exécute une partie
+
+        :return: vainqueur et mémoire de la partie
+        """
         print("Vous êtes le joueur en première position")
         while True:
             for nbcartes in range(5, 0, -1):
@@ -214,12 +280,17 @@ class Tarot:
                 c = (c + 1) % len(self.nomJoueurs)
 
     def enleve(self):
+        """ Gestion des joueurs morts"""
         for k in range(len(self.nomJoueurs)):
             if self.nomJoueurs[k][2] <= 0 and self.nomJoueurs[k][1] == 'vivant':
                 self.nomJoueurs[k][1] = 'mort'
                 self.joueurmort[k] = True
 
     def affvainqueur(self):
+        """ Identification du vainqueur pour affichage
+
+        :return: vainqueur s'il existe, ou 'égalité' sinon
+        """
         nbJoueurs = 0
         for k in self.nomJoueurs:
             if k[1] == 'vivant':
@@ -232,12 +303,15 @@ class Tarot:
                     return k[0]
 
     def __str__(self):
+        """ Affichage de la partie"""
         pts = [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))]
         print(pts)
 
 
 class Log(list):
-
+    """
+    Classe permettant de créer un log de la partie
+    """
     def affder(self):
         return self[-1]
 
