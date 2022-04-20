@@ -13,13 +13,7 @@ class Joueur:
         cartes: list
         points: int
     """
-    # def __init__(self, cartes, nbjoueurs, nom):
-    #     self.isBot = nom[1] == 'bot'
-    #     self.cartes = cartes
-    #     self.nbjoueurs = nbjoueurs
-    #     self.nom = nom[0]
-    #     self.nbcartes = len(self.cartes)
-    #
+
     def __init__(self, cartes, nbjoueurs, nom):
         """
         Constructeur de la classe Joueur
@@ -74,29 +68,44 @@ class JoueurHumain(Joueur):
         - nbjoueurs: nombre de joueurs
         - nom: nom du joueur
     """
+
     def __init__(self, cartes, nbjoueurs, nom):
         """ Joueur humain
-
         :param cartes: Cartes du joueur
         :param nbjoueurs: nombre de joueurs
         :param nom: nom du joueur
         """
         super().__init__(cartes, nbjoueurs, nom)
 
-    def pari2(self, parisprécédents, nbcartes, indice=None):
+    def pari2(self, parisprécédents, cartesjoueurs, indice=None):
         """ Pari du joueur humain
-
         :param parisprécédents: paris déjà placés par les joueurs
-        :param nbcartes:
+        :param cartesjoueurs:
         :return: pari du joueur
         """
-        msg = f"Votre pari (0 à {len(nbcartes[0])}) ? >> "
-        bet = input(msg)
-        if self.nbjoueurs - 1 == len(parisprécédents):  # conditions seulement si dernier joueur
-            while bet + sum(parisprécédents) == nbcartes:
-                print("Vous ne pouvez pas placer ce pari.")
-                bet = input(msg)
-        return int(bet)
+        nbcartes = len(cartesjoueurs[0])
+        if nbcartes != 1:
+            print("Vos cartes sont:", self.cartes)
+            print("Les autres joueurs ont parié (-1= pas encore parié):", parisprécédents)
+            bet = -1
+            while bet < 0 or bet > len(cartesjoueurs[0]):
+                msg = f"Votre pari (0 à {len(cartesjoueurs[0])}) ? >> "
+                bet = int(input(msg))
+            if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
+                while bet + sum(parisprécédents) + 1 == nbcartes or bet < 0 or bet > len(cartesjoueurs[0]):
+                    print("Vous ne pouvez pas placer ce pari.")
+                    bet = int(input(msg))
+            return int(bet)
+        else:
+            print('Les cartes que vous voyez sur le front des autres joueurs sont:',
+                  [cartesjoueurs[k] for k in range(1, len(cartesjoueurs))])
+            msg = f"Votre pari (0 à {len(cartesjoueurs[0])}) ? >> "
+            bet = input(msg)
+            if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
+                while bet + sum(parisprécédents) + 1 == nbcartes:
+                    print("Vous ne pouvez pas placer ce pari.")
+                    bet = input(msg)
+            return int(bet)
 
     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
                      debut):
@@ -112,25 +121,35 @@ class JoueurHumain(Joueur):
         :return: la carte choisie par le joueur
         """
         n = len(self.cartes)
-        print(f"État du jeu : {self.nbjoueurs} joueurs, {len(dejapresent)} cartes déjà présentes, les paris sont {paris}, "
-              f"et les points {pointsterrains}.")
         if self.nbcartes != 1:
-            print(f"Cartes posées : {dejapresent}")
+            # print(f"Cartes posées : {dejapresent}")
             selection = input(f"Votre main : {self.cartes}. Que voulez-vous jouer ? >> ")
+            if selection == 'atout':
+                choix = ''
+                while choix not in ['mini', 'maxi']:
+                    choix = input("Vous posez l'excuse. Quelle est sa valeur ? (mini ou maxi) >> ")
+                self.cartes.remove(selection)
+                return ['atout', choix]
+
             if int(selection) in self.cartes or selection == 'atout' and 'atout' in self.cartes:
-                if selection == 'atout':
-                    choix = ''
-                    while choix not in ['mini', 'maxi']:
-                        choix = input("Vous posez l'excuse. Quelle est sa valeur ? (mini ou maxi) >> ")
-                    self.cartes.remove(selection)
-                    return ['atout', choix]
-                else:
-                    self.cartes.remove(int(selection))
-                    return int(selection)
+
+                self.cartes.remove(int(selection))
+                return int(selection)
             else:
                 print("Vous ne pouvez pas jouer cette carte.")
-                return self.choixcartes2(dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
-                     debut)
+                return self.choixcartes2(dejapresent, paris, pointsterrains, cartesautresjoueurs, indice,
+                                         nombredecartes, pari,
+                                         debut)
+
+        else:
+            if self.cartes[0] == 'atout':
+                choix = ''
+                while choix not in ['mini', 'maxi']:
+                    choix = input("Vous posez l'excuse. Quelle est sa valeur ? (mini ou maxi) >> ")
+                self.cartes.remove(choix)
+                return ['atout', choix]
+            print(self.cartes[0])
+            return self.cartes[0]
 
 
 class JoueurBot(Joueur):
@@ -142,6 +161,7 @@ class JoueurBot(Joueur):
         - nbjoueurs : nombre de joueurs
         - nom : nom du bot
     """
+
     def __init__(self, cartes, nbjoueurs, nom):
         super().__init__(cartes, nbjoueurs, nom)
 
@@ -192,19 +212,9 @@ class JoueurBot(Joueur):
         else:
             C = bot.ChoixMCartes(self.cartes, paris, dejapresent, pointsterrains, indice, debut)
             choix = C.choix()
-        print(self.cartes, choix)
+        print(choix)
         if choix == ['atout', 'maxi'] or choix == ['atout', 'mini']:
             self.cartes.remove('atout')
         else:
             self.cartes.remove(choix)
         return choix
-
-        # else:
-        #     if len(self.cartes) == 1:
-        #         c = copy.deepcopy(cartesautrejoueurs)
-        #         c.remove(c[indice])
-        #         J = joueurs.JoueurHumain(self.cartes, self.nbjoueurs, self.nom)
-        #         return J.pari(parisprécédents, c)
-        #     else:
-        #         J = joueurs.JoueurHumain(self.cartes, self.nbjoueurs, self.nom)
-        #         return J.pari(parisprécédents, cartesautrejoueurs)
