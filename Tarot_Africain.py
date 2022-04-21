@@ -13,6 +13,7 @@ from Joueurs import *
 
 def maxi(L: list):
     """ Identifie l'indice de l'élément maximum d'une liste
+
     :param L: Liste de nombres
     :return: l'indice de l'élément maximal
     """
@@ -25,6 +26,7 @@ def maxi(L: list):
 
 def nonnull(nomJ, joueurmorts):
     """ Vérifie si le joueur n'est pas mort
+
     :param nomJ: Nom du joueur
     :param joueurmorts: liste des joueurs morts
     :return: True si le joueur n'est pas mort, False sinon
@@ -37,6 +39,7 @@ def nonnull(nomJ, joueurmorts):
 
 def compacartesposées(cartesposées):
     """ Compare les cartes posées pour savoir si le joueur a gagné
+
     :param cartesposées: liste des cartes posées
     :return: l'indice de la carte gagnante
     """
@@ -48,17 +51,13 @@ def compacartesposées(cartesposées):
             L.append(1)
         else:
             L.append(k)
-    # pos = 0
-    # for k in range(len(L)):
-    #     if L[k] > L[pos]:
-    #         pos = k
-    # return pos
     return maxi(L)
 
 
 def verifremontée(perte):
     """ Permet de savoir si tous les joueurs, sauf un, ont perdu
     Si un joueur est le seul à ne pas perdre de points, celui-ci récupère un point
+
     :param perte: liste des pertes des joueurs
     :return: False si cela ne correspond pas à ce cas, et True ainsi que l'indice du joueur concerné sinon
     """
@@ -81,6 +80,7 @@ class Manche:
 
     def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, aff):
         """ Initialisation de la manche
+
         :param Listejoueur: liste des joueurs, ainsi que les informations associées
         :param nombredecartes: nombre de cartes par joueur
         :param joueurdebut: joueur qui commence
@@ -173,6 +173,7 @@ class Manche:
 
     def afftour(self, cartesposées, debut):
         """ Formate les cartes posées pour l'affichage
+
         :param cartesposées: liste des cartes posées
         :param debut: joueur ayant débuté le tour
         :type cartesposées: list
@@ -340,8 +341,6 @@ class Log(list):
 
 
 if __name__ == "__main__":
-    # t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=10, aff=False)
-    # t.exe()
     print('------------------------------------------------')
     print('|   Bienvenue sur le jeu du Tarot Africain !   |')
     print("------------------------------------------------\n")

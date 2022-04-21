@@ -112,14 +112,14 @@ class JoueurHumain(Joueur):
                      debut):
         """ Choix des cartes du joueur humain
 
-              :param dejapresent: cartes déjà posées
-              :type dejapresent: list
-              :param paris: paris placés par les joueurs
-              :type paris: list
-              :param pointsterrains: points sur le terrain
-              :type pointsterrains: int
-              :return: la carte choisie par le joueur
-              """
+        :param dejapresent: cartes déjà posées
+        :param paris: paris placés par les joueurs
+        :param pointsterrains: points sur le terrain
+        :type dejapresent: list
+        :type paris: list
+        :type pointsterrains: list
+        :return: la carte choisie par le joueur
+        """
         n = len(self.cartes)
         if self.nbcartes != 1:
             # print(f"Cartes posées : {dejapresent}")
@@ -165,6 +165,7 @@ class JoueurBot(Joueur):
 
     def pari2(self, parisprécédents, cartesautrejoueurs, indice):
         """ Pari du joueur bot
+
         :param parisprécédents: Paris déjà placés par les joueurs
         :param cartesautrejoueurs: Cartes des autres joueurs (jeu à une carte)
         :param indice: position du bot dans la manche
