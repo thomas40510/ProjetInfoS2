@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*- Line 2
+# ----------------------------------------------------------------------------
+# Created By  : DIAS, PREVOST
+# Created Date: 2022-04-02
+# version ='1.0'
+# ---------------------------------------------------------------------------
+
 import time
 import os
 import sys
@@ -312,7 +319,8 @@ class Tarot:
 
 class Log(list):
     """
-    Classe permettant de créer un log de la partie
+    Classe permettant de créer un log de la partie.
+
     Permet d'analyser les données des parties en écrivant les méthodes correspondantes
     Quelques exemples triviaux sont proposés
     """
@@ -323,19 +331,12 @@ class Log(list):
     def nbtour(self):
         return self[-1][0]
 
-    def paris(self, nbcartes):  # récupère tous les paris à nbcartes:int cartes
+    def paris(self, nbcartes):  # récupère tous les paris à nbcartes cartes
         L = []
         for k in self:
             if len(k[3]) == nbcartes:
                 L.append(k[2])
         return L
-
-
-# créer le tarot en donnant le nom dans les L[k][0], et le type (humain,bot) en L[k][1], et préciser le nombre de vies
-# Mettre les lignes suivantes en commentaire pour lancer les unitests
-
-# t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=10, aff=False)
-# v = t.exe()
 
 
 if __name__ == "__main__":
@@ -353,7 +354,8 @@ if __name__ == "__main__":
     os.system('cls' if os.name == 'nt' else 'clear')
     play = True
     while play:
-        t = Tarot([[name, 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=10, aff=False)
+        t = Tarot([[name, 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=10,
+                  aff=False)
         t.exe()
         i = ""
         while i not in ['o', 'n']:
@@ -362,4 +364,3 @@ if __name__ == "__main__":
         os.system('cls' if os.name == 'nt' else 'clear')
     print(f"Merci d'avoir joué, à bientôt {name} !")
     input("Appuyez sur une touche pour quitter...")
-

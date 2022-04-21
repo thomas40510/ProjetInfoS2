@@ -1,4 +1,11 @@
-# from Tarot_Africain import *
+# -*- coding: utf-8 -*- Line 2
+# ----------------------------------------------------------------------------
+# Created By  : DIAS, PREVOST
+# Created Date: 2022-04-02
+# version ='1.0'
+# ---------------------------------------------------------------------------
+# Description : Module implémentant les joueurs de tarot africain
+
 import TA_Bots as bot
 import random
 import copy
@@ -11,10 +18,11 @@ class Joueur:
 
     def __init__(self, cartes, nbjoueurs, nom):
         """ Joueur générique de tarot africain. Il joue aléatoirement.
-                :param cartes: cartes du joueur
-                :param nbjoueurs: nombre de joueurs
-                :param nom: nom du joueur et son type (humain / bot)
-                """
+
+        :param cartes: cartes du joueur
+        :param nbjoueurs: nombre de joueurs
+        :param nom: nom du joueur et son type (humain / bot)
+        """
         self.statut = nom[1]
         self.cartes = cartes
         self.nbjoueurs = nbjoueurs
@@ -158,7 +166,7 @@ class JoueurBot(Joueur):
     def pari2(self, parisprécédents, cartesautrejoueurs, indice):
         """ Pari du joueur bot
         :param parisprécédents: Paris déjà placés par les joueurs
-        :param cartesautrejoueurs: Cartes des autres joueurs
+        :param cartesautrejoueurs: Cartes des autres joueurs (jeu à une carte)
         :param indice: position du bot dans la manche
         :type parisprécédents: list
         :type cartesautrejoueurs: list

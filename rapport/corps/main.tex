@@ -35,6 +35,9 @@
 
          Là encore, s'applique la même condition sur le dernier joueur à parier (la somme totale ne peut pas être égale à 1).
 
+      \subsubsection{Règle de la \og remontée \fg{}}
+         Une règle supplémentaire existe : si, à l'issue d'une manche, un joueur est le seul à ne pas perdre de point, il en regagne un.
+
       \subsubsection{Fin de partie}
          Une partie se finit à l'issue de la manche d'une seule carte.
          À ce moment là, le jeu peut continuer, chaque joueur gardant le nombre de vies qu'il avait à l'issue de la partie précédente.
@@ -59,7 +62,7 @@
       \end{itemize}
 
       En particulier, la classe \texttt{JoueurHumain}, permet de faire jouer l'utilisateur en lui demandant de rentrer chaque coup, tandis que la classe \texttt{JoueurBot} permet de faire jouer la machine en calculant chacun de ses coups, généralement de manière récursive, grâce au module \texttt{TA\_Bots.py}.
-      Le fonctionnement de ce dernier est explicité en~\ref{sec:le-programme-sur-papier}\ref{subsec:fonctionnement-en-détails-----jeu-contre-la-machine}
+      Le fonctionnement de ce dernier est explicité en~\ref{sec:détail-du-fonctionnement-par-module}\ref{subsec:module-ta-bots}
 
 
 \section{Le programme sur papier}\label{sec:le-programme-sur-papier}
@@ -87,7 +90,7 @@
          \item \textbf{Documentation et commentaire du code} : tout naturellement, le programme est intégralement documenté et commenté ;
          \item \textbf{Tests unitaires} : des tests unitaires ont été écrits pour chaque partie du programme ;
          \item \textbf{Création d'un type d'objet (classe)} : cinq objets ont été créés dans le cadre de ce programme, à savoir \texttt{Joueur, Manche} et \texttt{Tarot}, mais aussi \texttt{JoueurHumain} et \texttt{JoueurBot} ;
-         \item \textbf{Récursivité} : la récursivité est exploitée dans le jeu de la machine, permettant d'explorer les différentes situations possibles afin d'identifier le coup optimal ;
+         \item \textbf{Récursivité} : la récursivité est exploitée dans le jeu de la machine (module \texttt{TA\_Bots.py}), permettant d'explorer les différentes situations possibles afin d'identifier le coup optimal ;
          \item \textbf{Héritage entre deux types créés} : les classes \texttt{JoueurHumain} et \texttt{JoueurBot} héritent toutes deux de la classe \texttt{Joueur} ;
          \item \textbf{Héritage depuis un type intégré} : nous avons implémenté une \og mémoire \fg{}, héritée du type \texttt{list} de Python, prenant en charge les logs de toutes des différentes manches jouées au cours d'une partie, permettant non seulement d'effectuer des traitements statistiques sur les parties afin de permettre l'amélioration du fonctionnement des bots, mais aussi de conduire des tests unitaires.
          Une voie envisageable serait également de s'en servir pour proposer au joueur des statistiques sur sa partie.
@@ -141,7 +144,9 @@
       \subsubsection{Classe \texttt{Tarot}}
          La classe \texttt{Tarot} est la classe principale du programme.
          C'est elle qui, l'utilisateur ayant entré son nom, débute la partie et crée les manches successives de jeu.
-         C'est égalelement la classe ayant la responsabilité de retirer les joueurs morts de la partie et de désigner un vainqueur.
+         C'est également la classe ayant la responsabilité de gérer les vies des joueurs et de s'occuper des éventuels joueurs ayant perdu (fonction \texttt{enleve}).
+
+         Sans oublier le fait qu'elle désigne également le leader de la prochaine manche, tout en vérifiant qu'il peut prendre ce rôle (donc qu'il n'est pas mort).
 
          Le tout étant réalisé par sa fonction \texttt{exe}.
       \subsubsection{Classe \texttt{Manche}}
@@ -156,7 +161,7 @@
       \subsubsection{Classe \texttt{Log}}
          Permettant de garder une trace de l'ensemble des manches d'une partie, la classe \texttt{Log} permet entre autres d'accéder à des statistiques calculées sur une partie ou un ensemble spécifique de manches, mais aussi à rendre possibles certains tests unitaires sur le bon déroulé d'une partie.
 
-         Cette classe sera très probablement amenée à évoluer ultérieurement dans l'avancée afin de lui ajouter des fonctionnalités.
+         Cette classe ayant vocation à permettre le traitement des données d'une partie, nous proposons au lecteur des méthodes qui, sans la moindre prétention d'exhaustivité, montrent l'intérêt de cette classe pour faciliter l'analyse des parties \textit{a posteriori}.
 
    \subsection{Module \texttt{Joueurs}}\label{subsec:module-joueurs}
       Le module \texttt{Joueurs} est responsable de la création des joueurs, qu'ils soient humain ou machine, et de leurs actions.

@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*- Line 2
+# ----------------------------------------------------------------------------
+# Created By  : DIAS, PREVOST
+# Created Date: 2022-04-02
+# version ='1.0'
+# ---------------------------------------------------------------------------
+# Description: Module donnant les fonctions nécessaires aux coups des bots
+
 import copy
 import random
 
