@@ -10,7 +10,7 @@ class Test_Tarot_Africain(unittest.TestCase):
             for nombredecartes in range(1, 5):
                 for nombredetests in range(20):
                     N = [[str(k), 'bot'] for k in range(nombredejoueurs)]
-                    M = Manche(N, nombredecartes, 0, [], False)
+                    M = Manche(N, nombredecartes, 0, Log([]), False)
                     L = []
                     for joueur in M.joueurs:
                         for k in joueur.cartes:
@@ -64,4 +64,5 @@ class Test_Tarot_Africain(unittest.TestCase):
                     self.assertNotEqual(P, [0 for k in range(nombredejoueurs)])
 
 
-unittest.main()
+if __name__ == '__main__':
+    unittest.main()
