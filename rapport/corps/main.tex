@@ -54,6 +54,9 @@
          \item La classe \texttt{Tarot} permettant de dérouler la partie.
       \end{itemize}
 
+      En particulier, la classe \texttt{JoueurHumain}, permet de faire jouer l'utilisateur en lui demandant de rentrer chaque coup, tandis que la classe \texttt{JoueurBot} permet de faire jouer la machine en calculant chacun de ses coups de manière récursive grâce au module \texttt{TA\_Bots.py}.
+      Le fonctionnement de ce dernier est explicité en~\ref{sec:le-programme-sur-papier}\ref{subsec:fonctionnement-en-détails-----jeu-contre-la-machine}
+
 
 \section{Le programme sur papier}\label{sec:le-programme-sur-papier}
    Le programme construit autour d'un fichier principal contenant le jeu en lui-même, auquel viennent se greffer deux modules, respectivement pour les joueurs et le calcul des coups de la machine.
@@ -92,6 +95,40 @@
       \end{enumerate}
 
    \subsection{Tests effectués}\label{subsec:tests-effectués}
+      De nombreux tests ont été effectués afin de vérifier le bon fonctionnement et la cohérence du programme, ces derniers étant réunis dans le fichier \texttt{test\_Tarot\_Africain.py}.
+      Nous détaillons donc ici les quatre jeux de tests unitaires ayant été écrits et exécutés.
+
+      \subsubsection{Cohérence de la distribution}
+         Un élément essentiel au bon déroulement de la partie est le fait qu'une même carte ne puisse être distribuée deux fois dans une même manche.
+
+         Cette condition est donc vérifiée pour chaque nombre de joueurs et chaque nombre de cartes possibles, pour un total de $20\times 4\times 3 = 240$ tets.
+         Ce nombre, correspondant à 20 tests par nombre de joueurs pour chaque nombre de cartes en main, permet en effet de vérifier statistiquement la cohérence de la distribution des cartes malgré que cette dernière soit aléatoire.
+         Nous estimons que ce nombre de tests, s'ils reviennent tous positifs, est suffisant pour vérifier cette condition.
+
+         En l'occurrence, le résultat est bien revenu positif à chaque exécution.
+
+      \subsubsection{Cohérence des paris}
+         De la même manière, une partie ne peut se dérouler correctement s'il est possible de placer des paris faux ou incohérents.
+         Il était donc essentiel d'écrire des tests unitaires vérifiant cette cohérence.
+
+         Ainsi, pour chaque nombre possible de joueurs et chaque nombre possible de cartes en main, les paris des joueurs, ausssi bien humains que machines, sont recueillis et testés afin de vérifier leur cohérence.
+         En particulier, il est vérifié le fait que la somme des paris ne soit pas égale au nombre de cartes en main (du fait de la condition sur le pari du dernier joueur à parier), mais aussi que chaque pari est positif et inférieur au nombre total de plis possibles.
+
+         Sont donc, de la même manière que pour la cohérence de la distribution, exécutés $20\times 4\times 3 = 240$ tests.
+         Tous sont revenus positifs, la cohérence des paris est donc bonne.
+
+      \subsubsection{Cohérence de la partie}
+         Au-delà de la cohérence des paris, est également essentielle la cohérence du choix des cartes, que ce soit par un joueur humain ou par la machine.
+         En particulier, il est nécessaire de vérifier que ne sera jamais posée par un joueur une carte qu'il ne possède pas.
+
+         Ce jeu de tests vérifie donc, pour chaque nombre de joueurs et chaque nombre de cartes en main possibles, si chaque carte posée était bien possédée par le joueur avant d'être jouée.
+
+         Ce qui constitue donc un test par carte, répétés vingt fois, de 1 à 5 cartes, de 1 à 4 joueurs, pour un total de $1\,800$ tests.
+
+      \subsubsection{Perte de points}
+         La dernière chose à vérifier est le fait que le joueur ayant perdu la manche perde bien le bon nombre de vies.
+
+         Pour cela, toujours pour chaque nombre de joueurs et chaque nombre de cartes en main possibles, il est vérifié pour vingt manches différentes, que les pertes de la manche sont bien non toutes nulles.
 
    \subsection{Limitations observées}\label{subsec:limitations-observées}
       Plusieurs limitations ont été identifiées, majoritairment en lien avec le fonctionnement du programme dans la console, sans interface utilisateur.
@@ -106,6 +143,9 @@
 
       Une autre amélioration envisageable serait également de permettre à l'utilisateur de se créer un profil stocké sur une base de données, lui permettant d'accéder à différentes statistiques concernant ses parties précédentes.
       Cette piste ne sera pas nécessairement traitée immédiatement, la priorité étant donnée à l'implémentation de l'UI\@, mais reste ouverte comme perspective intéressante du projet.
+
+      Une dernière perspective d'amélioration, tenant uniquement de l'expérience utilisateur, serait d'ajouter la possibilité pour l'utilisateur de choisir la difficulté de la machine avant de commencer la partie.
+      Ceci lui permettrait de jouer contre une machine plus faible s'il ne parvient pas à gagner contre une machine plus forte.
 
 \newpage
 
