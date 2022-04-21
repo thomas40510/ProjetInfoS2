@@ -113,7 +113,7 @@ def PariMCartes(parisprécédents, cartes):
 
     :param parisprécédents: Liste des paris précédents
     :param cartes: Liste des cartes en main
-    :return: le pari, allant de 0 au nombre de cartes en main
+    :return: le pari (0 à len(cartes))
     """
     nbcartes = len(cartes)
     nbjoueurs = len(parisprécédents)
@@ -229,7 +229,7 @@ def ChoixMCartes(carte, paris, carteterrain, points, indice, debut):
         elif reste < 1:
             # si on ne doit plus prendre de plis, on place la carte nécessaire pour ne pas gagner le pli actuel
             if ['atout', 'maxi'] in TT:
-                return (CC[-1])
+                return CC[-1]
             else:
                 M = max(TT)
                 if CC[0] < M < CC[-1]:
