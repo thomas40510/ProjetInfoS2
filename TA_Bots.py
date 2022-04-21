@@ -10,12 +10,12 @@ def closers(x):
     """
     X = int(x)
     if x == X:
-        return ([x, x - 1, x + 1])
+        return [x, x - 1, x + 1]
     else:
         if x - X > 0.5:
-            return (X + 1, X, X + 2)
+            return X + 1, X, X + 2
         else:
-            return (X, X + 1, X - 1)
+            return X, X + 1, X - 1
 
 
 def possibilitésretirepoints(L):
@@ -27,7 +27,7 @@ def possibilitésretirepoints(L):
     A = [copy.deepcopy(L) for k in range(len(L))]
     for k in range(len(L)):
         A[k][k] -= 1
-    return (A)
+    return A
 
 
 def maxi(L):
@@ -46,7 +46,7 @@ def maxi(L):
     for k in range(1, len(L)):
         if LL[k] > LL[pos]:
             pos = k
-    return (pos)
+    return pos
 
 
 def maxiTerrain(L):
@@ -67,7 +67,7 @@ def maxiTerrain(L):
         for k in L:
             if k > m:
                 m = k
-        return (m)
+        return m
 
 
 def pari1Carte(parisprécédents, cartesautresjoueurs):
