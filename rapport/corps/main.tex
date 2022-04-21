@@ -102,6 +102,8 @@
       De nombreux tests ont été effectués afin de vérifier le bon fonctionnement et la cohérence du programme, ces derniers étant réunis dans le fichier \texttt{test\_Tarot\_Africain.py}.
       Nous détaillons donc ici les quatre jeux de tests unitaires ayant été écrits et exécutés.
 
+      Il est à noter cependant que seuls les tests pertinents ont été écrits : les classes n'ayant pas été testées l'ont été volontairement, car consistant uniquement en des instanciations et des fonctions d'affichage, ou des fonctions triviales (classes \texttt{Tarot} et \texttt{Log} essentiellement).
+
       \subsubsection{Cohérence de la distribution}
          Un élément essentiel au bon déroulement de la partie est le fait qu'une même carte ne puisse être distribuée deux fois dans une même manche.
 
@@ -129,18 +131,56 @@
 
          Ce qui constitue donc un total de $1\,800$ tests.
 
+         Nous remarquerons que ce jeu de test, combiné aux tests sur la cohérence des paris, permet de tester le bon fonctionnement des différentes classes du module \texttt{Joueurs}, et ce quand bien même appel est fait à la classe \texttt{Manche} : en effet, les joueurs sont instanciés en fonction des paramètres de la manche (notamment pour la distribution des cartes, ayant été préalablement testée).
+
       \subsubsection{Perte de points}
          La dernière chose à vérifier est le fait que les joueurs perdent bien des vies.
 
          Pour cela, toujours pour chaque nombre de joueurs et chaque nombre de cartes en main possibles, il est vérifié pour vingt manches différentes qu'il n'en existe aucune au cours de laquelle aucun joueur n'a perdu de vie.
 
+\section{Détail du fonctionnement par module}\label{sec:détail-du-fonctionnement-par-module}
+   \subsection{Module \texttt{Tarot\_Africain}}\label{subsec:module-tarot-africain}
+      Ce module, qui constitue le fichier principal du programme, est responsable de la partie en elle-même, de sa création et son déroulement.
+      \subsubsection{Classe \texttt{Tarot}}
+         La classe \texttt{Tarot} est la classe principale du programme.
+         C'est elle qui, l'utilisateur ayant entré son nom, débute la partie et crée les manches successives de jeu.
+         C'est égalelement la classe ayant la responsabilité de retirer les joueurs morts de la partie et de désigner un vainqueur.
+
+         Le tout étant réalisé par sa fonction \texttt{exe}.
+      \subsubsection{Classe \texttt{Manche}}
+         La classe \texttt{Manche} est la classe qui, comme son nom l'indique constitue une manche de jeu.
+         Elle est instanciée à partir des informations concernant les joueurs, leur nombre de vies et le nombre de cartes à leur distribuer.
+
+         Forte de ces informations, elle créera joueurs et leur distribuera leurs cartes.
+         Ceci fait, elle fera jouer les joueurs (fonction \texttt{jeu}), en ayant préalablement collecté leurs paris (appel à la fonction \texttt{paris}).
+         Chaque joueur ayant posé sa carte, le vainqueur du pli est désigné.
+
+         Finalement, la fonction \texttt{jeu} renverra le vainqueur de la manche.
+      \subsubsection{Classe \texttt{Log}}
+         Permettant de garder une trace de l'ensemble des manches d'une partie, la classe \texttt{Log} permet entre autres d'accéder à des statistiques calculées sur une partie ou un ensemble spécifique de manches, mais aussi à rendre possibles certains tests unitaires sur le bon déroulé d'une partie.
+
+         Cette classe sera très probablement amenée à évoluer ultérieurement dans l'avancée afin de lui ajouter des fonctionnalités.
+
+   \subsection{Module \texttt{Joueurs}}\label{subsec:module-joueurs}
+      Le module \texttt{Joueurs} est responsable de la création des joueurs, qu'ils soient humain ou machine, et de leurs actions.
+
+      \subsubsection{Classe \texttt{JoueurHumain}}
+         Il s'agit de la classe permettant à l'utilisateur de jouer.
+         Elle l'interrogera pour chaque décision à prendre, aussi bien au niveau du pari (fonction \texttt{JoueurHumain.pari2}) ou de la carte à jouer (fonction \texttt{JoueurHumain.choixcartes2}).
+
+         En particulier, la cohérence de chaque entrée de l'utilisateur sera vérifiée par ces fonctions pour assurer le bon fonctionnement du jeu.
+
+      \subsubsection{Classe \texttt{JoueurBot}}
+         Cette classe est celle représentant un joueur contrôlé par la machine.
+         Chacune de ses décisions, que ce soit son pari (fonction \texttt{JoueurBot.pari2}) ou sa carte à jouer (fonction \texttt{JoueurBot.choixcartes2}), est déterminée comme étant la plus optimale grâce aux fonctions apportées par le module \texttt{TA\_Bots}.
+
+
+\section{Limitations \& perspectives}\label{sec:limitations-observées-et-perspectives}
    \subsection{Limitations observées}\label{subsec:limitations-observées}
       Plusieurs limitations ont été identifiées, majoritairement en lien avec le fonctionnement du programme dans la console, sans interface utilisateur.
       Cette restriction étant à l'origine d'un affichage pas toujours intuitif et clair pour l'utilisateur, qui doit, pour jouer, se contenter d'un affichage textuel.
 
       Malgré tout, en termes d'implémentation uniquement technique, aucune limitation majeure n'a pu être identifiée, mise à part une optimisation éventuelle des décisions du bot, qui dans le cadre de ce projet ne nous semble pas pertinente.
-
-   %TODO: tout n'a pas forcément d'intérêt à être testé, et que le reste l'est par les tets existants.
    
    \subsection{Perspectives et améliorations}\label{subsec:perspectives-et-améliorations}
       Ces constatations orientent donc tout naturellement la suite du projet vers l'intégration d'une interface utilisateur permettant d'apporter une solution aux différentes limitations induites par le mode de jeu en textuel, que nous avons pu identifier lors des tests du jeu.
@@ -161,3 +201,4 @@
 \newpage
 
 \section*{Annexe II. Fonctionnement schématique d'une partie}
+

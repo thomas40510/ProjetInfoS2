@@ -336,8 +336,6 @@ class Log(list):
 # t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=10, aff=False)
 # v = t.exe()
 
-from rich.console import Console
-import pandas as pd
 
 if __name__ == "__main__":
     t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=10, aff=False)
