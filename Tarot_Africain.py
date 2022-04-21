@@ -1,5 +1,6 @@
-import random
-import copy
+import time
+import os
+import sys
 from Joueurs import *
 
 
@@ -338,5 +339,27 @@ class Log(list):
 
 
 if __name__ == "__main__":
-    t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=10, aff=False)
-    t.exe()
+    # t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=10, aff=False)
+    # t.exe()
+    print('------------------------------------------------')
+    print('|   Bienvenue sur le jeu du Tarot Africain !   |')
+    print("------------------------------------------------\n")
+
+    name = input("Comment vous appelez-vous ?\n >> ")
+    for i in range(10):
+        time.sleep(0.5)
+        sys.stdout.write("\r" + f"Bonjour, {name} ! Je démarre la partie" + (i % 4) * '.' + (16 - (i % 4)) * ' ')
+        sys.stdout.flush()
+    os.system('cls' if os.name == 'nt' else 'clear')
+    play = True
+    while play:
+        t = Tarot([[name, 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=10, aff=False)
+        t.exe()
+        i = ""
+        while i not in ['o', 'n']:
+            i = input("Souhaitez-vous rejouer ? (o/n)\n >> ")
+        play = i == 'o'
+        os.system('cls' if os.name == 'nt' else 'clear')
+    print(f"Merci d'avoir joué, à bientôt {name} !")
+    input("Appuyez sur une touche pour quitter...")
+
