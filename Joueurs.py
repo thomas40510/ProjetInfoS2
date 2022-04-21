@@ -144,7 +144,8 @@ class JoueurHumain(Joueur):
 
 
 class JoueurBot(Joueur):
-    """ Joueur machine
+    """ Joueur machine calculant ses coups récursivement
+
        Attributs :
            - cartes : liste des cartes du bot
            - nbjoueurs : nombre de joueurs
