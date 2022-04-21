@@ -84,7 +84,7 @@ class Manche:
         :type log: Log
         :type aff: bool
         """
-        L = [k for k in range(2, 22)] + ['atout']
+        L = [k for k in range(1, 22)] + ['atout']
         Lrandomisé = []
         for k in range(len(L)):
             a = random.randint(0, len(L) - 1)
@@ -329,8 +329,16 @@ class Log(list):
                 L.append(k[2])
         return L
 
+
 # créer le tarot en donnant le nom dans les L[k][0], et le type (humain,bot) en L[k][1], et préciser le nombre de vies
 # Mettre les lignes suivantes en commentaire pour lancer les unitests
 
 # t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=10, aff=False)
 # v = t.exe()
+
+from rich.console import Console
+import pandas as pd
+
+if __name__ == "__main__":
+    t = Tarot([['humain', 'humain']] + [['b1', 'bot']] + [['b2', 'bot']] + [['b3', 'bot']], nbPoints=10, aff=False)
+    t.exe()

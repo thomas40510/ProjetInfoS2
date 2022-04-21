@@ -54,14 +54,14 @@ class Test_Tarot_Africain(unittest.TestCase):
                                 if not tour[carte] in cartes[carte]:
                                     self.assertTrue(tour[carte] in cartes[carte])
 
-    def testpertespoints(self):
+    def testpertespoints(self):  # TODO: le faire marcher
         for nombredejoueurs in range(2, 5):
             for nombredecartes in range(1, 5):
                 for nombredetests in range(20):
                     N = [[str(k), 'bot'] for k in range(nombredejoueurs)]
-                    M = Manche(N, nombredecartes, 0, [], False)
-                    P = M.jeu
-                    self.assertNotEqual(P, [0 for k in range(nombredejoueurs)])
+                    M = Manche(N, nombredecartes, 0, Log([[]]), False)
+                    P = M.jeu()
+                    self.assertNotEqual(P, [0] * len(P))
 
 
 if __name__ == '__main__':
