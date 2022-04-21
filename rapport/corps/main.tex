@@ -39,11 +39,8 @@
          Une règle supplémentaire existe : si, à l'issue d'une manche, un joueur est le seul à ne pas perdre de point, il en regagne un.
 
       \subsubsection{Fin de partie}
-         Une partie se finit à l'issue de la manche d'une seule carte.
-         À ce moment là, le jeu peut continuer, chaque joueur gardant le nombre de vies qu'il avait à l'issue de la partie précédente.
-         Le joueur ayant distribué transmettant ce rôle à celui à sa gauche.
-
-         Le jeu continue alors de partie en partie jusqu'à ce que tous les joueurs sauf un soient éliminés.
+         À l'issue de la manche à une seule carte, le joueur ayant distribué les cartes transmet ce rôle au joueur à sa droite, le jeu recommence alors à la manche à 5 cartes, et se déroule de la même manière.
+         La partie se finit lorsqu'il ne reste qu'un seul joueur en vie.
 
    \subsection{Pistes envisagées pour l'implémentation}\label{subsec:pistes-envisagées-pour-l'implémentation}
       Il a alors été initialement choisi, pour implémenter le jeu de Tarot Africain, le découpage en plusieurs classes : une classe \texttt{Joueur}, une classe \texttt{Carte}, une classe \texttt{Manche} et une classe \texttt{Partie}.
@@ -97,7 +94,7 @@
       \end{enumerate}
 
    \subsection{Tests effectués}\label{subsec:tests-effectués}
-      De nombreux tests ont été effectués afin de vérifier le bon fonctionnement et la cohérence du programme, ces derniers étant réunis dans le fichier \texttt{test\_Tarot\_Africain.py}.
+      De nombreux tests ont été effectués afin de vérifier le bon fonctionnement et la cohérence du programme et de ses différents modules et classes, ces derniers étant réunis dans le fichier \texttt{test\_Tarot\_Africain.py}.
       Nous détaillons donc ici les quatre jeux de tests unitaires ayant été écrits et exécutés.
 
       Il est à noter cependant que seuls les tests pertinents ont été écrits : les classes n'ayant pas été testées l'ont été volontairement, car consistant uniquement en des instanciations et des fonctions d'affichage, ou des fonctions triviales (classes \texttt{Tarot} et \texttt{Log} essentiellement).
