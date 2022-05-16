@@ -9,9 +9,10 @@
 import TA_Bots as bot
 import random
 import copy
+import abc
 
 
-class Joueur:
+class Joueur(metaclass=abc.ABCMeta):
     """
     Classe générique définissant un joueur
     """
@@ -29,35 +30,14 @@ class Joueur:
         self.nom = nom[0]
         self.nbcartes = len(self.cartes)
 
-    def pari2(self, parisprécédents, nbcartes, indice=None):
-        nbparis = 0
-        for k in parisprécédents:
-            if k != -1:
-                nbparis += 1
-        volonté = 0
-        for k in range(self.nbcartes):
-            if self.cartes[k] == 'atout':
-                volonté += 14
-            else:
-                volonté += self.cartes[k]
-        volonté = int(volonté / (10 * self.nbcartes))
-        volonté = min(max(0, volonté), self.nbcartes)
-        if nbparis == self.nbjoueurs - 1 and sum(parisprécédents) + volonté + 1 == self.nbcartes:
-            volonté += [-1, 1][random.randint(0, 1)]
-            if volonté == -1:
-                volonté += 2
-            if volonté > self.nbcartes:
-                volonté -= 2
-        return volonté
+    @abc.abstractmethod
+    def pari2(self, parisprécédents, cartesjoueurs, indice):
+        pass
 
+    @abc.abstractmethod
     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
                      debut):
-        n = len(self.cartes)
-        cartechoisi = self.cartes[random.randint(0, n - 1)]
-        self.cartes.remove(cartechoisi)
-        if cartechoisi == 'atout':
-            cartechoisi = ['atout', 'maxi']
-        return cartechoisi
+        pass
 
 
 class JoueurHumain(Joueur):
@@ -91,7 +71,16 @@ class JoueurHumain(Joueur):
             bet = -1
             while bet < 0 or bet > len(cartesjoueurs[0]):
                 msg = f"Votre pari (0 à {len(cartesjoueurs[0])}) ? >> "
-                bet = int(input(msg))
+                val = input(msg)
+                try:
+                    bet = int(val)
+                except ValueError:
+                    if val == 'quitter':
+                        print("Merci d'avoir joué.")
+                        exit(0)
+                    else:
+                        print("Mauvaise valeur. Merci d'entrer un pari valide.")
+                        bet = -1
             if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
                 while bet + sum(parisprécédents) + 1 == nbcartes or bet < 0 or bet > len(cartesjoueurs[0]):
                     print("Vous ne pouvez pas placer ce pari.")
