@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>650</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>460</y>
+      <width>437</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="playerCards">
+     <item>
+      <widget class="QGraphicsView" name="pCard1"/>
+     </item>
+     <item>
+      <widget class="QGraphicsView" name="pCard2"/>
+     </item>
+     <item>
+      <widget class="QGraphicsView" name="pCard3"/>
+     </item>
+     <item>
+      <widget class="QGraphicsView" name="pCard4"/>
+     </item>
+     <item>
+      <widget class="QGraphicsView" name="pCard5"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGraphicsView" name="pCardOut">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>350</y>
+      <width>79</width>
+      <height>99</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="b1CardOut">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>250</y>
+      <width>79</width>
+      <height>99</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="b2CardOut">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>160</y>
+      <width>79</width>
+      <height>99</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="b3CardOut">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>250</y>
+      <width>79</width>
+      <height>99</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="b1Deck">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>220</y>
+      <width>121</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="b2Deck">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>50</y>
+      <width>161</width>
+      <height>101</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="b3Deck">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>220</y>
+      <width>121</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
