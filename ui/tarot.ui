@@ -25,19 +25,84 @@
     </property>
     <layout class="QHBoxLayout" name="playerCards">
      <item>
-      <widget class="QGraphicsView" name="pCard1"/>
+      <widget class="QGraphicsView" name="pCard1">
+       <property name="minimumSize">
+        <size>
+         <width>79</width>
+         <height>99</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>79</width>
+         <height>99</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QGraphicsView" name="pCard2"/>
+      <widget class="QGraphicsView" name="pCard2">
+       <property name="minimumSize">
+        <size>
+         <width>79</width>
+         <height>99</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>79</width>
+         <height>99</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QGraphicsView" name="pCard3"/>
+      <widget class="QGraphicsView" name="pCard3">
+       <property name="minimumSize">
+        <size>
+         <width>79</width>
+         <height>99</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>79</width>
+         <height>99</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QGraphicsView" name="pCard4"/>
+      <widget class="QGraphicsView" name="pCard4">
+       <property name="minimumSize">
+        <size>
+         <width>79</width>
+         <height>99</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>79</width>
+         <height>99</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QGraphicsView" name="pCard5"/>
+      <widget class="QGraphicsView" name="pCard5">
+       <property name="minimumSize">
+        <size>
+         <width>79</width>
+         <height>99</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>79</width>
+         <height>99</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -50,6 +115,18 @@
       <height>99</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>79</width>
+      <height>99</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>79</width>
+      <height>99</height>
+     </size>
+    </property>
    </widget>
    <widget class="QGraphicsView" name="b1CardOut">
     <property name="geometry">
@@ -59,6 +136,18 @@
       <width>79</width>
       <height>99</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>79</width>
+      <height>99</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>79</width>
+      <height>99</height>
+     </size>
     </property>
    </widget>
    <widget class="QGraphicsView" name="b2CardOut">
@@ -70,6 +159,18 @@
       <height>99</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>79</width>
+      <height>99</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>79</width>
+      <height>99</height>
+     </size>
+    </property>
    </widget>
    <widget class="QGraphicsView" name="b3CardOut">
     <property name="geometry">
@@ -79,6 +180,18 @@
       <width>79</width>
       <height>99</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>79</width>
+      <height>99</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>79</width>
+      <height>99</height>
+     </size>
     </property>
    </widget>
    <widget class="QGraphicsView" name="b1Deck">
@@ -90,6 +203,18 @@
       <height>151</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>121</width>
+      <height>151</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>121</width>
+      <height>151</height>
+     </size>
+    </property>
    </widget>
    <widget class="QGraphicsView" name="b2Deck">
     <property name="geometry">
@@ -100,6 +225,18 @@
       <height>101</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>161</width>
+      <height>101</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>161</width>
+      <height>101</height>
+     </size>
+    </property>
    </widget>
    <widget class="QGraphicsView" name="b3Deck">
     <property name="geometry">
@@ -109,6 +246,18 @@
       <width>121</width>
       <height>151</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>121</width>
+      <height>151</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>121</width>
+      <height>151</height>
+     </size>
     </property>
    </widget>
    <widget class="QLabel" name="label">
