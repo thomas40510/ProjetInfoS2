@@ -17,9 +17,9 @@
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>480</y>
-      <width>437</width>
+      <x>230</x>
+      <y>460</y>
+      <width>371</width>
       <height>101</height>
      </rect>
     </property>
@@ -28,13 +28,7 @@
       <widget class="QGraphicsView" name="pCard1">
        <property name="minimumSize">
         <size>
-         <width>79</width>
-         <height>99</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>79</width>
+         <width>66</width>
          <height>99</height>
         </size>
        </property>
@@ -44,13 +38,7 @@
       <widget class="QGraphicsView" name="pCard2">
        <property name="minimumSize">
         <size>
-         <width>79</width>
-         <height>99</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>79</width>
+         <width>66</width>
          <height>99</height>
         </size>
        </property>
@@ -60,13 +48,7 @@
       <widget class="QGraphicsView" name="pCard3">
        <property name="minimumSize">
         <size>
-         <width>79</width>
-         <height>99</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>79</width>
+         <width>66</width>
          <height>99</height>
         </size>
        </property>
@@ -76,13 +58,7 @@
       <widget class="QGraphicsView" name="pCard4">
        <property name="minimumSize">
         <size>
-         <width>79</width>
-         <height>99</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>79</width>
+         <width>66</width>
          <height>99</height>
         </size>
        </property>
@@ -92,13 +68,7 @@
       <widget class="QGraphicsView" name="pCard5">
        <property name="minimumSize">
         <size>
-         <width>79</width>
-         <height>99</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>79</width>
+         <width>65</width>
          <height>99</height>
         </size>
        </property>
@@ -109,21 +79,21 @@
    <widget class="QGraphicsView" name="pCardOut">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>380</x>
       <y>310</y>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </size>
     </property>
@@ -131,21 +101,21 @@
    <widget class="QGraphicsView" name="b1CardOut">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>290</x>
       <y>250</y>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </size>
     </property>
@@ -153,21 +123,21 @@
    <widget class="QGraphicsView" name="b2CardOut">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>380</x>
       <y>180</y>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </size>
     </property>
@@ -175,21 +145,21 @@
    <widget class="QGraphicsView" name="b3CardOut">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>470</x>
       <y>250</y>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>79</width>
+      <width>65</width>
       <height>99</height>
      </size>
     </property>
