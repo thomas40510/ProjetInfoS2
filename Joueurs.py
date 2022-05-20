@@ -17,9 +17,8 @@ class Joueur(metaclass=abc.ABCMeta):
     Classe générique définissant un joueur
     """
 
-    def __init__(self, cartes, nbjoueurs, nom):
+    def __init__(self, cartes, nbjoueurs, nom,vies):
         """ Joueur générique de tarot africain. Il joue aléatoirement.
-
         :param cartes: cartes du joueur
         :param nbjoueurs: nombre de joueurs
         :param nom: nom du joueur et son type (humain / bot)
@@ -29,6 +28,7 @@ class Joueur(metaclass=abc.ABCMeta):
         self.nbjoueurs = nbjoueurs
         self.nom = nom[0]
         self.nbcartes = len(self.cartes)
+        self.vies=vies
 
     @abc.abstractmethod
     def pari2(self, parisprécédents, cartesjoueurs, indice):
@@ -48,22 +48,22 @@ class JoueurHumain(Joueur):
             - nom: nom du joueur
         """
 
-    def __init__(self, cartes, nbjoueurs, nom):
+    def __init__(self, cartes, nbjoueurs, nom,vies):
         """ Joueur humain
-
         :param cartes: Cartes du joueur
         :param nbjoueurs: nombre de joueurs
         :param nom: nom du joueur
         """
-        super().__init__(cartes, nbjoueurs, nom)
+        super().__init__(cartes, nbjoueurs, nom,vies)
 
     def pari2(self, parisprécédents, cartesjoueurs, indice=None):
         """ Pari du joueur humain
-
         :param parisprécédents: paris déjà placés par les joueurs
         :param cartesjoueurs:
         :return: pari du joueur
         """
+        #TODO 3 DIALOGUE PARIS
+        #update() dialogue + vérifier légitimité
         nbcartes = len(cartesjoueurs[0])
         if nbcartes != 1:
             print("Vos cartes sont:", self.cartes)
@@ -86,6 +86,9 @@ class JoueurHumain(Joueur):
                     print("Vous ne pouvez pas placer ce pari.")
                     bet = int(input(msg))
             return int(bet)
+            # TODO 2 UPDATE PARIS
+            #update(indice,choix)
+
         else:
             print('Les cartes que vous voyez sur le front des autres joueurs sont:',
                   [cartesjoueurs[k] for k in range(1, len(cartesjoueurs))])
@@ -95,12 +98,13 @@ class JoueurHumain(Joueur):
                 while bet + sum(parisprécédents) + 1 == nbcartes:
                     print("Vous ne pouvez pas placer ce pari.")
                     bet = input(msg)
+
             return int(bet)
+
 
     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
                      debut):
         """ Choix des cartes du joueur humain
-
         :param dejapresent: cartes déjà posées
         :param paris: paris placés par les joueurs
         :param pointsterrains: points sur le terrain
@@ -109,6 +113,8 @@ class JoueurHumain(Joueur):
         :type pointsterrains: list
         :return: la carte choisie par le joueur
         """
+        #TODO 3 choixcartes
+        #update() dialogue + jeu excuse -> dialogue
         n = len(self.cartes)
         if self.nbcartes != 1:
             # print(f"Cartes posées : {dejapresent}")
@@ -139,22 +145,23 @@ class JoueurHumain(Joueur):
             print(self.cartes[0])
             return self.cartes[0]
 
+        #TODO 4 UPDATE CARTES
+        #update (choix -> cartes terrains+cartejoueurconcerné)
+
 
 class JoueurBot(Joueur):
     """ Joueur machine calculant ses coups récursivement
-
        Attributs :
            - cartes : liste des cartes du bot
            - nbjoueurs : nombre de joueurs
            - nom : nom du bot
        """
 
-    def __init__(self, cartes, nbjoueurs, nom):
-        super().__init__(cartes, nbjoueurs, nom)
+    def __init__(self, cartes, nbjoueurs, nom,vies):
+        super().__init__(cartes, nbjoueurs, nom,vies)
 
     def pari2(self, parisprécédents, cartesautrejoueurs, indice):
         """ Pari du joueur bot
-
         :param parisprécédents: Paris déjà placés par les joueurs
         :param cartesautrejoueurs: Cartes des autres joueurs (jeu à une carte)
         :param indice: position du bot dans la manche
@@ -167,15 +174,15 @@ class JoueurBot(Joueur):
             c = copy.deepcopy(cartesautrejoueurs)
             c.remove(c[indice])
             P = bot.pari1Carte(parisprécédents, c)
-            return P
         else:
             P = bot.PariMCartes(parisprécédents, self.cartes)
-            return P
+        return(P)
+        # TODO 2 UPDATE PARIS
+        # update(choix,indice)
 
     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
                      debut):
         """Choix des cartes du joueur bot
-
         :param dejapresent: Cartes déjà posées
         :param paris: Paris placés par les joueurs
         :param pointsterrains: Points sur le terrain
@@ -204,3 +211,5 @@ class JoueurBot(Joueur):
         else:
             self.cartes.remove(choix)
         return choix
+        # TODO 4 UPDATE CARTES
+        # update (choix -> cartes terrains+cartejoueurconcerné)

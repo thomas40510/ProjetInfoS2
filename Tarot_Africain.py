@@ -11,9 +11,9 @@ import sys
 from Joueurs import *
 
 
+
 def maxi(L: list):
     """ Identifie l'indice de l'élément maximum d'une liste
-
     :param L: Liste de nombres
     :return: l'indice de l'élément maximal
     """
@@ -26,7 +26,6 @@ def maxi(L: list):
 
 def nonnull(nomJ, joueurmorts):
     """ Vérifie si le joueur n'est pas mort
-
     :param nomJ: Nom du joueur
     :param joueurmorts: liste des joueurs morts
     :return: True si le joueur n'est pas mort, False sinon
@@ -39,7 +38,6 @@ def nonnull(nomJ, joueurmorts):
 
 def compacartesposées(cartesposées):
     """ Compare les cartes posées pour savoir si le joueur a gagné
-
     :param cartesposées: liste des cartes posées
     :return: l'indice de la carte gagnante
     """
@@ -57,7 +55,6 @@ def compacartesposées(cartesposées):
 def verifremontée(perte):
     """ Permet de savoir si tous les joueurs, sauf un, ont perdu
     Si un joueur est le seul à ne pas perdre de points, celui-ci récupère un point
-
     :param perte: liste des pertes des joueurs
     :return: False si cela ne correspond pas à ce cas, et True ainsi que l'indice du joueur concerné sinon
     """
@@ -78,9 +75,8 @@ class Manche:
     Classe représentant une manche de Tarot Africain
     """
 
-    def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, aff):
+    def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, vies,aff):
         """ Initialisation de la manche
-
         :param Listejoueur: liste des joueurs, ainsi que les informations associées
         :param nombredecartes: nombre de cartes par joueur
         :param joueurdebut: joueur qui commence
@@ -105,18 +101,24 @@ class Manche:
         self.nbjoueurs = len(self.listejoueur)
         self.cartestour = []
         self.aff = aff
+        self.vies=vies
         for k in range(self.nbjoueurs):  # crée les joueurs
             if 'bot' in self.listejoueur[k]:
                 Listejoueur[k] = JoueurBot(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
-                                           Listejoueur[k])
+                                           Listejoueur[k],self.vies)
             else:
                 Listejoueur[k] = JoueurHumain(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
-                                              Listejoueur[k])
+                                              Listejoueur[k],self.vies)
             self.joueurs.append(Listejoueur[k])
         self.cartesjoueurs = []
         for joueur in self.joueurs:
             self.cartesjoueurs.append(joueur.cartes)  # récolte les cartes de tous les joueurs pour le jeu à 1 carte
         self.log = log
+        self.vies=vies
+
+        #TODO 1 UPDATE DEBUT MANCHE
+        #init(nombredecartes,cartesjoueurs,vies)
+        ui=Ui_MainWindow()
 
     def paris(self):
         """ Récolte les paris des joueurs dans l'ordre, en commançant par joueurdebut
@@ -163,6 +165,9 @@ class Manche:
             print('Le nombre de pli gagné est', Points)
             print('\n' * 3)
             debut = vainqueur  # le vainqueur du tour n-1 commence le tour n
+
+            #TODO 5 UPDATE POINTS
+            #update toursuivant
         Perte = [0 for k in range(self.nbjoueurs)]
         for k in range(self.nbjoueurs):
             Perte[k] += abs(Points[k] - paris[k])
@@ -173,7 +178,6 @@ class Manche:
 
     def afftour(self, cartesposées, debut):
         """ Formate les cartes posées pour l'affichage
-
         :param cartesposées: liste des cartes posées
         :param debut: joueur ayant débuté le tour
         :type cartesposées: list
@@ -208,7 +212,6 @@ class Tarot:
 
     def __init__(self, nomJoueurs, nbPoints=20, aff=True):
         """ Initialise la partie
-
         :param nomJoueurs: Noms des joueurs et leur type (humain,bot)
         :param nbPoints: Nombre de vies des joueurs
         :param aff: Affichage des messages au cours de la partie
@@ -229,7 +232,6 @@ class Tarot:
 
     def exe(self):
         """ Exécute une partie
-
         :return: vainqueur et mémoire de la partie
         """
         print("Vous êtes le joueur en première position")  # le joueur humain est toujours en première position
@@ -250,7 +252,7 @@ class Tarot:
                 self.numManche += 1
                 self.log[-1].append(copy.deepcopy(self.numManche))
                 self.log[-1].append(copy.deepcopy(self.nomJoueurs))
-                a = Manche(joueurvivant, nbcartes, joueurdebut, self.log, aff=self.aff)  # crée la manche correspondante
+                a = Manche(joueurvivant, nbcartes, joueurdebut, self.log, [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))],aff=self.aff)  # crée la manche correspondante
                 perte = a.jeu()  # joue la manche, récupère les pertes
                 remontée, indice = verifremontée(perte)
                 if remontée:
@@ -298,7 +300,6 @@ class Tarot:
 
     def affvainqueur(self):
         """ Identification du vainqueur pour affichage
-
         :return: vainqueur s'il existe, ou 'égalité' sinon
         """
         nbJoueurs = 0
@@ -321,7 +322,6 @@ class Tarot:
 class Log(list):
     """
     Classe permettant de créer un log de la partie.
-
     Permet d'analyser les données des parties en écrivant les méthodes correspondantes
     Quelques exemples triviaux sont proposés
     """
