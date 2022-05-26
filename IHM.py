@@ -167,8 +167,10 @@ class Ui_dialogPari(object):
         dialogPari.setWindowTitle(_translate("dialogPari", "Votre pari"))
         self.b2Vies.setText(_translate("dialogPari", "Votre pari"))
 
+
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()

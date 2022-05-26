@@ -11,7 +11,6 @@ import sys
 from Joueurs import *
 
 
-
 def maxi(L: list):
     """ Identifie l'indice de l'élément maximum d'une liste
     :param L: Liste de nombres
@@ -75,7 +74,7 @@ class Manche:
     Classe représentant une manche de Tarot Africain
     """
 
-    def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, vies,aff):
+    def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, vies, aff):
         """ Initialisation de la manche
         :param Listejoueur: liste des joueurs, ainsi que les informations associées
         :param nombredecartes: nombre de cartes par joueur
@@ -101,24 +100,23 @@ class Manche:
         self.nbjoueurs = len(self.listejoueur)
         self.cartestour = []
         self.aff = aff
-        self.vies=vies
+        self.vies = vies
         for k in range(self.nbjoueurs):  # crée les joueurs
             if 'bot' in self.listejoueur[k]:
                 Listejoueur[k] = JoueurBot(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
-                                           Listejoueur[k],self.vies)
+                                           Listejoueur[k], self.vies)
             else:
                 Listejoueur[k] = JoueurHumain(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
-                                              Listejoueur[k],self.vies)
+                                              Listejoueur[k], self.vies)
             self.joueurs.append(Listejoueur[k])
         self.cartesjoueurs = []
         for joueur in self.joueurs:
             self.cartesjoueurs.append(joueur.cartes)  # récolte les cartes de tous les joueurs pour le jeu à 1 carte
         self.log = log
-        self.vies=vies
+        self.vies = vies
 
-        #TODO 1 UPDATE DEBUT MANCHE
-        #init(nombredecartes,cartesjoueurs,vies)
-        ui=Ui_MainWindow()
+        # TODO 1 UPDATE DEBUT MANCHE
+        # init(nombredecartes,cartesjoueurs,vies)
 
     def paris(self):
         """ Récolte les paris des joueurs dans l'ordre, en commançant par joueurdebut
@@ -166,8 +164,8 @@ class Manche:
             print('\n' * 3)
             debut = vainqueur  # le vainqueur du tour n-1 commence le tour n
 
-            #TODO 5 UPDATE POINTS
-            #update toursuivant
+            # TODO 5 UPDATE POINTS
+            # update toursuivant
         Perte = [0 for k in range(self.nbjoueurs)]
         for k in range(self.nbjoueurs):
             Perte[k] += abs(Points[k] - paris[k])
@@ -228,6 +226,7 @@ class Tarot:
         self.nbjoueurs = len(nomJoueurs)
         self.aff = aff
         self.log = Log()
+        self.vies = None
         self.numManche = 0
 
     def exe(self):
@@ -252,7 +251,10 @@ class Tarot:
                 self.numManche += 1
                 self.log[-1].append(copy.deepcopy(self.numManche))
                 self.log[-1].append(copy.deepcopy(self.nomJoueurs))
-                a = Manche(joueurvivant, nbcartes, joueurdebut, self.log, [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))],aff=self.aff)  # crée la manche correspondante
+                a = Manche(joueurvivant, nbcartes, joueurdebut, self.log,
+                           [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))],
+                           aff=self.aff)  # crée la manche correspondante
+                self.vies = a.vies
                 perte = a.jeu()  # joue la manche, récupère les pertes
                 remontée, indice = verifremontée(perte)
                 if remontée:
