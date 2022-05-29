@@ -55,6 +55,7 @@ class JoueurHumain(Joueur):
         :param nom: nom du joueur
         """
         super().__init__(cartes, nbjoueurs, nom, vies)
+        self.prefix = "p"
 
     def pari2(self, parisprécédents, cartesjoueurs, indice=None):
         """ Pari du joueur humain
@@ -158,6 +159,7 @@ class JoueurBot(Joueur):
 
     def __init__(self, cartes, nbjoueurs, nom, vies):
         super().__init__(cartes, nbjoueurs, nom, vies)
+        self.prefix = f"b{nom[-1]}"
 
     def pari2(self, parisprécédents, cartesautrejoueurs, indice):
         """ Pari du joueur bot
