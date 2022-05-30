@@ -159,7 +159,7 @@ class JoueurBot(Joueur):
 
     def __init__(self, cartes, nbjoueurs, nom, vies):
         super().__init__(cartes, nbjoueurs, nom, vies)
-        self.prefix = f"b{nom[-1]}"
+        self.prefix = f"b{nom[0][-1]}"
 
     def pari2(self, parisprécédents, cartesautrejoueurs, indice):
         """ Pari du joueur bot

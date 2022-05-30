@@ -4,26 +4,9 @@
 # Created Date: 2022-04-02
 # version = '1.0'
 # ---------------------------------------------------------------------------
-import threading
-import time
-import os
-import sys
 
-from PyQt5.QtCore import pyqtSignal, QObject
-
+import pygame
 from Joueurs import *
-from Jeu import *
-
-from IHM import *
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QProgressBar,
-    QPushButton,
-    QVBoxLayout,
-    QWidget,
-)
 
 
 def maxi(L: list):
@@ -84,55 +67,11 @@ def verifremontée(perte):
         return False, -1
 
 
-class Worker(QObject):
-    finished = pyqtSignal()
-    progress = pyqtSignal(int)
-
-    def __init__(self, joueurs, ui, vies, parent=None):
-        super(Worker, self).__init__(parent)
-        self.joueurs = joueurs
-        self.ui = ui
-        self.vies = vies
-
-    def run(self):
-        i = 0
-        for joueur in self.joueurs:
-            element = eval(f"self.ui.ui.{joueur.prefix}Vies")
-            element.setText(str(self.vies[i]))
-            element.repaint()
-            QApplication.processEvents()
-            i += 1
-            self.progress.emit(i)
-        self.finished.emit()
-
-
-# class UpdateGUI(QtCore.QThread):
-#     progress = pyqtSignal(int)
-#     gui_update = pyqtSignal()
-#     finish = pyqtSignal(bool)
-#     ex = pyqtSignal()
-#
-#     def __init__(self):
-#         super().__init__()
-#
-#     def beginManche(self, vies, ui):
-#         k = 0
-#         for element in (ui.pVies, ui.b1Vies, ui.b2Vies, ui.b3Vies):
-#             element.setText(str(vies[k]))
-#             QApplication.processEvents()
-#             self.progress.emit(str(vies[k]))
-#             self.gui_update.emit()
-#             print('OK')
-#             print(element.text())
-#             time.sleep(.05)
-#         self.finish.emit(True)
-#         self.ex.emit()
-
-
 class Manche:
     """
     Classe représentant une manche de Tarot Africain
     """
+
     def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, vies):
         """ Initialisation de la manche
         :param Listejoueur: liste des joueurs, ainsi que les informations associées
@@ -158,7 +97,6 @@ class Manche:
         self.joueurdebut = joueurdebut
         self.nbjoueurs = len(self.listejoueur)
         self.cartestour = []
-        self.ui = game_ui
         self.vies = vies
         for k in range(self.nbjoueurs):  # crée les joueurs
             if 'bot' in self.listejoueur[k]:
@@ -175,54 +113,6 @@ class Manche:
         self.vies = vies
 
         # TODO 1 UPDATE DEBUT MANCHE
-        i = 0
-        for joueur in self.joueurs:
-            element = eval(f"self.ui.ui.{joueur.prefix}Vies")
-            element.setText(str(self.vies[i]))
-            element.repaint()
-            QApplication.processEvents()
-            i += 1
-
-        for carte in self.joueurs[0].cartes:
-            img = QtGui.QPixmap(f"img/{carte}.png")
-            element = eval(f"self.ui.ui.pCard{i}")
-            element.setPixmap(img)
-            element.mousePressEvent = self.choix_carte
-            QApplication.processEvents()
-        # self.beginManche()
-
-        for bot in self.joueurs[1:]:
-            img = QtGui.QPixmap(f"img/main{self.nombredecartes}.png")
-            element = eval(f"self.ui.ui.{bot.prefix}Deck")
-            element.setPixmap(img)
-            QApplication.processEvents()
-
-    def choix_carte(self):
-        """
-        Fonction qui permet de choisir une carte
-        :return:
-        """
-        carte_choisie = self.sender()
-        self.carte_choisie.setStyleSheet("border: 2px solid red")
-        self.carte_choisie.repaint()
-        QApplication.processEvents()
-        return carte_choisie
-
-    def beginManche(self):
-        self.thrd = QtCore.QThread()
-        self.worker = Worker(self.joueurs, self.ui, self.vies)
-        self.worker.moveToThread(self.thrd)
-        self.thrd.started.connect(self.worker.run)
-        self.worker.finished.connect(self.thrd.quit)
-        self.worker.finished.connect(self.worker.deleteLater)
-        self.thrd.start()
-
-        # i = 0
-        # for joueur in self.joueurs:
-        #     element = eval(f"self.ui.ui.{joueur.prefix}Vies")
-        #     element.setText(str(self.vies[i]))
-        #     QtCore.QCoreApplication.processEvents()
-        #     i += 1
 
     def paris(self):
         """ Récolte les paris des joueurs dans l'ordre, en commançant par joueurdebut
@@ -232,9 +122,9 @@ class Manche:
 
         paris = [-1 for k in range(self.nbjoueurs)]  # -1 = pas encore parié
         for k in range(self.nbjoueurs):
-                paris[(k + self.joueurdebut) % self.nbjoueurs] = self.joueurs[
-                    (k + self.joueurdebut) % self.nbjoueurs].pari2(paris, self.cartesjoueurs,
-                                                                   (k + self.joueurdebut) % self.nbjoueurs)
+            paris[(k + self.joueurdebut) % self.nbjoueurs] = self.joueurs[
+                (k + self.joueurdebut) % self.nbjoueurs].pari2(paris, self.cartesjoueurs,
+                                                               (k + self.joueurdebut) % self.nbjoueurs)
         self.log[-1].append(paris)
         return paris
 
@@ -320,14 +210,9 @@ class Tarot:
         """
         print('begin')
         self.ui = game_ui
-        # pname = 'roger'
-        pname, ok = QInputDialog.getText(self.ui, 'nom', "Entrez votre nom :")
-        if ok:
-            nomJoueurs = [[str(pname), 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']]
-            QInputDialog.close(self.ui)
-        else:
-            print('closed')
-            QInputDialog.close(self.ui)
+        pname = 'roger'
+        # TODO : nom du joueur
+        nomJoueurs = [[str(pname), 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']]
 
         print(nomJoueurs)
         self.nomJoueurs = [[nomJoueurs[k], 'vivant', nbPoints, False] for k in range(len(nomJoueurs))]
@@ -450,36 +335,57 @@ class Log(list):
 
 
 if __name__ == "__main__":
+    # https://medium.com/nerd-for-tech/creating-blackjack-game-with-python-80a3b87b1995
+
+    # Margins
+    MARGIN_LEFT = 230
+    MARGIN_TOP = 150
+
+    # WINDOW SIZE
+    WIDTH = 800
+    HEIGHT = 600
+
+    # COLORS
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
+    GRAY = (110, 110, 110)
+    GREEN = (0, 255, 0)
+    LIGHT_GREEN = (0, 120, 0)
+    RED = (255, 0, 0)
+    LIGHT_RED = (120, 0, 0)
+
+    # Initializing PyGame
+    pygame.init()
+
+    # Setting up the screen and background
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen.fill(GRAY)
+
+    # Setting up caption
+    pygame.display.set_caption("Tarot Africain")
+
+    # Loading image for the icon
+    # icon = pygame.image.load('icon.jpeg')
+
+    # Setting the game icon
+    # pygame.display.set_icon(icon)
+
+    # Types of fonts to be used
+    small_font = pygame.font.Font(None, 32)
+    large_font = pygame.font.Font(None, 50)
+
     play = True
+
     while play:
-        app = QtWidgets.QApplication(sys.argv)
-        game_ui = Jeu_Tarot()
-        game_ui.show()
+        mouse = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                play = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # handle mouse clicks here
+                pass
+
 
         t = Tarot(nbPoints=10)
         t.exe()
-
-    sys.exit(app.exec_())
-
-    # print('------------------------------------------------')
-    # print('|   Bienvenue sur le jeu du Tarot Africain !   |')
-    # print("------------------------------------------------\n")
-    #
-    # name = input("Comment vous appelez-vous ?\n >> ")
-    # for i in range(10):
-    #     time.sleep(0.5)
-    #     sys.stdout.write("\r" + f"Bonjour, {name} ! Je démarre la partie" + (i % 4) * '.' + (16 - (i % 4)) * ' ')
-    #     sys.stdout.flush()
-    # os.system('cls' if os.name == 'nt' else 'clear')
-    # play = True
-    # while play:
-    #     t = Tarot([[name, 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=10,
-    #               aff=False)
-    #     t.exe()
-    #     i = ""
-    #     while i not in ['o', 'n']:
-    #         i = input("Souhaitez-vous rejouer ? (o/n)\n >> ")
-    #     play = i == 'o'
-    #     os.system('cls' if os.name == 'nt' else 'clear')
-    # print(f"Merci d'avoir joué, à bientôt {name} !")
-    # input("Appuyez sur une touche pour quitter...")
