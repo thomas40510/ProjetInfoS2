@@ -1,5 +1,10 @@
+import sys
+
 import pygame
 import time
+from tkinter import *
+from tkinter import messagebox
+from tkinter import simpledialog
 
 # Margins
 MARGIN_LEFT = 230
@@ -12,6 +17,26 @@ GREEN = (0, 255, 0)
 LIGHT_GREEN = (0, 120, 0)
 RED = (255, 0, 0)
 LIGHT_RED = (120, 0, 0)
+
+
+def prompt_name():
+    win = Tk()
+    win.geometry('800x600')
+    win.tk.eval(f'tk::PlaceWindow {win._w} center')
+    win.wm_withdraw()
+    win.update_idletasks()
+    name = simpledialog.askstring("Bienvenue !", "Entrez votre nom:", parent=win)
+
+    return name
+
+
+def stats(perte_vies):
+    win = Tk()
+    win.geometry('800x600')
+    win.tk.eval(f'tk::PlaceWindow {win._w} center')
+    win.wm_withdraw()
+    win.update_idletasks()
+    messagebox.showinfo(f"Fin de la manche", f"La manche est terminée. Vous avez perdu {perte_vies} vies.")
 
 
 def init_game_ui():
