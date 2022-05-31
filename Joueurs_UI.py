@@ -18,7 +18,7 @@ class Joueur(metaclass=abc.ABCMeta):
     Classe générique définissant un joueur
     """
 
-    def __init__(self, cartes, nbjoueurs, nom,vies):
+    def __init__(self, cartes, nbjoueurs, nom, vies):
         """ Joueur générique de tarot africain. Il joue aléatoirement.
         :param cartes: cartes du joueur
         :param nbjoueurs: nombre de joueurs
@@ -29,7 +29,7 @@ class Joueur(metaclass=abc.ABCMeta):
         self.nbjoueurs = nbjoueurs
         self.nom = nom[0]
         self.nbcartes = len(self.cartes)
-        self.vies=vies
+        self.vies = vies
 
     @abc.abstractmethod
     def pari2(self, parisprécédents, cartesjoueurs, indice):
@@ -49,13 +49,13 @@ class JoueurHumain(Joueur):
             - nom: nom du joueur
         """
 
-    def __init__(self, cartes, nbjoueurs, nom,vies):
+    def __init__(self, cartes, nbjoueurs, nom, vies):
         """ Joueur humain
         :param cartes: Cartes du joueur
         :param nbjoueurs: nombre de joueurs
         :param nom: nom du joueur
         """
-        super().__init__(cartes, nbjoueurs, nom,vies)
+        super().__init__(cartes, nbjoueurs, nom, vies)
 
     def pari2(self, parisprécédents, cartesjoueurs, indice=None):
         """ Pari du joueur humain
@@ -66,16 +66,14 @@ class JoueurHumain(Joueur):
 
         nbcartes = len(cartesjoueurs[0])
         if nbcartes != 1:
-            bet=-1
-            while bet==-1:
-                bet=pari(cartesjoueurs,parisprécédents,self.vies)
+            bet = -1
+            while bet == -1:
+                bet = pari(cartesjoueurs, parisprécédents, self.vies)
 
                 if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
                     if bet + sum(parisprécédents) + 1 == nbcartes or bet < 0 or bet > len(cartesjoueurs[0]):
-                        bet=-1
+                        bet = -1
             return int(bet)
-
-
         else:
             bet = -1
             while bet == -1:
@@ -87,7 +85,6 @@ class JoueurHumain(Joueur):
                         bet = -1
 
             return int(bet)
-
 
     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
                      debut):
@@ -103,18 +100,16 @@ class JoueurHumain(Joueur):
 
         if self.nbcartes != 1:
 
-            selection=terrain([self.cartes],dejapresent,paris,pointsterrains,self.vies)
+            selection = terrain([self.cartes], dejapresent, paris, pointsterrains, self.vies)
 
             if selection == 22:
                 choix = minmax()
                 print(self.cartes)
                 self.cartes.remove("atout")
                 return ['atout', choix]
-
             else:
                 self.cartes.remove(int(selection))
                 return int(selection)
-
         else:
             if self.cartes[0] == "atout":
                 choix = minmax()
@@ -122,8 +117,6 @@ class JoueurHumain(Joueur):
                 self.cartes.remove("atout")
                 return ['atout', choix]
             return self.cartes[0]
-
-
 
 
 class JoueurBot(Joueur):
@@ -134,8 +127,8 @@ class JoueurBot(Joueur):
            - nom : nom du bot
        """
 
-    def __init__(self, cartes, nbjoueurs, nom,vies):
-        super().__init__(cartes, nbjoueurs, nom,vies)
+    def __init__(self, cartes, nbjoueurs, nom, vies):
+        super().__init__(cartes, nbjoueurs, nom, vies)
 
     def pari2(self, parisprécédents, cartesautrejoueurs, indice):
         """ Pari du joueur bot
@@ -153,8 +146,7 @@ class JoueurBot(Joueur):
             P = bot.pari1Carte(parisprécédents, c)
         else:
             P = bot.PariMCartes(parisprécédents, self.cartes)
-        return(P)
-
+        return (P)
 
     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
                      debut):
