@@ -1,179 +1,116 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+import pygame
+import time
+# Margins
+MARGIN_LEFT = 230
+MARGIN_TOP = 150
+# COLORS
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GRAY = (110, 110, 110)
+GREEN = (0, 255, 0)
+LIGHT_GREEN = (0, 120, 0)
+RED = (255, 0, 0)
+LIGHT_RED = (120, 0, 0)
+
+def init_game_ui():
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 650)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(230, 460, 371, 101))
-        self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
-        self.playerCards = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
-        self.playerCards.setContentsMargins(0, 0, 0, 0)
-        self.playerCards.setObjectName("playerCards")
-        self.pCard1 = QtWidgets.QLabel(self.horizontalLayoutWidget)
-        self.pCard1.setMinimumSize(QtCore.QSize(66, 99))
-        self.pCard1.setObjectName("pCard1")
-        self.playerCards.addWidget(self.pCard1)
-        self.pCard2 = QtWidgets.QLabel(self.horizontalLayoutWidget)
-        self.pCard2.setMinimumSize(QtCore.QSize(66, 99))
-        self.pCard2.setObjectName("pCard2")
-        self.playerCards.addWidget(self.pCard2)
-        self.pCard3 = QtWidgets.QLabel(self.horizontalLayoutWidget)
-        self.pCard3.setMinimumSize(QtCore.QSize(66, 99))
-        self.pCard3.setObjectName("pCard3")
-        self.playerCards.addWidget(self.pCard3)
-        self.pCard4 = QtWidgets.QLabel(self.horizontalLayoutWidget)
-        self.pCard4.setMinimumSize(QtCore.QSize(66, 99))
-        self.pCard4.setObjectName("pCard4")
-        self.playerCards.addWidget(self.pCard4)
-        self.pCard5 = QtWidgets.QLabel(self.horizontalLayoutWidget)
-        self.pCard5.setMinimumSize(QtCore.QSize(65, 99))
-        self.pCard5.setObjectName("pCard5")
-        self.playerCards.addWidget(self.pCard5)
-        self.pCardOut = QtWidgets.QLabel(self.centralwidget)
-        self.pCardOut.setGeometry(QtCore.QRect(380, 310, 65, 99))
-        self.pCardOut.setMinimumSize(QtCore.QSize(65, 99))
-        self.pCardOut.setMaximumSize(QtCore.QSize(65, 99))
-        self.pCardOut.setObjectName("pCardOut")
-        self.b1CardOut = QtWidgets.QLabel(self.centralwidget)
-        self.b1CardOut.setGeometry(QtCore.QRect(290, 250, 65, 99))
-        self.b1CardOut.setMinimumSize(QtCore.QSize(65, 99))
-        self.b1CardOut.setMaximumSize(QtCore.QSize(65, 99))
-        self.b1CardOut.setObjectName("b1CardOut")
-        self.b2CardOut = QtWidgets.QLabel(self.centralwidget)
-        self.b2CardOut.setGeometry(QtCore.QRect(380, 180, 65, 99))
-        self.b2CardOut.setMinimumSize(QtCore.QSize(65, 99))
-        self.b2CardOut.setMaximumSize(QtCore.QSize(65, 99))
-        self.b2CardOut.setObjectName("b2CardOut")
-        self.b3CardOut = QtWidgets.QLabel(self.centralwidget)
-        self.b3CardOut.setGeometry(QtCore.QRect(470, 250, 65, 99))
-        self.b3CardOut.setMinimumSize(QtCore.QSize(65, 99))
-        self.b3CardOut.setMaximumSize(QtCore.QSize(65, 99))
-        self.b3CardOut.setObjectName("b3CardOut")
-        self.b1Deck = QtWidgets.QLabel(self.centralwidget)
-        self.b1Deck.setGeometry(QtCore.QRect(60, 220, 121, 151))
-        self.b1Deck.setMinimumSize(QtCore.QSize(121, 151))
-        self.b1Deck.setMaximumSize(QtCore.QSize(121, 151))
-        self.b1Deck.setObjectName("b1Deck")
-        self.b2Deck = QtWidgets.QLabel(self.centralwidget)
-        self.b2Deck.setGeometry(QtCore.QRect(330, 30, 161, 101))
-        self.b2Deck.setMinimumSize(QtCore.QSize(161, 101))
-        self.b2Deck.setMaximumSize(QtCore.QSize(161, 101))
-        self.b2Deck.setObjectName("b2Deck")
-        self.b3Deck = QtWidgets.QLabel(self.centralwidget)
-        self.b3Deck.setGeometry(QtCore.QRect(620, 220, 121, 151))
-        self.b3Deck.setMinimumSize(QtCore.QSize(121, 151))
-        self.b3Deck.setMaximumSize(QtCore.QSize(121, 151))
-        self.b3Deck.setObjectName("b3Deck")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(90, 200, 60, 16))
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.pVies = QtWidgets.QLabel(self.centralwidget)
-        self.pVies.setGeometry(QtCore.QRect(120, 480, 60, 16))
-        self.pVies.setAlignment(QtCore.Qt.AlignCenter)
-        self.pVies.setObjectName("pVies")
-        self.pBet = QtWidgets.QLabel(self.centralwidget)
-        self.pBet.setGeometry(QtCore.QRect(380, 410, 60, 16))
-        self.pBet.setAlignment(QtCore.Qt.AlignCenter)
-        self.pBet.setObjectName("pBet")
-        self.b1Bet = QtWidgets.QLabel(self.centralwidget)
-        self.b1Bet.setGeometry(QtCore.QRect(210, 290, 60, 16))
-        self.b1Bet.setAlignment(QtCore.Qt.AlignCenter)
-        self.b1Bet.setObjectName("b1Bet")
-        self.b2Bet = QtWidgets.QLabel(self.centralwidget)
-        self.b2Bet.setGeometry(QtCore.QRect(380, 160, 60, 16))
-        self.b2Bet.setAlignment(QtCore.Qt.AlignCenter)
-        self.b2Bet.setObjectName("b2Bet")
-        self.b3Bet = QtWidgets.QLabel(self.centralwidget)
-        self.b3Bet.setGeometry(QtCore.QRect(530, 300, 60, 16))
-        self.b3Bet.setAlignment(QtCore.Qt.AlignCenter)
-        self.b3Bet.setObjectName("b3Bet")
-        self.b1Vies = QtWidgets.QLabel(self.centralwidget)
-        self.b1Vies.setGeometry(QtCore.QRect(90, 370, 60, 16))
-        self.b1Vies.setAlignment(QtCore.Qt.AlignCenter)
-        self.b1Vies.setObjectName("b1Vies")
-        self.label_8 = QtWidgets.QLabel(self.centralwidget)
-        self.label_8.setGeometry(QtCore.QRect(380, 10, 60, 16))
-        self.label_8.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_8.setObjectName("label_8")
-        self.b2Vies = QtWidgets.QLabel(self.centralwidget)
-        self.b2Vies.setGeometry(QtCore.QRect(490, 30, 60, 16))
-        self.b2Vies.setAlignment(QtCore.Qt.AlignCenter)
-        self.b2Vies.setObjectName("b2Vies")
-        self.label_10 = QtWidgets.QLabel(self.centralwidget)
-        self.label_10.setGeometry(QtCore.QRect(650, 200, 60, 16))
-        self.label_10.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_10.setObjectName("label_10")
-        self.b3Vies = QtWidgets.QLabel(self.centralwidget)
-        self.b3Vies.setGeometry(QtCore.QRect(650, 370, 60, 16))
-        self.b3Vies.setAlignment(QtCore.Qt.AlignCenter)
-        self.b3Vies.setObjectName("b3Vies")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 24))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Tarot Africain"))
-        self.label.setText(_translate("MainWindow", "Bot1"))
-        self.pVies.setText(_translate("MainWindow", "Vies"))
-        self.pBet.setText(_translate("MainWindow", "5/0"))
-        self.b1Bet.setText(_translate("MainWindow", "Pari"))
-        self.b2Bet.setText(_translate("MainWindow", "Pari"))
-        self.b3Bet.setText(_translate("MainWindow", "Pari"))
-        self.b1Vies.setText(_translate("MainWindow", "Vies"))
-        self.label_8.setText(_translate("MainWindow", "Bot2"))
-        self.b2Vies.setText(_translate("MainWindow", "Vies"))
-        self.label_10.setText(_translate("MainWindow", "Bot3"))
-        self.b3Vies.setText(_translate("MainWindow", "Vies"))
+    # WINDOW SIZE
+    WIDTH = 800
+    HEIGHT = 600
 
 
-class Ui_dialogPari(object):
-    def setupUi(self, dialogPari):
-        dialogPari.setObjectName("dialogPari")
-        dialogPari.resize(400, 110)
-        self.buttonBox = QtWidgets.QDialogButtonBox(dialogPari)
-        self.buttonBox.setGeometry(QtCore.QRect(290, 20, 81, 241))
-        self.buttonBox.setOrientation(QtCore.Qt.Vertical)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.spinPari = QtWidgets.QSpinBox(dialogPari)
-        self.spinPari.setGeometry(QtCore.QRect(180, 40, 48, 24))
-        self.spinPari.setObjectName("spinPari")
-        self.b2Vies = QtWidgets.QLabel(dialogPari)
-        self.b2Vies.setGeometry(QtCore.QRect(170, 10, 60, 16))
-        self.b2Vies.setAlignment(QtCore.Qt.AlignCenter)
-        self.b2Vies.setObjectName("b2Vies")
+    # Initializing PyGame
+    pygame.init()
 
-        self.retranslateUi(dialogPari)
-        self.buttonBox.accepted.connect(dialogPari.accept)
-        self.buttonBox.rejected.connect(dialogPari.reject)
-        QtCore.QMetaObject.connectSlotsByName(dialogPari)
+    # Setting up the screen and background
+    global screen
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen.fill(GRAY)
 
-    def retranslateUi(self, dialogPari):
-        _translate = QtCore.QCoreApplication.translate
-        dialogPari.setWindowTitle(_translate("dialogPari", "Votre pari"))
-        self.b2Vies.setText(_translate("dialogPari", "Votre pari"))
+    # Setting up caption
+    pygame.display.set_caption("Tarot Africain")
+
+    # Loading image for the icon
+    icon = pygame.image.load('22.jpeg')
+
+    # Setting the game icon
+    pygame.display.set_icon(icon)
+
+    # Types of fonts to be used
+    small_font = pygame.font.Font(None, 32)
+    large_font = pygame.font.Font(None, 50)
+
+def terrain(L,dejapresent):
+    L0=L[0]
+    n=len(L0)
+    Im=[str(k) for k in range(0,22)]
+    for k in range(0,22):
+        Im[k] = pygame.image.load(Im[k] + '.jpeg')
+        Im[k] = pygame.transform.scale(Im[k], (50, 80))
+    while True:
+        screen.fill(GRAY)
+        for k in range(n):
+            screen.blit(Im[L0[k]], (400-(50/2*n)+50*k, 450))
+        for k in range(len(dejapresent)):
+            screen.blit(Im[dejapresent[k]], (400 - (50 / 2 * len(dejapresent)) + 50 * k, 350))
+        pygame.display.update()
+        over=False
+        mouse = pygame.mouse.get_pos()
+
+        # Loop events occuring inside the game window
+        for event in pygame.event.get():
+
+            # Qutting event
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            # Left-mouse clicked event
+            if not over and event.type == pygame.MOUSEBUTTONDOWN:
+
+                for k in range(n):
+                    if 400-(50/2*n)+50*k<mouse[0]<400-(50/2*n)+50*k+50 and 450<mouse[1]<530:
+                        return(L0[k])
+
+
+def pari(L):
+    L0=L[0]
+    for k in range(len(L0)):
+        if type(L0[k])!=type(0):
+            L0[k]=0
+    n=len(L0)
+    Im=[str(k) for k in range(0,22)]
+    large_font = pygame.font.Font(None, 50)
+    for k in range(0,22):
+        Im[k] = pygame.image.load(Im[k] + '.jpeg')
+        Im[k] = pygame.transform.scale(Im[k], (50, 80))
+    while True:
+        screen.fill(GRAY)
+        for k in range(n):
+            screen.blit(Im[L0[k]], (400-(50/2*n)+50*k, 450))
+
+        button=[None for k in range(len(L[0])+1)]
+        button_rect=[None for k in range(len(L[0])+1)]
+        for k in range(len(button)):
+            button[k]=large_font.render(str(k), True, WHITE)
+            button_rect[k]=button[k].get_rect()
+            button_rect[k].center=(400-(50/2*n)+50*k, 415)
+            screen.blit(button[k],button_rect[k])
+
+        mouse = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+
+                for k in range(n+1):
+                    if 400-(50/2*n)+50*k-25<mouse[0]<400-(50/2*n)+50*k+50-25 and 375<mouse[1]<450:
+                        return(k)
+
+        pygame.display.update()
+
 
 
 if __name__ == "__main__":
-    import sys
 
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    init_game_ui()
+    terrain([[17,21,14]])
