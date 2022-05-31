@@ -166,8 +166,7 @@ class Manche:
             print('\n' * 3)
             debut = vainqueur  # le vainqueur du tour n-1 commence le tour n
 
-            #TODO 5 UPDATE POINTS
-            #update toursuivant
+
         Perte = [0 for k in range(self.nbjoueurs)]
         for k in range(self.nbjoueurs):
             Perte[k] += abs(Points[k] - paris[k])

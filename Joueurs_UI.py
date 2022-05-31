@@ -63,30 +63,28 @@ class JoueurHumain(Joueur):
         :param cartesjoueurs:
         :return: pari du joueur
         """
-        #TODO 3 DIALOGUE PARIS
-        #update() dialogue + vérifier légitimité
+
         nbcartes = len(cartesjoueurs[0])
         if nbcartes != 1:
+            bet=-1
+            while bet==-1:
+                bet=pari(cartesjoueurs,parisprécédents,self.vies)
 
-            bet=pari(cartesjoueurs)
-
-            if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
-                while bet + sum(parisprécédents) + 1 == nbcartes or bet < 0 or bet > len(cartesjoueurs[0]):
-                    print("Vous ne pouvez pas placer ce pari.")
-                    bet = int(input(msg))
+                if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
+                    if bet + sum(parisprécédents) + 1 == nbcartes or bet < 0 or bet > len(cartesjoueurs[0]):
+                        bet=-1
             return int(bet)
-            # TODO 2 UPDATE PARIS
-            #update(indice,choix)
+
 
         else:
-            print('Les cartes que vous voyez sur le front des autres joueurs sont:',
-                  [cartesjoueurs[k] for k in range(1, len(cartesjoueurs))])
-            msg = f"Votre pari (0 à {len(cartesjoueurs[0])}) ? >> "
-            bet = int(input(msg))
-            if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
-                while bet + sum(parisprécédents) + 1 == nbcartes:
-                    print("Vous ne pouvez pas placer ce pari.")
-                    bet = input(msg)
+            bet = -1
+            while bet == -1:
+                print(cartesjoueurs)
+                bet = pari1carte(cartesjoueurs, parisprécédents, self.vies)
+
+                if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
+                    while bet + sum(parisprécédents) + 1 == nbcartes or bet < 0 or bet > len(cartesjoueurs[0]):
+                        bet = -1
 
             return int(bet)
 
@@ -102,41 +100,30 @@ class JoueurHumain(Joueur):
         :type pointsterrains: list
         :return: la carte choisie par le joueur
         """
-        #TODO 3 choixcartes
-        #update() dialogue + jeu excuse -> dialogue
-        n = len(self.cartes)
+
         if self.nbcartes != 1:
 
-            selection=terrain([self.cartes],dejapresent)
+            selection=terrain([self.cartes],dejapresent,paris,pointsterrains,self.vies)
 
-            if selection == 'atout':
-                choix = ''
-                while choix not in ['mini', 'maxi']:
-                    choix = input("Vous posez l'excuse. Quelle est sa valeur ? (mini ou maxi) >> ")
-                self.cartes.remove(selection)
+            if selection == 22:
+                choix = minmax()
+                print(self.cartes)
+                self.cartes.remove("atout")
                 return ['atout', choix]
 
-            if int(selection) in self.cartes or selection == 'atout' and 'atout' in self.cartes:
-
+            else:
                 self.cartes.remove(int(selection))
                 return int(selection)
-            else:
-                print("Vous ne pouvez pas jouer cette carte.")
-                return self.choixcartes2(dejapresent, paris, pointsterrains, cartesautresjoueurs, indice,
-                                         nombredecartes, pari,
-                                         debut)
+
         else:
-            if self.cartes[0] == 'atout':
-                choix = ''
-                while choix not in ['mini', 'maxi']:
-                    choix = input("Vous posez l'excuse. Quelle est sa valeur ? (mini ou maxi) >> ")
-                self.cartes.remove('atout')
+            if self.cartes[0] == "atout":
+                choix = minmax()
+                print(self.cartes)
+                self.cartes.remove("atout")
                 return ['atout', choix]
-            print(self.cartes[0])
             return self.cartes[0]
 
-        #TODO 4 UPDATE CARTES
-        #update (choix -> cartes terrains+cartejoueurconcerné)
+
 
 
 class JoueurBot(Joueur):
@@ -167,8 +154,7 @@ class JoueurBot(Joueur):
         else:
             P = bot.PariMCartes(parisprécédents, self.cartes)
         return(P)
-        # TODO 2 UPDATE PARIS
-        # update(choix,indice)
+
 
     def choixcartes2(self, dejapresent, paris, pointsterrains, cartesautresjoueurs, indice, nombredecartes, pari,
                      debut):
@@ -201,5 +187,3 @@ class JoueurBot(Joueur):
         else:
             self.cartes.remove(choix)
         return choix
-        # TODO 4 UPDATE CARTES
-        # update (choix -> cartes terrains+cartejoueurconcerné)
