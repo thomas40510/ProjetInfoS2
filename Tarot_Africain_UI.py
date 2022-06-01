@@ -261,6 +261,7 @@ class Tarot:
                 remontée, indice = verifremontée(perte)
                 if remontée:
                     perte[indice] = -1
+                info_fin_manche(perte[0])
                 print('Les pertes sont:', perte)
                 print('\n' * 2)
                 ind = 0
@@ -276,6 +277,7 @@ class Tarot:
                             nbJoueurs += 1
                     if nbJoueurs <= 1:  # un seul joueur en vie -> fin du jeu
                         a = self.affvainqueur()
+
                         print("Le vainqueur est ", a[0])
                         return a
                     else:
@@ -352,7 +354,10 @@ if __name__ == "__main__":
 
     os.system('cls' if os.name == 'nt' else 'clear')
     play = True
-    name = IHM.prompt_name()
+    regles_ok = False
+    while not regles_ok:
+        regles_ok = prompt_welcome()
+    name = prompt_name()
     while play:
         t = Tarot([["q", 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=10,
                   aff=False)

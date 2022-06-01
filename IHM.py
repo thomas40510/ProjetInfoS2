@@ -6,6 +6,8 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import simpledialog
 
+from tkinterweb import HtmlFrame
+
 # Margins
 MARGIN_LEFT = 230
 MARGIN_TOP = 150
@@ -19,7 +21,31 @@ RED = (255, 0, 0)
 LIGHT_RED = (120, 0, 0)
 
 
+def prompt_welcome():
+    """ Message de bienvenue. Propose de lire les règles du jeu.
+
+    :return: False si l'utilisateur souhaite commencer la partie.
+    """
+    win = Tk()
+    win.geometry('800x600')
+    win.tk.eval(f'tk::PlaceWindow {win._w} center')
+    win.wm_withdraw()
+    win.update_idletasks()
+    msg = messagebox.askquestion('Bienvenue !', 'Bienvenue dans le jeu Tarot Africain.\n '
+                                                'Souhaitez-vous lire les règles ?',
+                                 parent=win, type='yesno', icon='question')
+    if msg == 'yes':
+        # display rules
+        return True
+    else:
+        return False
+
+
 def prompt_name():
+    """ Demande son nom au joueur humain
+
+    :return: le nom du joueur
+    """
     win = Tk()
     win.geometry('800x600')
     win.tk.eval(f'tk::PlaceWindow {win._w} center')
@@ -30,7 +56,12 @@ def prompt_name():
     return name
 
 
-def stats(perte_vies):
+def info_fin_manche(perte_vies):
+    """ Écran de fin de manche
+
+    :param perte_vies: vies perdues par le joueur humain
+    :type perte_vies: int
+    """
     win = Tk()
     win.geometry('800x600')
     win.tk.eval(f'tk::PlaceWindow {win._w} center')
@@ -39,7 +70,36 @@ def stats(perte_vies):
     messagebox.showinfo(f"Fin de la manche", f"La manche est terminée. Vous avez perdu {perte_vies} vies.")
 
 
+def info_fin_partie(vainqueur, playerName):
+    """ Message de fin de partie
+
+    :param vainqueur: vainqueur de la partie
+    :type vainqueur: str
+    :param playerName: nom du joueur humain
+    :type playerName: str
+    :return: True si l'utilisateur souhaite rejouer, False sinon
+    """
+    win = Tk()
+    win.geometry('800x600')
+    win.tk.eval(f'tk::PlaceWindow {win._w} center')
+    win.wm_withdraw()
+    win.update_idletasks()
+    if vainqueur == playerName:
+        msg = f"Bravo {playerName}, vous avez gagné la partie !"
+    elif vainqueur == 'égalité':
+        msg = "Et c'est une égalité !"
+    else:
+        msg = f"Dommage {playerName}, vous avez perdu la partie."
+    msg += "\nVoulez-vous rejouer ?"
+    res = messagebox.askquestion('Fin de la partie', msg, parent=win, type='yesno', icon='question')
+
+    return res == 'yes'
+
+
 def init_game_ui():
+    """
+    Initialisation de la fenêtre de jeu
+    """
     # WINDOW SIZE
     WIDTH = 800
     HEIGHT = 600
@@ -70,6 +130,16 @@ def init_game_ui():
 
 
 def terrain(LL, carterrain, pari, pointsterrain, vies):
+    """
+    Dessin du tapis de jeu
+
+    :param LL: cartes des joueurs
+    :param carterrain: cartes posées sur le tapis
+    :param pari: pari du joueur
+    :param pointsterrain: paris des joueurs
+    :param vies: vies des joueurs
+    :return:
+    """
     L = LL[0]
     L0 = []
     for k in L:
@@ -166,7 +236,7 @@ def terrain(LL, carterrain, pari, pointsterrain, vies):
 
             # Left-mouse clicked event
             if not over and event.type == pygame.MOUSEBUTTONDOWN:
-
+                # détection de la carte cliquée
                 for k in range(n):
                     if 400 - (50 / 2 * n) + 50 * k < mouse[0] < 400 - (50 / 2 * n) + 50 * k + 50 \
                             and 450 < mouse[1] < 530:
@@ -174,6 +244,15 @@ def terrain(LL, carterrain, pari, pointsterrain, vies):
 
 
 def pari(LL, pariprécédents, vies):
+    """
+    Gestion graphique de la prise de pari du joueur humain.
+    Affiche les paris possibles et donne le résultat
+
+    :param LL: joueurs
+    :param pariprécédents: paris déjà posés
+    :param vies: vies des joueurs
+    :return: valeur du pari du joueur humain
+    """
     L = LL[0]
     L0 = []
     for k in L:
@@ -248,12 +327,20 @@ def pari(LL, pariprécédents, vies):
                 for k in range(n + 1):
                     if 400 - (50 / 2 * n) + 50 * k - 25 < mouse[0] < 400 - (50 / 2 * n) + 50 * k + 25 and 415 - 25 < \
                             mouse[1] < 415 + 25:
-                        return (k)
+                        return k
 
         pygame.display.update()
 
 
 def pari1carte(cartes, pariprécédents, vies):
+    """
+    Gestion graphique du pari à une carte.
+
+    :param cartes: cartes visibles (celles des joueurs bots)
+    :param pariprécédents: paris déjà posés
+    :param vies: vies des joueurs
+    :return: pari du joueur humain
+    """
     for k in range(len(cartes)):
         if type(cartes[k][0]) != type(0):
             cartes[k] = [22]
@@ -326,10 +413,14 @@ def pari1carte(cartes, pariprécédents, vies):
 
 
 def minmax():
+    """
+    Gestion graphique du jeu de l'excuse (valeur mini ou maxi).
+
+    :return: Valeur choisie par le joueur humain ("mini" ou "maxi")
+    """
     large_font = pygame.font.Font(None, 50)
 
     while True:
-
         bmin = large_font.render("Min", True, WHITE)
         bmin_rect = bmin.get_rect()
         bmin_rect.center = (350, 400)
