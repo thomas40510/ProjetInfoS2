@@ -19,7 +19,7 @@
          Les cartes de tarot seront mélangées entre chaque partie.
       \subsubsection{Déroulement d'une partie}
          Au début de chaque manche, un joueur désigné distribue 5 cartes d'atout à chaque joueur.
-         Chaque joueur, en commençant par le celui ayant distribué, placera alors un pari sur le nombre de tours qu'il va gagner après avoir consulté ses cartes.
+         Chaque joueur, en commençant par celui ayant distribué, placera alors un pari sur le nombre de tours qu'il va gagner après avoir consulté ses cartes.
          Chaque joueur est libre de proposer un nombre de son choix, à l'exception du dernier à parler devant proposer un nombre tel que l'ensemble des paris soit différent du nombre de cartes que les joueurs ont en main (5 au premier tour).
 
          Les joueurs jouent alors à tour de rôle une carte de leur main, en commençant toujours par celui ayant distribué.
@@ -44,7 +44,7 @@
 
    \subsection{Pistes envisagées pour l'implémentation}\label{subsec:pistes-envisagées-pour-l'implémentation}
       Il a alors été initialement choisi, pour implémenter le jeu de Tarot Africain, le découpage en plusieurs classes : une classe \texttt{Joueur}, une classe \texttt{Carte}, une classe \texttt{Manche} et une classe \texttt{Partie}.
-      Structure permettant de manipuler ces différents objets afin de dérouler une partie complète.
+      On a ainsi une structure permettant de manipuler ces différents objets afin de dérouler une partie complète.
 
       Une première structure du programme a alors été schématisée à partir de ces pistes techniques, soulevant alors plusieurs questions au sein du binôme, impliquant finalement de reconsidérer le découpage qui avait été réalisé initialement.
 
@@ -58,7 +58,7 @@
          \item La classe \texttt{Tarot} permettant de dérouler la partie.
       \end{itemize}
 
-      En particulier, la classe \texttt{JoueurHumain}, permet de faire jouer l'utilisateur en lui demandant de rentrer chaque coup, tandis que la classe \texttt{JoueurBot} permet de faire jouer la machine en calculant chacun de ses coups, généralement de manière récursive, grâce au module \texttt{TA\_Bots.py}.
+      En particulier, la classe \texttt{JoueurHumain} permet de faire jouer l'utilisateur en lui demandant de rentrer chaque coup, tandis que la classe \texttt{JoueurBot} permet de faire jouer la machine en calculant chacun de ses coups, généralement de manière récursive, grâce au module \texttt{TA\_Bots.py}.
       Le fonctionnement de ce dernier est explicité en~\ref{sec:détail-du-fonctionnement-par-module}\ref{subsec:module-ta-bots}.
 
       Finalement, l'interface homme-machine est tracée par le module \texttt{IHM.py}, qui sera utilisé par les modules \texttt{Tarot\_Africain\_UI.py} et \texttt{Joueur\_UI.py}, qui consistent en des versions légèrement adaptées des modules initiaux afin de leur permettre de prendre en considération l'IHM\@.
@@ -88,7 +88,7 @@
    \subsection{Figures imposées}\label{subsec:figures-imposées}
       Les figures imposées suivantes sont vérifiées par le programme :
       \begin{enumerate}
-         \item \textbf{Factorisation du code} : le programme est composé de quatre modules différents (\hyperref[subsec:module-tarot-africain]{\texttt{Tarot\_Africain\_UI.py}}, \hyperref[subsec:module-ta-bots]{\texttt{TA\_Bots.py}}, \hyperref[subsec:module-joueurs]{\texttt{Joueurs\_UI.py}} et \hyperref[subsec:module-ihm]{\texttt{IHM.py}})\footnote{les versions sans IHM (\texttt{Tarot\_Africain.py} et \texttt{Joueurs.py})fonctionnent de manière identique} responsables de diverses fonctionnalités bien spécifiques, et d'un module de tests, et est donc factorisé ;
+         \item \textbf{Factorisation du code} : le programme est composé de quatre modules différents (\hyperref[subsec:module-tarot-africain]{\texttt{Tarot\_Africain\_UI.py}}, \hyperref[subsec:module-ta-bots]{\texttt{TA\_Bots.py}}, \hyperref[subsec:module-joueurs]{\texttt{Joueurs\_UI.py}} et \hyperref[subsec:module-ihm]{\texttt{IHM.py}})\footnote{les versions sans IHM (\texttt{Tarot\_Africain.py} et \texttt{Joueurs.py}) fonctionnent de manière identique} responsables de diverses fonctionnalités bien spécifiques, et d'un module de tests, et est donc factorisé ;
          \item \textbf{Documentation et commentaire du code} : tout naturellement, le programme est intégralement documenté et commenté ;
          \item \textbf{Tests unitaires} : des \hyperref[subsec:tests-effectués]{tests unitaires} ont été écrits pour chaque partie du programme ;
          \item \textbf{Création d'un type d'objet (classe)} : cinq objets ont été créés dans le cadre de ce programme, à savoir \texttt{Joueur, Manche} et \texttt{Tarot}, mais aussi \texttt{JoueurHumain} et \texttt{JoueurBot} ;
