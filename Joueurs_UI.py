@@ -72,6 +72,7 @@ class JoueurHumain(Joueur):
 
                 if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
                     if bet + sum(parisprécédents) + 1 == nbcartes or bet < 0 or bet > len(cartesjoueurs[0]):
+                        alert_pari()
                         bet = -1
             return int(bet)
         else:

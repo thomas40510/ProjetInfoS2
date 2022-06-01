@@ -56,6 +56,16 @@ def prompt_name():
     return name
 
 
+def alert_pari():
+    """Indique au joueur qu'il souhaite placer un pari illégal"""
+    win = Tk()
+    win.geometry('800x600')
+    win.tk.eval(f'tk::PlaceWindow {win._w} center')
+    win.wm_withdraw()
+    win.update_idletasks()
+    messagebox.showinfo("Pari illégal", "Vous ne pouvez pas placer ce pari", icon='warning')
+
+
 def info_fin_manche(perte_vies):
     """ Écran de fin de manche
 
@@ -67,7 +77,8 @@ def info_fin_manche(perte_vies):
     win.tk.eval(f'tk::PlaceWindow {win._w} center')
     win.wm_withdraw()
     win.update_idletasks()
-    messagebox.showinfo(f"Fin de la manche", f"La manche est terminée. Vous avez perdu {perte_vies} vie{'s' if perte_vies > 1 else''}.")
+    messagebox.showinfo(f"Fin de la manche",
+                        f"La manche est terminée. Vous avez perdu {perte_vies} vie{'s' if perte_vies > 1 else ''}.")
 
 
 def info_fin_partie(vainqueur, playerName):
