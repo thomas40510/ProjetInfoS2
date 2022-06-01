@@ -1,4 +1,4 @@
-import copy
+#Main author : Dias Nicolas
 import unittest
 
 from Tarot_Africain import *
@@ -66,4 +66,5 @@ class Test_Tarot_Africain(unittest.TestCase):
 
 
 
-unittest.main()
+if __name__ == "__main__":
+    unittest.main()

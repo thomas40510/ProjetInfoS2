@@ -4,12 +4,12 @@
 # Created Date: 2022-04-02
 # version ='1.0'
 # ---------------------------------------------------------------------------
+# Description : Module implémentant le jeu de tarot africain avec l'UI
+# Main author : Dias Nicolas
 
-import time
+
 import os
-import sys
-
-import IHM
+import random
 from Joueurs_UI import *
 from IHM import *
 
@@ -76,6 +76,7 @@ class Manche:
     """
     Classe représentant une manche de Tarot Africain
     """
+    "Author : Dias Nicolas"
 
     def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, vies, aff):
         """ Initialisation de la manche
@@ -90,6 +91,7 @@ class Manche:
         :type log: Log
         :type aff: bool
         """
+
         L = [k for k in range(1, 22)] + ['atout']
         Lrandomisé = []
         for k in range(len(L)):
@@ -118,8 +120,7 @@ class Manche:
         self.log = log
         self.vies = vies
 
-        # TODO 1 UPDATE DEBUT MANCHE
-        # init(nombredecartes,cartesjoueurs,vies)
+
 
     def paris(self):
         """ Récolte les paris des joueurs dans l'ordre, en commançant par joueurdebut
@@ -130,20 +131,16 @@ class Manche:
             paris[(k + self.joueurdebut) % self.nbjoueurs] = self.joueurs[
                 (k + self.joueurdebut) % self.nbjoueurs].pari2(paris, self.cartesjoueurs,
                                                                (k + self.joueurdebut) % self.nbjoueurs)
-        if self.aff:
-            print(self.joueurdebut, [self.joueurs[k].cartes for k in range(self.nbjoueurs)], paris)
         self.log[-1].append(paris)
         return paris
 
     def jeu(self):
         """ Joue une manche
-
         :return: La liste des pertes de points des joueurs
         """
         Points = [0 for k in range(4)]  # décompte le nombre de plis gagnés
         debut = self.joueurdebut
         paris = self.paris()
-        print('Les paris sont:', paris)
         self.log[-1].append([])
         for tour in range(self.nombredecartes):
             cartesposées = [0 for k in
@@ -164,16 +161,11 @@ class Manche:
             self.log[-1][-1].append(cartesposées)
             vainqueur = compacartesposées(cartesposées)
             Points[vainqueur] += 1
-            print('Le nombre de pli gagné est', Points)
-            print('\n' * 3)
             debut = vainqueur  # le vainqueur du tour n-1 commence le tour n
 
         Perte = [0 for k in range(self.nbjoueurs)]
         for k in range(self.nbjoueurs):
             Perte[k] += abs(Points[k] - paris[k])
-        if self.aff:
-            print("Perte :", Perte, "Points :", Points, "Paris :", paris)
-            print('\n')
         return Perte
 
     def afftour(self, cartesposées, debut):
@@ -202,14 +194,14 @@ class Manche:
             m += " " + str(cartesposées[k])
             m += '\n'
             aff += m
-        print(aff)
+
 
 
 class Tarot:
     """
     Classe qui gère une partie de tarot africain
     """
-
+    "Author : Dias Nicolas"
     def __init__(self, nomJoueurs, nbPoints=20, aff=True):
         """ Initialise la partie
         :param nomJoueurs: Noms des joueurs et leur type (humain,bot)
@@ -220,8 +212,6 @@ class Tarot:
         :type aff: bool
         """
         self.nomJoueurs = [[nomJoueurs[k], 'vivant', nbPoints, False] for k in range(len(nomJoueurs))]
-        if aff:
-            print(self.nomJoueurs)
         self.nomJoueurs[0][3] = True
         self.memoire = []
         self.joueurmort = [False for k in range(len(nomJoueurs))]
@@ -236,10 +226,8 @@ class Tarot:
         """ Exécute une partie
         :return: vainqueur et mémoire de la partie
         """
-        print("Vous êtes le joueur en première position")  # le joueur humain est toujours en première position
         while True:
             for nbcartes in range(5, 0, -1):
-                print("Les points sont:", [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))])
                 compt = 0
                 joueurvivant = []
                 for a in range(len(self.nomJoueurs)):
@@ -247,8 +235,6 @@ class Tarot:
                         joueurvivant.append(self.nomJoueurs[a][0])
                         if self.nomJoueurs[a][3]:
                             joueurdebut = a
-                if self.aff:
-                    print(joueurdebut, self.nomJoueurs)
                 self.nbjoueurs = compt
                 self.log.append([])
                 self.numManche += 1
@@ -262,8 +248,6 @@ class Tarot:
                 if remontée:
                     perte[indice] = -1
                 info_fin_manche(perte[0])
-                print('Les pertes sont:', perte)
-                print('\n' * 2)
                 ind = 0
                 for k in self.nomJoueurs:
                     if k[1] == 'vivant':
@@ -275,11 +259,9 @@ class Tarot:
                     for k in self.nomJoueurs:
                         if k[1] == 'vivant':
                             nbJoueurs += 1
-                    if nbJoueurs <= 1:  # un seul joueur en vie -> fin du jeu
-                        a = self.affvainqueur()
-
-                        print("Le vainqueur est ", a[0])
-                        return a
+                    if self.nomJoueurs[0][1]!='vivant' or nbJoueurs==1:  # un seul joueur en vie -> fin du jeu
+                        a, rejouer = self.affvainqueur()
+                        return rejouer
                     else:
                         break
                 if self.aff:
@@ -306,24 +288,26 @@ class Tarot:
 
     def affvainqueur(self):
         """ Identification du vainqueur pour affichage
-
         :return: vainqueur s'il existe, ou 'égalité' sinon
         """
         nbJoueurs = 0
+        vainqueur = ''
         for k in self.nomJoueurs:
             if k[1] == 'vivant':
                 nbJoueurs += 1
         if nbJoueurs != 1:
-            return 'égalité'
+            vainqueur = 'égalité'
         else:
             for k in self.nomJoueurs:
                 if k[1] == 'vivant':
-                    return k[0]
+                    vainqueur = k[0]
+        rejouer = info_fin_partie(vainqueur, self.nomJoueurs[0][0][0])
+        return vainqueur, rejouer
 
     def __str__(self):
         """ Affichage de la partie"""
         pts = [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))]
-        print(pts)
+
 
 
 class Log(list):
@@ -332,7 +316,7 @@ class Log(list):
     Permet d'analyser les données des parties en écrivant les méthodes correspondantes
     Quelques exemples triviaux sont proposés
     """
-
+    "Author : Dias Nicolas"
     def affder(self):
         return self[-1]
 
@@ -348,9 +332,7 @@ class Log(list):
 
 
 if __name__ == "__main__":
-    print('------------------------------------------------')
-    print('|   Bienvenue sur le jeu du Tarot Africain !   |')
-    print("------------------------------------------------\n")
+
 
     os.system('cls' if os.name == 'nt' else 'clear')
     play = True
@@ -359,13 +341,9 @@ if __name__ == "__main__":
         regles_ok = prompt_welcome()
     name = prompt_name()
     while play:
-        t = Tarot([["q", 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=10,
+        t = Tarot([["q", 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=14,
                   aff=False)
         t.exe()
-        i = ""
-        while i not in ['o', 'n']:
-            i = input("Souhaitez-vous rejouer ? (o/n)\n >> ")
-        play = i == 'o'
+
+        play = t.exe()
         os.system('cls' if os.name == 'nt' else 'clear')
-    print(f"Merci d'avoir joué, à bientôt {name} !")
-    input("Appuyez sur une touche pour quitter...")

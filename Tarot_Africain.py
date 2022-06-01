@@ -4,11 +4,15 @@
 # Created Date: 2022-04-02
 # version ='1.0'
 # ---------------------------------------------------------------------------
+# Description : Module implémentant le jeu de tarot africain sans l'UI
+# Main author : Dias Nicolas
 
 import time
 import os
 import sys
 from Joueurs import *
+import random
+
 
 
 def maxi(L: list):
@@ -73,8 +77,9 @@ class Manche:
     """
     Classe représentant une manche de Tarot Africain
     """
+    "Author : Dias Nicolas"
 
-    def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, vies, aff):
+    def __init__(self, Listejoueur, nombredecartes, joueurdebut, log, vies,aff=False):
         """ Initialisation de la manche
         :param Listejoueur: liste des joueurs, ainsi que les informations associées
         :param nombredecartes: nombre de cartes par joueur
@@ -100,23 +105,21 @@ class Manche:
         self.nbjoueurs = len(self.listejoueur)
         self.cartestour = []
         self.aff = aff
-        self.vies = vies
+        self.vies=vies
         for k in range(self.nbjoueurs):  # crée les joueurs
             if 'bot' in self.listejoueur[k]:
                 Listejoueur[k] = JoueurBot(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
-                                           Listejoueur[k], self.vies)
+                                           Listejoueur[k],self.vies)
             else:
                 Listejoueur[k] = JoueurHumain(Lrandomisé[nombredecartes * k:nombredecartes * (k + 1)], self.nbjoueurs,
-                                              Listejoueur[k], self.vies)
+                                              Listejoueur[k],self.vies)
             self.joueurs.append(Listejoueur[k])
         self.cartesjoueurs = []
         for joueur in self.joueurs:
             self.cartesjoueurs.append(joueur.cartes)  # récolte les cartes de tous les joueurs pour le jeu à 1 carte
         self.log = log
-        self.vies = vies
+        self.vies=vies
 
-        # TODO 1 UPDATE DEBUT MANCHE
-        # init(nombredecartes,cartesjoueurs,vies)
 
     def paris(self):
         """ Récolte les paris des joueurs dans l'ordre, en commançant par joueurdebut
@@ -164,8 +167,6 @@ class Manche:
             print('\n' * 3)
             debut = vainqueur  # le vainqueur du tour n-1 commence le tour n
 
-            # TODO 5 UPDATE POINTS
-            # update toursuivant
         Perte = [0 for k in range(self.nbjoueurs)]
         for k in range(self.nbjoueurs):
             Perte[k] += abs(Points[k] - paris[k])
@@ -207,7 +208,7 @@ class Tarot:
     """
     Classe qui gère une partie de tarot africain
     """
-
+    "Author : Dias Nicolas"
     def __init__(self, nomJoueurs, nbPoints=20, aff=True):
         """ Initialise la partie
         :param nomJoueurs: Noms des joueurs et leur type (humain,bot)
@@ -217,6 +218,7 @@ class Tarot:
         :type nbPoints: int
         :type aff: bool
         """
+
         self.nomJoueurs = [[nomJoueurs[k], 'vivant', nbPoints, False] for k in range(len(nomJoueurs))]
         if aff:
             print(self.nomJoueurs)
@@ -226,7 +228,6 @@ class Tarot:
         self.nbjoueurs = len(nomJoueurs)
         self.aff = aff
         self.log = Log()
-        self.vies = None
         self.numManche = 0
 
     def exe(self):
@@ -251,10 +252,7 @@ class Tarot:
                 self.numManche += 1
                 self.log[-1].append(copy.deepcopy(self.numManche))
                 self.log[-1].append(copy.deepcopy(self.nomJoueurs))
-                a = Manche(joueurvivant, nbcartes, joueurdebut, self.log,
-                           [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))],
-                           aff=self.aff)  # crée la manche correspondante
-                self.vies = a.vies
+                a = Manche(joueurvivant, nbcartes, joueurdebut, self.log, [self.nomJoueurs[k][2] for k in range(len(self.nomJoueurs))],aff=self.aff)  # crée la manche correspondante
                 perte = a.jeu()  # joue la manche, récupère les pertes
                 remontée, indice = verifremontée(perte)
                 if remontée:
@@ -327,7 +325,7 @@ class Log(list):
     Permet d'analyser les données des parties en écrivant les méthodes correspondantes
     Quelques exemples triviaux sont proposés
     """
-
+    "Author : Dias Nicolas"
     def affder(self):
         return self[-1]
 
@@ -355,7 +353,7 @@ if __name__ == "__main__":
     os.system('cls' if os.name == 'nt' else 'clear')
     play = True
     while play:
-        t = Tarot([[name, 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=10,
+        t = Tarot([[name, 'humain']] + [['bot1', 'bot']] + [['bot2', 'bot']] + [['bot3', 'bot']], nbPoints=14,
                   aff=False)
         t.exe()
         i = ""

@@ -1,14 +1,7 @@
-Jeu du tarot africain -- Projet d'informatique S2
-====================================================
-
-Pour lancer le jeu, simplement exécuter le fichier "Tarot_Africain.py".
-
-4 fichiers Python sont livrés :
-- Tarot_Africain.py : le programme principal
-- Joueurs.py : module de gestion des joueurs (humain et bot)
-- TA_Bots.py : module permettant le jeu de la machine (calcul des coups du bot)
-- test_Tarot_Africain.py : contient les tests unitaires
-
-====================================================
-
-Le code source est également disponible sur GitHub : https://github.com/thomas40510/ProjetInfoS2
+Projet Informatique - Tarot Africain
+Dias Nicolas - Prévost Thomas
+FISE24 UE2.4
+Pour lancer ce projet, vous pouvez:
+-soit le lancer sans IHM, et interagit en textuel dans la console, en faisant tourner le fichier Tarot_Africain
+-soit le lancer avec IHM, en faisant tourner le fichier Tarot_Africain_UI
+Vous pouvez aussi vérifier les tests en lançant test_Tarot_Africain

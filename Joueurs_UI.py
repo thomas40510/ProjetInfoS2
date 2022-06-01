@@ -4,10 +4,10 @@
 # Created Date: 2022-04-02
 # version ='1.0'
 # ---------------------------------------------------------------------------
-# Description : Module implémentant les joueurs de tarot africain
+# Description : Module implémentant les joueurs de tarot africain avec l'UI
+# Main author : Prévost Thomas
 
 import TA_Bots as bot
-import random
 import copy
 import abc
 from IHM import *
@@ -17,10 +17,9 @@ class Joueur(metaclass=abc.ABCMeta):
     """
     Classe générique définissant un joueur
     """
-
+    "Author : Prévost Thomas"
     def __init__(self, cartes, nbjoueurs, nom, vies):
         """ Joueur générique de tarot africain. Il joue aléatoirement.
-
         :param cartes: cartes du joueur
         :param nbjoueurs: nombre de joueurs
         :param nom: nom du joueur et son type (humain / bot)
@@ -49,7 +48,7 @@ class JoueurHumain(Joueur):
             - nbjoueurs: nombre de joueurs
             - nom: nom du joueur
         """
-
+    "Author : Prévost Thomas"
     def __init__(self, cartes, nbjoueurs, nom, vies):
         """ Joueur humain
         :param cartes: Cartes du joueur
@@ -70,6 +69,7 @@ class JoueurHumain(Joueur):
         if nbcartes != 1:
             bet = -1
             while bet == -1:
+                #récupération du pari à plusieurs cartes
                 bet = affiche_pari_joueur(cartesjoueurs, parisprécédents, self.vies)
 
                 if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
@@ -80,7 +80,7 @@ class JoueurHumain(Joueur):
         else:
             bet = -1
             while bet == -1:
-                print(cartesjoueurs)
+                #récupération du pari à 1 carte
                 bet = pari1carte(cartesjoueurs, parisprécédents, self.vies)
 
                 if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
@@ -102,12 +102,13 @@ class JoueurHumain(Joueur):
         """
 
         if self.nbcartes != 1:
+            #affichage + choix
+            selection = affiche_tour_joueur([self.cartes], dejapresent, paris, pointsterrains, self.vies)
 
-            selection = affiche_joueur([self.cartes], dejapresent, paris, pointsterrains, self.vies)
-
+            #traitement du cas de l'excuse
             if selection == 22:
+                #affichage et choix de min ou max
                 choix = minmax()
-                print(self.cartes)
                 self.cartes.remove("atout")
                 return ['atout', choix]
             else:
@@ -116,7 +117,6 @@ class JoueurHumain(Joueur):
         else:
             if self.cartes[0] == "atout":
                 choix = minmax()
-                print(self.cartes)
                 self.cartes.remove("atout")
                 return ['atout', choix]
             return self.cartes[0]
@@ -129,7 +129,7 @@ class JoueurBot(Joueur):
            - nbjoueurs : nombre de joueurs
            - nom : nom du bot
        """
-
+    "Author : Prévost Thomas"
     def __init__(self, cartes, nbjoueurs, nom, vies):
         super().__init__(cartes, nbjoueurs, nom, vies)
         self.pos = int(nom[0][-1])
@@ -177,11 +177,11 @@ class JoueurBot(Joueur):
             choix = bot.Choix1Carte(self.cartes[0], pari)
         else:
             choix = bot.ChoixMCartes(self.cartes, paris, dejapresent, pointsterrains, indice, debut)
-        print(choix)
         if choix == ['atout', 'maxi'] or choix == ['atout', 'mini']:
             self.cartes.remove('atout')
         else:
             self.cartes.remove(choix)
-        affiche_tour_bot([choix], dejapresent, paris, pointsterrains, self.vies, self.pos)
+        #affichage des choix en IHM pour plus de fluidité
+        affiche_tour_bot(choix, dejapresent, paris, pointsterrains, self.vies, self.pos)
         time.sleep(1)
         return choix
