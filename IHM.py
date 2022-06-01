@@ -6,7 +6,6 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import simpledialog
 
-from tkinterweb import HtmlFrame
 
 # Margins
 MARGIN_LEFT = 230
@@ -23,7 +22,6 @@ LIGHT_RED = (120, 0, 0)
 
 def prompt_welcome():
     """ Message de bienvenue. Propose de lire les règles du jeu.
-
     :return: False si l'utilisateur souhaite commencer la partie.
     """
     win = Tk()
@@ -43,7 +41,6 @@ def prompt_welcome():
 
 def prompt_name():
     """ Demande son nom au joueur humain
-
     :return: le nom du joueur
     """
     win = Tk()
@@ -55,7 +52,6 @@ def prompt_name():
 
     return name
 
-
 def alert_pari():
     """Indique au joueur qu'il souhaite placer un pari illégal"""
     win = Tk()
@@ -65,10 +61,8 @@ def alert_pari():
     win.update_idletasks()
     messagebox.showinfo("Pari illégal", "Vous ne pouvez pas placer ce pari", icon='warning')
 
-
 def info_fin_manche(perte_vies):
     """ Écran de fin de manche
-
     :param perte_vies: vies perdues par le joueur humain
     :type perte_vies: int
     """
@@ -77,13 +71,11 @@ def info_fin_manche(perte_vies):
     win.tk.eval(f'tk::PlaceWindow {win._w} center')
     win.wm_withdraw()
     win.update_idletasks()
-    messagebox.showinfo(f"Fin de la manche",
-                        f"La manche est terminée. Vous avez perdu {perte_vies} vie{'s' if perte_vies > 1 else ''}.")
+    messagebox.showinfo(f"Fin de la manche", f"La manche est terminée. Vous avez perdu {perte_vies} vie{'s' if perte_vies > 1 else ''}.")
 
 
 def info_fin_partie(vainqueur, playerName):
     """ Message de fin de partie
-
     :param vainqueur: vainqueur de la partie
     :type vainqueur: str
     :param playerName: nom du joueur humain
@@ -143,7 +135,6 @@ def init_game_ui():
 def terrain(LL, carterrain, pari, pointsterrain, vies):
     """
     Dessin du tapis de jeu
-
     :param LL: cartes des joueurs
     :param carterrain: cartes posées sur le tapis
     :param pari: pari du joueur
@@ -178,6 +169,7 @@ def terrain(LL, carterrain, pari, pointsterrain, vies):
             screen.blit(Im[L0[k]], (400 - (50 / 2 * n) + 50 * k, 450))
         for k in range(len(T)):
             screen.blit(Im[T[k]], (400 - (50 / 2 * len(T)) + 50 * k, 300))
+        botvivant=0
 
         paris0 = large_font.render("pari: " + str(pari[0]) + ", points: " + str(pointsterrain[0]), True, WHITE)
         paris0_rect = paris0.get_rect()
@@ -188,44 +180,50 @@ def terrain(LL, carterrain, pari, pointsterrain, vies):
         vies0_rect.center = (590, 500)
         screen.blit(vies0, vies0_rect)
 
-        paris1 = large_font.render("pari: " + str(pari[1]), True, WHITE)
-        paris1_rect = paris1.get_rect()
-        paris1_rect.center = (120, 375)
-        screen.blit(paris1, paris1_rect)
-        points1 = large_font.render("points: " + str(pointsterrain[1]), True, WHITE)
-        points1_rect = points1.get_rect()
-        points1_rect.center = (120, 405)
-        screen.blit(points1, points1_rect)
-        vies1 = large_font.render("vies: " + str(vies[1]), True, WHITE)
-        vies1_rect = vies1.get_rect()
-        vies1_rect.center = (120, 170)
-        screen.blit(vies1, vies1_rect)
+        if vies[1]>0:
+            botvivant+=1
+            paris1 = large_font.render("pari: " + str(pari[botvivant]), True, WHITE)
+            paris1_rect = paris1.get_rect()
+            paris1_rect.center = (120, 375)
+            screen.blit(paris1, paris1_rect)
+            points1 = large_font.render("points: " + str(pointsterrain[botvivant]), True, WHITE)
+            points1_rect = points1.get_rect()
+            points1_rect.center = (120, 405)
+            screen.blit(points1, points1_rect)
+            vies1 = large_font.render("vies: " + str(vies[1]), True, WHITE)
+            vies1_rect = vies1.get_rect()
+            vies1_rect.center = (120, 170)
+            screen.blit(vies1, vies1_rect)
 
-        paris2 = large_font.render("pari: " + str(pari[2]), True, WHITE)
-        paris2_rect = paris2.get_rect()
-        paris2_rect.center = (400, 195)
-        screen.blit(paris2, paris2_rect)
-        points2 = large_font.render("points: " + str(pointsterrain[2]), True, WHITE)
-        points2_rect = points2.get_rect()
-        points2_rect.center = (400, 225)
-        screen.blit(points2, points2_rect)
-        vies2 = large_font.render("vies: " + str(vies[2]), True, WHITE)
-        vies2_rect = vies2.get_rect()
-        vies2_rect.center = (550, 50)
-        screen.blit(vies2, vies2_rect)
+        if vies[2]>0:
+            botvivant+=1
+            paris2 = large_font.render("pari: " + str(pari[botvivant]), True, WHITE)
+            paris2_rect = paris2.get_rect()
+            paris2_rect.center = (400, 195)
+            screen.blit(paris2, paris2_rect)
+            points2 = large_font.render("points: " + str(pointsterrain[botvivant]), True, WHITE)
+            points2_rect = points2.get_rect()
+            points2_rect.center = (400, 225)
+            screen.blit(points2, points2_rect)
+            vies2 = large_font.render("vies: " + str(vies[2]), True, WHITE)
+            vies2_rect = vies2.get_rect()
+            vies2_rect.center = (550, 50)
+            screen.blit(vies2, vies2_rect)
 
-        paris3 = large_font.render("pari: " + str(pari[3]), True, WHITE)
-        paris3_rect = paris3.get_rect()
-        paris3_rect.center = (685, 375)
-        screen.blit(paris3, paris3_rect)
-        points3 = large_font.render("points: " + str(pointsterrain[3]), True, WHITE)
-        points3_rect = points3.get_rect()
-        points3_rect.center = (685, 405)
-        screen.blit(points3, points3_rect)
-        vies3 = large_font.render("vies: " + str(vies[3]), True, WHITE)
-        vies3_rect = vies3.get_rect()
-        vies3_rect.center = (685, 170)
-        screen.blit(vies3, vies3_rect)
+        if vies[3]>0:
+            botvivant+=1
+            paris3 = large_font.render("pari: " + str(pari[botvivant]), True, WHITE)
+            paris3_rect = paris3.get_rect()
+            paris3_rect.center = (685, 375)
+            screen.blit(paris3, paris3_rect)
+            points3 = large_font.render("points: " + str(pointsterrain[botvivant]), True, WHITE)
+            points3_rect = points3.get_rect()
+            points3_rect.center = (685, 405)
+            screen.blit(points3, points3_rect)
+            vies3 = large_font.render("vies: " + str(vies[3]), True, WHITE)
+            vies3_rect = vies3.get_rect()
+            vies3_rect.center = (685, 170)
+            screen.blit(vies3, vies3_rect)
 
         main = pygame.image.load('main' + str(n) + ".png")
         main = pygame.transform.scale(main, (150, 150))
@@ -258,7 +256,6 @@ def pari(LL, pariprécédents, vies):
     """
     Gestion graphique de la prise de pari du joueur humain.
     Affiche les paris possibles et donne le résultat
-
     :param LL: joueurs
     :param pariprécédents: paris déjà posés
     :param vies: vies des joueurs
@@ -292,7 +289,7 @@ def pari(LL, pariprécédents, vies):
             button_rect[k] = button[k].get_rect()
             button_rect[k].center = (400 - (50 / 2 * n) + 50 * k, 415)
             screen.blit(button[k], button_rect[k])
-
+        botvivant=0
         main = pygame.image.load('main' + str(n) + ".png")
         main = pygame.transform.scale(main, (150, 150))
         screen.blit(main, (50, 200))
@@ -304,32 +301,38 @@ def pari(LL, pariprécédents, vies):
         vies0_rect.center = (590, 500)
         screen.blit(vies0, vies0_rect)
 
-        paris1 = large_font.render("pari: " + str(pariprécédents[1]), True, WHITE)
-        paris1_rect = paris1.get_rect()
-        paris1_rect.center = (120, 375)
-        screen.blit(paris1, paris1_rect)
-        vies1 = large_font.render("vies: " + str(vies[1]), True, WHITE)
-        vies1_rect = vies1.get_rect()
-        vies1_rect.center = (120, 170)
-        screen.blit(vies1, vies1_rect)
+        if vies[1]>0:
+            botvivant+=1
+            paris1 = large_font.render("pari: " + str(pariprécédents[botvivant]), True, WHITE)
+            paris1_rect = paris1.get_rect()
+            paris1_rect.center = (120, 375)
+            screen.blit(paris1, paris1_rect)
+            vies1 = large_font.render("vies: " + str(vies[1]), True, WHITE)
+            vies1_rect = vies1.get_rect()
+            vies1_rect.center = (120, 170)
+            screen.blit(vies1, vies1_rect)
 
-        paris2 = large_font.render("pari: " + str(pariprécédents[2]), True, WHITE)
-        paris2_rect = paris2.get_rect()
-        paris2_rect.center = (400, 195)
-        screen.blit(paris2, paris2_rect)
-        vies2 = large_font.render("vies: " + str(vies[2]), True, WHITE)
-        vies2_rect = vies2.get_rect()
-        vies2_rect.center = (550, 50)
-        screen.blit(vies2, vies2_rect)
+        if vies[2]>0:
+            botvivant+=1
+            paris2 = large_font.render("pari: " + str(pariprécédents[botvivant]), True, WHITE)
+            paris2_rect = paris2.get_rect()
+            paris2_rect.center = (400, 195)
+            screen.blit(paris2, paris2_rect)
+            vies2 = large_font.render("vies: " + str(vies[2]), True, WHITE)
+            vies2_rect = vies2.get_rect()
+            vies2_rect.center = (550, 50)
+            screen.blit(vies2, vies2_rect)
 
-        paris3 = large_font.render("pari: " + str(pariprécédents[3]), True, WHITE)
-        paris3_rect = paris3.get_rect()
-        paris3_rect.center = (685, 375)
-        screen.blit(paris3, paris3_rect)
-        vies3 = large_font.render("vies: " + str(vies[3]), True, WHITE)
-        vies3_rect = vies3.get_rect()
-        vies3_rect.center = (685, 170)
-        screen.blit(vies3, vies3_rect)
+        if vies[3]>0:
+            botvivant+=1
+            paris3 = large_font.render("pari: " + str(pariprécédents[botvivant]), True, WHITE)
+            paris3_rect = paris3.get_rect()
+            paris3_rect.center = (685, 375)
+            screen.blit(paris3, paris3_rect)
+            vies3 = large_font.render("vies: " + str(vies[3]), True, WHITE)
+            vies3_rect = vies3.get_rect()
+            vies3_rect.center = (685, 170)
+            screen.blit(vies3, vies3_rect)
 
         mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -346,7 +349,6 @@ def pari(LL, pariprécédents, vies):
 def pari1carte(cartes, pariprécédents, vies):
     """
     Gestion graphique du pari à une carte.
-
     :param cartes: cartes visibles (celles des joueurs bots)
     :param pariprécédents: paris déjà posés
     :param vies: vies des joueurs
@@ -376,41 +378,44 @@ def pari1carte(cartes, pariprécédents, vies):
 
         screen.blit(Im[0], (375, 450))
 
-        screen.blit(Im[cartes[1][0]], (50, 200))
-        screen.blit(Im[cartes[2][0]], (600, 200))
-        screen.blit(Im[cartes[3][0]], (325, 20))
 
         vies0 = large_font.render("vies: " + str(vies[0]), True, WHITE)
         vies0_rect = vies0.get_rect()
         vies0_rect.center = (590, 500)
         screen.blit(vies0, vies0_rect)
 
-        paris1 = large_font.render("pari: " + str(pariprécédents[1]), True, WHITE)
-        paris1_rect = paris1.get_rect()
-        paris1_rect.center = (120, 375)
-        screen.blit(paris1, paris1_rect)
-        vies1 = large_font.render("vies: " + str(vies[1]), True, WHITE)
-        vies1_rect = vies1.get_rect()
-        vies1_rect.center = (120, 170)
-        screen.blit(vies1, vies1_rect)
+        if vies[1]>0:
+            screen.blit(Im[cartes[1][0]], (50, 200))
+            paris1 = large_font.render("pari: " + str(pariprécédents[1]), True, WHITE)
+            paris1_rect = paris1.get_rect()
+            paris1_rect.center = (120, 375)
+            screen.blit(paris1, paris1_rect)
+            vies1 = large_font.render("vies: " + str(vies[1]), True, WHITE)
+            vies1_rect = vies1.get_rect()
+            vies1_rect.center = (120, 170)
+            screen.blit(vies1, vies1_rect)
 
-        paris2 = large_font.render("pari: " + str(pariprécédents[2]), True, WHITE)
-        paris2_rect = paris2.get_rect()
-        paris2_rect.center = (400, 195)
-        screen.blit(paris2, paris2_rect)
-        vies2 = large_font.render("vies: " + str(vies[2]), True, WHITE)
-        vies2_rect = vies2.get_rect()
-        vies2_rect.center = (550, 50)
-        screen.blit(vies2, vies2_rect)
+        if vies[2]>0:
+            screen.blit(Im[cartes[2][0]], (600, 200))
+            paris2 = large_font.render("pari: " + str(pariprécédents[2]), True, WHITE)
+            paris2_rect = paris2.get_rect()
+            paris2_rect.center = (400, 195)
+            screen.blit(paris2, paris2_rect)
+            vies2 = large_font.render("vies: " + str(vies[2]), True, WHITE)
+            vies2_rect = vies2.get_rect()
+            vies2_rect.center = (550, 50)
+            screen.blit(vies2, vies2_rect)
 
-        paris3 = large_font.render("pari: " + str(pariprécédents[3]), True, WHITE)
-        paris3_rect = paris3.get_rect()
-        paris3_rect.center = (685, 375)
-        screen.blit(paris3, paris3_rect)
-        vies3 = large_font.render("vies: " + str(vies[3]), True, WHITE)
-        vies3_rect = vies3.get_rect()
-        vies3_rect.center = (685, 170)
-        screen.blit(vies3, vies3_rect)
+        if vies[3]>0:
+            screen.blit(Im[cartes[3][0]], (325, 20))
+            paris3 = large_font.render("pari: " + str(pariprécédents[3]), True, WHITE)
+            paris3_rect = paris3.get_rect()
+            paris3_rect.center = (685, 375)
+            screen.blit(paris3, paris3_rect)
+            vies3 = large_font.render("vies: " + str(vies[3]), True, WHITE)
+            vies3_rect = vies3.get_rect()
+            vies3_rect.center = (685, 170)
+            screen.blit(vies3, vies3_rect)
 
         mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -426,7 +431,6 @@ def pari1carte(cartes, pariprécédents, vies):
 def minmax():
     """
     Gestion graphique du jeu de l'excuse (valeur mini ou maxi).
-
     :return: Valeur choisie par le joueur humain ("mini" ou "maxi")
     """
     large_font = pygame.font.Font(None, 50)
