@@ -20,6 +20,7 @@ class Joueur(metaclass=abc.ABCMeta):
 
     def __init__(self, cartes, nbjoueurs, nom, vies):
         """ Joueur générique de tarot africain. Il joue aléatoirement.
+
         :param cartes: cartes du joueur
         :param nbjoueurs: nombre de joueurs
         :param nom: nom du joueur et son type (humain / bot)
@@ -56,6 +57,7 @@ class JoueurHumain(Joueur):
         :param nom: nom du joueur
         """
         super().__init__(cartes, nbjoueurs, nom, vies)
+        save_main_joueur(self.cartes)  # sauvegarde de la main du joueur pour l'affichage.
 
     def pari2(self, parisprécédents, cartesjoueurs, indice=None):
         """ Pari du joueur humain
@@ -68,7 +70,7 @@ class JoueurHumain(Joueur):
         if nbcartes != 1:
             bet = -1
             while bet == -1:
-                bet = pari(cartesjoueurs, parisprécédents, self.vies)
+                bet = affiche_pari_joueur(cartesjoueurs, parisprécédents, self.vies)
 
                 if parisprécédents.count(-1) == 1:  # conditions seulement si dernier joueur
                     if bet + sum(parisprécédents) + 1 == nbcartes or bet < 0 or bet > len(cartesjoueurs[0]):
@@ -101,7 +103,7 @@ class JoueurHumain(Joueur):
 
         if self.nbcartes != 1:
 
-            selection = terrain([self.cartes], dejapresent, paris, pointsterrains, self.vies)
+            selection = affiche_joueur([self.cartes], dejapresent, paris, pointsterrains, self.vies)
 
             if selection == 22:
                 choix = minmax()
@@ -130,6 +132,7 @@ class JoueurBot(Joueur):
 
     def __init__(self, cartes, nbjoueurs, nom, vies):
         super().__init__(cartes, nbjoueurs, nom, vies)
+        self.pos = int(nom[0][-1])
 
     def pari2(self, parisprécédents, cartesautrejoueurs, indice):
         """ Pari du joueur bot
@@ -179,4 +182,6 @@ class JoueurBot(Joueur):
             self.cartes.remove('atout')
         else:
             self.cartes.remove(choix)
+        affiche_tour_bot([choix], dejapresent, paris, pointsterrains, self.vies, self.pos)
+        time.sleep(1)
         return choix
