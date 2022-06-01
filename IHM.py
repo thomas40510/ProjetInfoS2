@@ -67,7 +67,7 @@ def info_fin_manche(perte_vies):
     win.tk.eval(f'tk::PlaceWindow {win._w} center')
     win.wm_withdraw()
     win.update_idletasks()
-    messagebox.showinfo(f"Fin de la manche", f"La manche est terminée. Vous avez perdu {perte_vies} vies.")
+    messagebox.showinfo(f"Fin de la manche", f"La manche est terminée. Vous avez perdu {perte_vies} vie{'s' if perte_vies > 1 else''}.")
 
 
 def info_fin_partie(vainqueur, playerName):
