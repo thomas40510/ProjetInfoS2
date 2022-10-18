@@ -1,0 +1,45 @@
+Une partie de Tarot Africain se déroule assez simplement. Pour commencer, il
+faut se munir d’un jeu de tarot, que l’on trie. On place alors d’un côté les atouts
+(du 1 au 21 ainsi que l’excuse) et d’un autre le reste des cartes séparé et trié par
+couleur 1.
+
+Début de partie
+Donner, à chaque joueur, un paquet trié de cartes de couleur : elles représentent
+les vies du joueur et sont placées devant lui, visibles de tous les autres joueurs. Les
+cartes de tarot seront mélangées entre chaque partie.
+
+Déroulement d’une partie
+Au début de chaque manche, un joueur désigné distribue 5 cartes d’atout à
+chaque joueur. Chaque joueur, en commençant par celui ayant distribué, placera alors un pari sur le nombre de tours qu’il va gagner après avoir consulté ses
+cartes. Chaque joueur est libre de proposer un nombre de son choix, à l’exception
+du dernier à parler devant proposer un nombre tel que l’ensemble des paris soit
+différent du nombre de cartes que les joueurs ont en main (5 au premier tour).
+Les joueurs jouent alors à tour de rôle une carte de leur main, en commençant
+toujours par celui ayant distribué. Gagne le tour le joueur ayant placé la carte la
+plus forte (à noter que le joueur ayant placé l’excuse choisit sa valeur en fonction
+de sa stratégie : soit elle est la plus forte, soit elle est la plus faible). Ce joueur
+débutera le tour suivant, et ainsi de suite jusqu’à ce qu’il ne reste aucune carte en
+main.
+En fin de manche, les joueurs perdent autant de vies qu’il leur manque de plis
+pour remplir leur pari (par exemple, un joueur ayant placé un pari de 3 et n’ayant
+gagné qu’un pli perd 3 − 1 = 2 vies).
+Commence alors la manche suivante, au cours de laquelle seront distribuées 4
+cartes (puis 3 à la suivante, puis 2, puis une seule).
+1. pique, carreau. . .
+
+Tour à une seule carte
+Le tour à une seule carte est particulier : chaque joueur ne regarde pas sa carte,
+mais la pose sur son front. Il est donc capable de voir uniquement les cartes des
+autres joueurs et estime s’il est capable de remporter ce pli.
+Là encore, s’applique la même condition sur le dernier joueur à parier (la somme
+totale ne peut pas être égale à 1).
+
+Règle de la « remontée »
+Une règle supplémentaire existe : si, à l’issue d’une manche, un joueur est le
+seul à ne pas perdre de point, il en regagne un.
+
+Fin de partie
+À l’issue de la manche à une seule carte, le joueur ayant distribué les cartes
+transmet ce rôle au joueur à sa droite, le jeu recommence alors à la manche à 5
+cartes, et se déroule de la même manière. La partie se finit lorsqu’il ne reste qu’un
+seul joueur en vie.
